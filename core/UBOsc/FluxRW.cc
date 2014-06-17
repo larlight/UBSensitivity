@@ -16,9 +16,10 @@ namespace lar1{
     fBinSize=0.05; // using histograms with 50MeV bins
     //miniboone histogram file
    // Get the path to the files using the larlight env variable:
-    std::string path = GetEnv("MAKE_TOP_DIR");
+    //    std::string path = GetEnv("MAKE_TOP_DIR");
 
-    path.append("/UserDev/lar1Osc/");
+    //    path.append("/UserDev/lar1Osc/");
+    std::string path = "~/Data/LAr1Ntuples/";
     std::string mbhistfile= path;
     mbhistfile.append("FluxRW/hist/april07_baseline_rgen610.6_flux.root");
     std::cout <<"Loading BNB flux histograms from "<<mbhistfile<<std::endl;
@@ -51,7 +52,7 @@ namespace lar1{
 
     for (Int_t intype=1;intype<=4;intype++) {
       std::string gshistfile = path;
-      gshistfile.append(Form("/FluxRW/hist/%s_rawntp.root",nu[intype-1].c_str()));
+      gshistfile.append(Form("FluxRW/hist/%s_rawntp.root",nu[intype-1].c_str()));
       std::cout <<"Loading gsimple like flux histograms from "<<gshistfile<<std::endl;
       TFile f2(gshistfile.c_str());
 
