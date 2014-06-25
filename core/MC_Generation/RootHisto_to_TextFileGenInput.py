@@ -30,26 +30,31 @@ else:
 
 #Function to generate random XYZ position inside of the cryostat
 #(0,0,0) is at front of cryostat (z), half way up (y), and on the wire plane(x)
-#R of cryostat is 1.93 meters
-#x goes from 3.18m (past cathode plane to cryostat wall) to -.68m (past wire planes to cryostat wall)
-#y goes from -1.93m to 1.93m (constrained s.t. x^2+y^2 < R^2 of course)
-#z goes uniformly from 0 to 5m
+#R of cryostat is 1.90 meters
+#x goes from R*(1.707) (past cathode plane to cryostat wall) to -R*(0.29289) =-R(1-cos45)
+#y goes from -R to R (constrained s.t. x^2+y^2 < R^2)
+#z goes uniformly from 0 to 10.79m
+
 def GenXYZPosition():
+
+    R = float(1900.)
+    zmax = float(10790.)
     #this part assumes (0,0,0) is at front, dead center of cryostat... will shift x later
     #everything here is in millimeters
     #random theta
     theta = random.uniform(0,2*math.pi)
     #this s parameter is from (http://stackoverflow.com/questions/9203382/generating-random-point-in-a-cylinder)
     s = random.uniform(0,1.)
-    #randum radius (radius is 1.93m from http://microboone-docdb.fnal.gov:8080/cgi-bin/ShowDocument?docid=903)
-    r = math.sqrt(s)*1930.
+    #randum radius (radius is 1.93m (1.90 inner) from http://microboone-docdb.fnal.gov:8080/cgi-bin/ShowDocument?docid=903)
+    r = math.sqrt(s)*R
     #there are some sqrts involved because http://mathworld.wolfram.com/DiskPointPicking.html
     x = r*math.cos(theta)
     y = r*math.sin(theta)
     #random z location
-    z = random.uniform(0,5000.)
+    z = random.uniform(0,zmax)
+
     #x is shifted because (0,0,0) in larsoft is on the right side of the detector
-    x = x + 1250.
+    x = x + 0.707*R
     return (x,y,z)
 
 #Function to generate random unit-direction, given the Uz value
@@ -122,7 +127,7 @@ Evis = ROOT.Double(0.)
 Uz = ROOT.Double(0.)
 
 #debugging histo to see uniform cylinder distribution
-#h = TH3D("h","histo3d",100,-1000,5000,100,-3000,3000,100,-1000,6000)
+#h = TH3D("h","histo3d",100,-1000,5000,100,-3000,3000,100,-1000,12000)
 
 while current_event_counter < n_evts_to_generate:
     #Draw from the histogram to get Uz and Evis
@@ -146,3 +151,5 @@ while current_event_counter < n_evts_to_generate:
 
 #close the output txt file
 fout.close()
+
+print "Done! Generated file %s." % foutname
