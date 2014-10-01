@@ -15,7 +15,7 @@
 #define TONNAGESCALING_HH
 
 #include <iostream>
-#include <TMath.h>
+#include "Constants/GeometryConstants.h"
 
 /**
    \class TonnageScaling
@@ -28,14 +28,15 @@ public:
 
   /// Default constructor
   TonnageScaling(){
-    _my_tonnage = 0;
+    _my_Detector = GEO::kNULLDetector;
+    _my_tonnage = 0.;    
   };
 
   /// Default destructor
   virtual ~TonnageScaling(){};
 
   //note: make data enums for different detectors
-  void SetMyDetector(std::string input_param) { _my_Detector = input_param; }
+  void SetMyDetector(GEO::Detector_t mydet) { _my_Detector = mydet; }
 
   //optional to manually set the tonnage of your detector
   void SetMyTonnage(double input_param){ _my_tonnage = input_param; }
@@ -46,8 +47,7 @@ protected:
 
   double _my_tonnage;
   
-  std::string _my_Detector;
-
+  GEO::Detector_t _my_Detector;
 
 };
 

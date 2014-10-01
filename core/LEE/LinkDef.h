@@ -12,7 +12,8 @@
 #pragma link C++ class LEE+;
 #pragma link C++ class POTScaling+;
 #pragma link C++ class TonnageScaling+;
-#pragma link C++ namespace ubosc+;
+#pragma link C++ namespace DATA+;
+#pragma link C++ namespace GEO+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
 
