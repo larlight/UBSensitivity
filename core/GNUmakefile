@@ -31,7 +31,7 @@ export LITE_FMWK_COREDIR
 #
 # Define directories to be compile upon a global "make"...
 #
-SUBDIRS := USER_MODULE
+SUBDIRS := 
 
 #####################################################################################
 #

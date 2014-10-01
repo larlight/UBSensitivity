@@ -15,5 +15,6 @@ rootlibmap() {
 }
 
 ######################################################
-# Package_Name
-rootlibmap libPackage_Name.rootmap libPackage_Name.so $LITE_FMWK_COREDIR/Package_Name/LinkDef.h 
+# UBOsc
+rootlibmap libUBOsc.rootmap libUBOsc.so $CORE_DIR/UBOsc/LinkDef.h \
+libPhysics.so  libHist.so  libTree.so

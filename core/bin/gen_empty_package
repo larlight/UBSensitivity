@@ -1,16 +1,17 @@
-#!/usr/bin/python
+###!/usr/bin/python
+#!/uboone/python/v2_7_3/Linux64bit+2.6-2.12-gcc47/bin/python
 import sys, os
 
 if len(sys.argv)<2:
    sys.stderr.write('Usage: %s PACKAGE_NAME\n\n' % sys.argv[0])
    sys.exit(1)
-if not 'CORE_DIR' in os.environ.keys():
-   sys.stderr.write('$CORE_DIR not defined!\n\n')
+if not 'LITE_FMWK_COREDIR' in os.environ.keys():
+   sys.stderr.write('$LITE_FMWK_COREDIR not defined!\n\n')
    sys.exit(1)
 
 name=sys.argv[1]
-target_dir='%s/%s' % (os.environ['CORE_DIR'],name)
-source_dir='%s/bin/tmp_empty' % os.environ['CORE_DIR']
+target_dir='%s/%s' % (os.environ['LITE_FMWK_COREDIR'],name)
+source_dir='%s/bin/tmp_empty' % os.environ['LITE_FMWK_COREDIR']
 
 if not os.path.exists(target_dir):
    try:
@@ -77,6 +78,6 @@ print ' OR'
 print '    > cd %s; make;' % target_dir
 print
 print 'If needed, make sure you define linked libraries in rootmap generation script.'
-print 'The script is: %s/make_rootmap.sh' % os.environ['MYFMWK_LIBDIR']
+print 'The script is: %s/make_rootmap.sh' % target_dir
 print
 sys.exit(0)

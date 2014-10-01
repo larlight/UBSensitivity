@@ -1,14 +1,14 @@
 # Include your header file location
-CXXFLAGS += -I$(LITE_FMWK_COREDIR)/Package_Name
+CXXFLAGS += -I$(USER_DEV_DIR)/UBOsc
 CXXFLAGS += -I. $(shell root-config --cflags) -g
 
 # Include your shared object lib location
-LDFLAGS += -L$(LITE_FMWK_LIBDIR) -lPackage_Name 
+LDFLAGS += -L$(LARLIGHT_LIBDIR) -lUBOsc 
 LDFLAGS += $(shell root-config --libs) -lPhysics -lMatrix -g
 
 # platform-specific options
 OSNAME = $(shell uname -s)
-include $(LITE_FMWK_BASEDIR)/Makefile/Makefile.${OSNAME}
+include $(MAKE_TOP_DIR)/Makefile/Makefile.${OSNAME}
 
 # Add your program below with a space after the previous one.
 # This makefile compiles all binaries specified below.

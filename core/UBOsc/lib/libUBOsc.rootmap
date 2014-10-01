@@ -1,0 +1,6 @@
+Library.UBOsc:                              libUBOsc.so libPhysics.so libHist.so libTree.so
+Library.gan@@LorentzVectorLight:            libUBOsc.so libPhysics.so libHist.so libTree.so
+Library.lar1@@FluxRW:                       libUBOsc.so libPhysics.so libHist.so libTree.so
+Library.lar1@@FluxRWnubar:                  libUBOsc.so libPhysics.so libHist.so libTree.so
+Library.lar1@@NtupleReprocessing:           libUBOsc.so libPhysics.so libHist.so libTree.so
+Library.lar1@@Utils:                        libUBOsc.so libPhysics.so libHist.so libTree.so
