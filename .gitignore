@@ -13,5 +13,5 @@
 *~
 *.pcm
 *.swp
-/GNUmakefile
-/core/GNUmakefile
+GNUmakefile
+core/GNUmakefile
