@@ -14,7 +14,9 @@
 #pragma link C++ class TonnageScaling+;
 #pragma link C++ namespace DATA+;
 #pragma link C++ namespace GEO+;
+#pragma link C++ class XSecScaling+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
 
 

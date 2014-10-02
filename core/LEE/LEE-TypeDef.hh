@@ -12,8 +12,10 @@
 class LEE;
   class POTScaling;
   class TonnageScaling;
+  class XSecScaling;
 //ADD_EMPTY_CLASS ... do not change this comment line
 
 #endif
+
 
 
