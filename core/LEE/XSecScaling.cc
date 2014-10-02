@@ -11,12 +11,12 @@ bool XSecScaling::LoadInputGraphs(){
   _my_xsec_TGraph_name = "genie_total_cc_graph";
   _MB_xsec_TGraph_name = "nuance_total_cc_graph";
 
-  TGraphReader::GetME()->SetFileName(_my_xsec_input_filename);
-  TGraphReader::GetME()->SetGraphName(_my_xsec_TGraph_name);
-  _my_xsec = TGraphReader::GetME()->GetGraph();
-  TGraphReader::GetME()->SetFileName(_MB_xsec_input_filename);
-  TGraphReader::GetME()->SetGraphName(_MB_xsec_TGraph_name);
-  _MB_xsec = TGraphReader::GetME()->GetGraph();
+  util::TGraphReader::GetME()->SetFileName(_my_xsec_input_filename);
+  util::TGraphReader::GetME()->SetGraphName(_my_xsec_TGraph_name);
+  _my_xsec = util::TGraphReader::GetME()->GetGraph();
+  util::TGraphReader::GetME()->SetFileName(_MB_xsec_input_filename);
+  util::TGraphReader::GetME()->SetGraphName(_MB_xsec_TGraph_name);
+  _MB_xsec = util::TGraphReader::GetME()->GetGraph();
 
   return true;
 }

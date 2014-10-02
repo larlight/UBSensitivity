@@ -15,7 +15,7 @@
 #define XSECSCALING_HH
 
 #include <iostream>
-#include "TGraphReader.hh"
+#include "Utilities/TGraphReader.hh"
 #include "TGraph.h"
 
 /**
