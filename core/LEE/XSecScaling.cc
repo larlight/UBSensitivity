@@ -33,7 +33,8 @@ void XSecScaling::ComputeXSecRatio(){
     std::cerr<<"ERROR: You need to set the n targets per gram for both detectors!"<<std::endl;
     return;
   }
-  _xsec_ratio->Set(0);
+
+  _xsec_ratio = new TGraph();
 
   //ratio graph should have same # of points as input graph with most points
   //for now hard-coding as using the points from the miniboone graph
@@ -48,6 +49,12 @@ void XSecScaling::ComputeXSecRatio(){
 
     //multiply by n targets per gram... that's included in xsecscaling!
     myy *= ( _my_ntargetspergram / _MB_ntargetspergram );
+
+    //for now hard code: the ratio BLOWS UP at low energy, so have cut
+    //on ratio not being huge
+    //this is a PHYSICS DECISION that I need to make here
+    //maybe step function? ratio == 1 until a certain point?
+    if(myy > 5) continue;
 
     _xsec_ratio->SetPoint(i,myx,myy);
 

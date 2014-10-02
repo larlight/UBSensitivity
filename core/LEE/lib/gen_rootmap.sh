@@ -16,4 +16,5 @@ rootlibmap() {
 
 ######################################################
 # LEE
-rootlibmap libLEE.rootmap libLEE.so $LITE_FMWK_COREDIR/LEE/LinkDef.h 
+rootlibmap libLEE.rootmap libLEE.so $LITE_FMWK_COREDIR/LEE/LinkDef.h \
+    libUtilities.so

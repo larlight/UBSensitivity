@@ -31,9 +31,9 @@ namespace util{
     
   public:
     
-    void SetFileName(std::string filename) { _filename = filename;}
+    void SetFileName(std::string filename) { _filename = filename; }
     
-    void SetGraphName(std::string graphname) { _graphname = graphname;}
+    void SetGraphName(std::string graphname) { _graphname = graphname; }
     
     TGraph* GetGraph();
     
@@ -49,7 +49,10 @@ namespace util{
     
     //constructor is private for singletons right?
     /// Default constructor
-    TGraphReader(){};
+    TGraphReader(){
+      _filename = "";
+      _graphname = "";
+    }
     
     /// Default destructor
     virtual ~TGraphReader(){};
