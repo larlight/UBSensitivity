@@ -3,7 +3,9 @@
  *
  * \ingroup LEE
  * 
- * \brief Class def header for a class XSecScaling
+ * \brief This grabs xsection graphs from files and divides them.
+ *        It also multiplies cross sections by n-targets-per-ton,
+ *        so it's really more than just cross section scaling.
  *
  * @author davidkaleko
  */
@@ -16,6 +18,7 @@
 
 #include <iostream>
 #include "Utilities/TGraphReader.hh"
+#include "Constants/GeometryConstants.h"
 #include "TGraph.h"
 
 /**
@@ -37,7 +40,8 @@ public:
     _my_xsec_TGraph_name = "";
     _MB_xsec_input_filename = "";
     _MB_xsec_TGraph_name = "";
-
+    _my_ntargetspergram = GEO::UB_TARGETS_PER_GRAM;
+    _MB_ntargetspergram = GEO::MINIBOONE_TARGETS_PER_GRAM;
   };
 
   /// Default destructor
@@ -54,6 +58,13 @@ public:
 
   void SetMBInputGraphName(std::string in_graph)
   { _MB_xsec_TGraph_name = in_graph; }
+
+
+  //optional. default is microboone
+  void SetMyNTargetsPerGram(double value) { _my_ntargetspergram = value; }
+
+  //optional. default is MB
+  void SetMBNTargetsPerGram(double value) { _MB_ntargetspergram = value; }
 
   bool LoadInputGraphs();
 
@@ -76,6 +87,8 @@ protected:
   std::string _MB_xsec_input_filename;
   std::string _MB_xsec_TGraph_name;
 
+  double _my_ntargetspergram;
+  double _MB_ntargetspergram;
 };
 
 #endif

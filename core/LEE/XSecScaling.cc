@@ -29,6 +29,10 @@ void XSecScaling::ComputeXSecRatio(){
     return;
   }
 
+  if(!_my_ntargetspergram || !_MB_ntargetspergram){
+    std::cerr<<"ERROR: You need to set the n targets per gram for both detectors!"<<std::endl;
+    return;
+  }
   _xsec_ratio->Set(0);
 
   //ratio graph should have same # of points as input graph with most points
@@ -41,6 +45,9 @@ void XSecScaling::ComputeXSecRatio(){
     if( !_MB_xsec->GetY()[i] ) continue;
 
     double myy = _my_xsec->Eval(myx)/_MB_xsec->GetY()[i];
+
+    //multiply by n targets per gram... that's included in xsecscaling!
+    myy *= ( _my_ntargetspergram / _MB_ntargetspergram );
 
     _xsec_ratio->SetPoint(i,myx,myy);
 
