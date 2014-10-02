@@ -11,29 +11,13 @@ bool XSecScaling::LoadInputGraphs(){
   _my_xsec_TGraph_name = "genie_total_cc_graph";
   _MB_xsec_TGraph_name = "nuance_total_cc_graph";
 
-  TFile* f_my = new TFile(_my_xsec_input_filename.c_str(),"READ");
-  TFile* f_MB = new TFile(_MB_xsec_input_filename.c_str(),"READ");
+  TGraphReader::GetME()->SetFileName(_my_xsec_input_filename);
+  TGraphReader::GetME()->SetGraphName(_my_xsec_TGraph_name);
+  _my_xsec = TGraphReader::GetME()->GetGraph();
+  TGraphReader::GetME()->SetFileName(_MB_xsec_input_filename);
+  TGraphReader::GetME()->SetGraphName(_MB_xsec_TGraph_name);
+  _MB_xsec = TGraphReader::GetME()->GetGraph();
 
-  if(!f_my){
-    std::cerr<<Form("ERROR: File %s does not exist!\n",_my_xsec_input_filename.c_str());
-    return false;
-  }
-  if(!f_MB){
-    std::cerr<<Form("ERROR: File %s does not exist!\n",_MB_xsec_input_filename.c_str());
-    return false;
-  }
-  if(!f_my->GetListOfKeys()->Contains(_my_xsec_TGraph_name.c_str())){
-    std::cerr<<Form("ERROR: File %s does not contain TGraph %s!\n",_my_xsec_input_filename.c_str(),_my_xsec_TGraph_name.c_str());
-    return false;
-  }
-  if(!f_MB->GetListOfKeys()->Contains(_MB_xsec_TGraph_name.c_str())){
-    std::cerr<<Form("ERROR: File %s does not contain TGraph %s!\n",_MB_xsec_input_filename.c_str(),_MB_xsec_TGraph_name.c_str());
-    return false;
-  }
-     
-  _my_xsec = (TGraph*)f_my->Get(_my_xsec_TGraph_name.c_str());
-  _MB_xsec = (TGraph*)f_my->Get(_my_xsec_TGraph_name.c_str());
-  
   return true;
 }
 

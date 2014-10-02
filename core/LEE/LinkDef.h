@@ -15,8 +15,12 @@
 #pragma link C++ namespace DATA+;
 #pragma link C++ namespace GEO+;
 #pragma link C++ class XSecScaling+;
+#pragma link C++ class FluxScaling+;
+#pragma link C++ class TGraphReader+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
+
 
 
 
