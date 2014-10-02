@@ -38,6 +38,8 @@ void XSecScaling::ComputeXSecRatio(){
 
   //ratio graph should have same # of points as input graph with most points
   //for now hard-coding as using the points from the miniboone graph
+  int point_counter = 0;
+
   for(size_t i = 0; i < _MB_xsec->GetN(); ++i){
 
     double myx = _MB_xsec->GetX()[i];
@@ -53,10 +55,12 @@ void XSecScaling::ComputeXSecRatio(){
     //for now hard code: the ratio BLOWS UP at low energy, so have cut
     //on ratio not being huge
     //this is a PHYSICS DECISION that I need to make here
-    //maybe step function? ratio == 1 until a certain point?
-    if(myy > 5) continue;
+    //for now, setting ratio to be 1.575 up until it deviates
+    //this is HARD CODING that i should probably fix
+    if(myy > 1.575) myy = 1.575;
 
-    _xsec_ratio->SetPoint(i,myx,myy);
+    _xsec_ratio->SetPoint(point_counter,myx,myy);
+    point_counter++;
 
   }
 }
