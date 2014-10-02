@@ -13,5 +13,7 @@
 #pragma link C++ class Utilities+;
 #pragma link C++ class util::TGraphReader+;
 
+#pragma link C++ class util::PlotWriter+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
