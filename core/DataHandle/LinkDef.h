@@ -11,8 +11,10 @@
 
 #pragma link C++ class ubsens::data::RecoShower+;
 #pragma link C++ class ubsens::data::TruthShower+;
+#pragma link C++ class ubsens::data::DataBase+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
 
 
 

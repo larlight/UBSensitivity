@@ -9,13 +9,14 @@ namespace ubsens {
   namespace data {
     class RecoShower;
     class TruthShower;
+    class DataBase;
   }
 }
-
 
 //ADD_EMPTY_CLASS ... do not change this comment line
 
 #endif
+
 
 
 
