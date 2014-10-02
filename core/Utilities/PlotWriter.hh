@@ -24,46 +24,47 @@
    doxygen documentation!
  */
 
-namespace util{
-  
-  class PlotWriter{
+namespace ubsens{
+  namespace util{
     
-  public:
-    
-    void SetFileName(std::string filename) { _filename = filename; }
-    
-    //singleton getter?!?!?!
-    static PlotWriter* GetME(){
-      if(!_me) _me = new PlotWriter;
-      return _me;
-    }
-    
-  private:
-    //singleton!?!
-    static PlotWriter* _me;
-    
-    /// Default constructor
-    PlotWriter(){
-      _filename = "";
-      _plotname = "";
-      _plottitle = "";
+    class PlotWriter{
+      
+    public:
+      
+      void SetFileName(std::string filename) { _filename = filename; }
+      
+      //singleton getter?!?!?!
+      static PlotWriter* GetME(){
+	if(!_me) _me = new PlotWriter;
+	return _me;
+      }
+      
+    private:
+      //singleton!?!
+      static PlotWriter* _me;
+      
+      /// Default constructor
+      PlotWriter(){
+	_filename = "";
+	_plotname = "";
+	_plottitle = "";
+      };
+      
+      /// Default destructor
+      virtual ~PlotWriter(){};
+      
+      
+    protected:
+      
+      std::string _filename;
+      std::string _plotname;
+      std::string _plottitle;
+      
+      
     };
     
-    /// Default destructor
-    virtual ~PlotWriter(){};
-    
-    
-  protected:
-    
-    std::string _filename;
-    std::string _plotname;
-    std::string _plottitle;
-
-    
-  };
-  
-} //end namespace util
-
+  } //end namespace util
+} //end namespace ubsens
 #endif
 /** @} */ // end of doxygen group 
 

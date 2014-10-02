@@ -21,18 +21,21 @@
    User defined class LEE ... these comments are used to generate
    doxygen documentation!
  */
-class LEE{
+namespace ubsens{
+  
+  class LEE{
+    
+  public:
+    
+    /// Default constructor
+    LEE(){};
+    
+    /// Default destructor
+    virtual ~LEE(){};
+    
+  };
 
-public:
-
-  /// Default constructor
-  LEE(){};
-
-  /// Default destructor
-  virtual ~LEE(){};
-
-};
-
+}
 #endif
 /** @} */ // end of doxygen group 
 

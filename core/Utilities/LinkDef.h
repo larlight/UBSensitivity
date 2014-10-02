@@ -9,11 +9,11 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-#pragma link C++ namespace util+;
-#pragma link C++ class Utilities+;
-#pragma link C++ class util::TGraphReader+;
+#pragma link C++ namespace ubsens::util+;
+#pragma link C++ class ubsens::util::Utilities+;
+#pragma link C++ class ubsens::util::TGraphReader+;
 
-#pragma link C++ class util::PlotWriter+;
+#pragma link C++ class ubsens::util::PlotWriter+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
 

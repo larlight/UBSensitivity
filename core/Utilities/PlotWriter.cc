@@ -3,16 +3,14 @@
 
 #include "PlotWriter.hh"
 
-namespace util{
+namespace ubsens{
 
-  PlotWriter* PlotWriter::_me = 0;
+  namespace util{
+    
+    PlotWriter* PlotWriter::_me = 0;
+    
 
+  }//end namespace util
 
-
-
-
-
-
-
-}//end namespace util
+}//end namespace ubsens
 #endif

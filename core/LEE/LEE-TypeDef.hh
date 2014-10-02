@@ -9,11 +9,13 @@
 #include "LEE.hh"
 
 // Class forward declaration here
-class LEE;
+namespace ubsens {
+  class LEE;
   class POTScaling;
   class TonnageScaling;
   class XSecScaling;
   class FluxScaling;
+}
 //ADD_EMPTY_CLASS ... do not change this comment line
 
 #endif

@@ -3,4 +3,10 @@
 
 #include "POTScaling.hh"
 
+namespace ubsens{
+
+
+
+}//end namespace ubsens
+
 #endif

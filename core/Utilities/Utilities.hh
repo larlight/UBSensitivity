@@ -21,17 +21,25 @@
    User defined class Utilities ... these comments are used to generate
    doxygen documentation!
  */
-class Utilities{
+namespace ubsens{
 
-public:
+  namespace util{
 
-  /// Default constructor
-  Utilities(){};
+    class Utilities{
+      
+    public:
+      
+      /// Default constructor
+      Utilities(){};
+      
+      /// Default destructor
+      virtual ~Utilities(){};
+      
+    };
+    
+  }//end namespace util
 
-  /// Default destructor
-  virtual ~Utilities(){};
-
-};
+}//end namespace ubsens
 
 #endif
 /** @} */ // end of doxygen group 

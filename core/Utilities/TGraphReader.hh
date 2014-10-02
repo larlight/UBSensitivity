@@ -24,48 +24,51 @@
    doxygen documentation!
  */
 
+namespace ubsens{
 
-namespace util{
-  
-  class TGraphReader{
+  namespace util{
     
-  public:
+    class TGraphReader{
+      
+    public:
+      
+      void SetFileName(std::string filename) { _filename = filename; }
+      
+      void SetGraphName(std::string graphname) { _graphname = graphname; }
+      
+      TGraph* GetGraph();
+      
+      //singleton getter?!?!?!
+      static TGraphReader* GetME(){
+	if(!_me) _me = new TGraphReader;
+	return _me;
+      }
     
-    void SetFileName(std::string filename) { _filename = filename; }
+    private:
+      //singleton!?!
+      static TGraphReader* _me;
+      
+      //constructor is private for singletons right?
+      /// Default constructor
+      TGraphReader(){
+	_filename = "";
+	_graphname = "";
+      }
+      
+      /// Default destructor
+      virtual ~TGraphReader(){};
+      
+      
+    protected:
+      
+      std::string _filename;
+      std::string _graphname;
+      
+    };
     
-    void SetGraphName(std::string graphname) { _graphname = graphname; }
-    
-    TGraph* GetGraph();
-    
-    //singleton getter?!?!?!
-    static TGraphReader* GetME(){
-      if(!_me) _me = new TGraphReader;
-      return _me;
-    }
-    
-  private:
-    //singleton!?!
-    static TGraphReader* _me;
-    
-    //constructor is private for singletons right?
-    /// Default constructor
-    TGraphReader(){
-      _filename = "";
-      _graphname = "";
-    }
-    
-    /// Default destructor
-    virtual ~TGraphReader(){};
-    
-    
-  protected:
-    
-    std::string _filename;
-    std::string _graphname;
-    
-  };
+  }//end namespace util
 
-}//end namespace util
+}//end namespace ubsens
 
 #endif
 /** @} */ // end of doxygen group 
