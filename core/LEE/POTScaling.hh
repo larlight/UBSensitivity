@@ -15,7 +15,7 @@
 #define POTSCALING_HH
 
 #include <iostream>
-#include "Constants/DataConstants.h"
+#include "Constants/POTConstants.hh"
 /**
    \class POTScaling
    User defined class POTScaling ... these comments are used to generate
@@ -30,8 +30,8 @@ namespace ubsens{
     
     /// Default constructor
     POTScaling(){
-      _MINIBOONE_POT = DATACONSTANTS::MINIBOONE_POT_DEFAULT;
-      _my_POT = DATACONSTANTS::UB_POT_DEFAULT;
+      _MINIBOONE_POT = pot::MINIBOONE_POT_DEFAULT;
+      _my_POT = pot::UB_POT_DEFAULT;
     };
     
     /// Default destructor

@@ -18,7 +18,7 @@
 
 #include <iostream>
 #include "Utilities/TGraphReader.hh"
-#include "Constants/GeometryConstants.h"
+#include "Constants/GeometryConstants.hh"
 #include "TGraph.h"
 
 /**
@@ -42,8 +42,8 @@ namespace ubsens{
       _my_xsec_TGraph_name = "";
       _MB_xsec_input_filename = "";
       _MB_xsec_TGraph_name = "";
-      _my_ntargetspergram = GEOCONSTANTS::UB_TARGETS_PER_GRAM;
-      _MB_ntargetspergram = GEOCONSTANTS::MINIBOONE_TARGETS_PER_GRAM;
+      _my_ntargetspergram = geo::UB_TARGETS_PER_GRAM;
+      _MB_ntargetspergram = geo::MINIBOONE_TARGETS_PER_GRAM;
     };
     
     /// Default destructor

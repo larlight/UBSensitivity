@@ -16,6 +16,8 @@
 
 #include <iostream>
 #include <TVector3.h>
+#include "Constants/FMWKConstants.hh"
+#include "DHException.hh"
 
 namespace ubsens {
 
@@ -23,8 +25,9 @@ namespace ubsens {
     
     /**
        \class RecoShower
+       Data holder for a single reco-ed shower data product info
     */
-    class RecoShower{
+    class RecoShower {
       
     public:
       
@@ -36,20 +39,61 @@ namespace ubsens {
       
       /// Method to bring back the default values
       void Reset();
+
+      //
+      // Setters
+      //
+      /// Shower direction unit vector setter
+      void DCosStart(TVector3 const& dir, TVector3 const& dir_err)
+      { fDCosStart = dir; fSigmaDCosStart = dir_err; }
+      /// Shower start vtx unit vector setter
+      void XYZStart(TVector3 const& vtx, TVector3 const& vtx_err)
+      { fXYZstart = vtx; fSigmaXYZstart = vtx_err; }
+      /// Energy [MeV] setter
+      void TotalEnergy(double const& e, double const& e_err)
+      { fTotalEnergy = e; fSigmaTotalEnergy = e_err; }
+      /// dEdx setter
+      void dEdx(double const& dedx, double const& dedx_err)
+      { fdEdx = dedx; fSigmadEdx = dedx_err; }
+
+      //
+      // Getters
+      //
+      /// Shower direction unit vector getter
+      const TVector3& DCosStart() const      { return fDCosStart;        }
+      /// Shower direction error unit vector getter
+      const TVector3& SigmaDCosStart() const { return fSigmaDCosStart;   }
+      /// Shower start vtx unit vector getter
+      const TVector3& XYZStart() const       { return fXYZstart;         }
+      /// Shower start vtx error unit vector getter
+      const TVector3& SigmaXYZStart() const  { return fSigmaXYZstart;    }
+      /// Energy [MeV] getter
+      const double TotalEnergy() const       { return fTotalEnergy;      }
+      /// Energy [MeV] error getter
+      const double SigmaTotalEnergy() const  { return fSigmaTotalEnergy; }
+      /// dEdx [MeV/cm] getter
+      const double dEdx() const              { return fdEdx;             }
+      /// dEdx [MeV/cm] error getter
+      const double SigmadEdx() const         { return fSigmadEdx;        }
       
     protected:
-      
+
+      /// Direction (x,y,z) unit vector
       TVector3 fDCosStart;
+      /// Error on direction (x,y,z) unit vector
       TVector3 fSigmaDCosStart;
+      /// (x,y,z) [cm] start point vtx
       TVector3 fXYZstart;
+      /// Error on (x,y,z) [cm] start point vtx
       TVector3 fSigmaXYZstart;
-      std::vector< Double_t > fTotalEnergy;
-      std::vector< Double_t > fSigmaTotalEnergy;
-      std::vector< Double_t > fTotalMIPEnergy;
-      std::vector< Double_t > fSigmaTotalMIPEnergy;
-      Int_t fBestPlane;
-      std::vector< Double_t > fdEdx;
-      std::vector< Double_t > fSigmadEdx;
+      /// Energy [MeV] of the shower
+      double fTotalEnergy;
+      /// Error on energy [MeV]
+      double fSigmaTotalEnergy;
+      /// dE/dX 
+      double fdEdx;
+      /// Error on fdEdx
+      double fSigmadEdx;
 
     };
   }

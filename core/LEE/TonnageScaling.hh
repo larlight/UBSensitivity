@@ -15,7 +15,7 @@
 #define TONNAGESCALING_HH
 
 #include <iostream>
-#include "Constants/GeometryConstants.h"
+#include "Constants/GeometryConstants.hh"
 
 /**
    \class TonnageScaling
@@ -31,7 +31,7 @@ namespace ubsens{
     
     /// Default constructor
     TonnageScaling(){
-      _my_Detector = GEOCONSTANTS::kNULLDetector;
+      _my_Detector = geo::kNULLDetector;
       _my_tonnage = 0.;    
     };
     
@@ -39,7 +39,7 @@ namespace ubsens{
     virtual ~TonnageScaling(){};
     
     //note: make data enums for different detectors
-    void SetMyDetector(GEOCONSTANTS::Detector_t mydet) { _my_Detector = mydet; }
+    void SetMyDetector(geo::Detector_t mydet) { _my_Detector = mydet; }
     
     //optional to manually set the tonnage of your detector
     void SetMyTonnage(double input_param){ _my_tonnage = input_param; }
@@ -50,7 +50,7 @@ namespace ubsens{
     
     double _my_tonnage;
     
-    GEOCONSTANTS::Detector_t _my_Detector;
+    geo::Detector_t _my_Detector;
     
   };
   

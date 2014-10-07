@@ -9,9 +9,16 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-#pragma link C++ namespace ubsens::util+;
-#pragma link C++ class ubsens::util::TGraphReader+;
-#pragma link C++ class ubsens::util::PlotWriter+;
+#pragma link C++ namespace ubsens+;
+#pragma link C++ namespace ubsens::data+;
+#pragma link C++ namespace ubsens::geo+;
+#pragma link C++ namespace ubsens::pot+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
+
+
+
+
+
 

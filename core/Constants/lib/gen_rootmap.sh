@@ -15,6 +15,5 @@ rootlibmap() {
 }
 
 ######################################################
-# DataHandle
-rootlibmap libDataHandle.rootmap libDataHandle.so $LITE_FMWK_COREDIR/DataHandle/LinkDef.h \
-    libTree.so libHist.so libPhysics.so libConstants.so
+# Constants
+rootlibmap libConstants.rootmap libConstants.so $LITE_FMWK_COREDIR/Constants/LinkDef.h 

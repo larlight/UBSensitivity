@@ -3,7 +3,7 @@
 
 namespace ubsens {
 
-  namespace GEOCONSTANTS {
+  namespace geo {
     
     enum Detector_t {
       kNULLDetector, //null detector (initialization value)

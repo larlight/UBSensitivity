@@ -16,19 +16,17 @@
 
 #include <iostream>
 #include <TVector3.h>
-
-/**
-   \class TruthShower
-   User defined class TruthShower ... these comments are used to generate
-   doxygen documentation!
- */
-
+#include "DHException.hh"
+#include "Constants/FMWKConstants.hh"
 namespace ubsens {
 
   namespace data {
 
-    
-    class TruthShower{
+    /**
+       \class TruthShower
+       Data holder for a single truth shower data product info
+    */
+    class TruthShower {
       
     public:
       
@@ -40,29 +38,46 @@ namespace ubsens {
       
       /// Method to bring back the default values
       void Reset();
+
+      //
+      // Setters
+      //
+      /// Mother PDGID setter
+      void MotherPDGID(unsigned int const& id) { fMotherPDGID=id; }
+      /// Mother vtx position (4-position in cm & ns) setter
+      void MotherVtx(std::vector<double> const& vtx);
+      /// Mother momentum (4-momentum in MeV/c & MeV) setter
+      void MotherMomentum(std::vector<double> const& mom);
+      /// Daughter vtx position (4-position in cm & ns) setter
+      void DaughterVtx(std::vector<double> const& vtx);
+      /// Daughter momentum (4-momentum in MeV/c & MeV) setter
+      void DaughterMomentum(std::vector<double> const& mom);
+
+      //
+      // Getters
+      //
+      /// Mother PDGID getter
+      const unsigned int MotherPDGID() const              { return fMotherPDGID;      }
+      /// Mother vtx position (4-position in cm & ns) getter
+      const std::vector<double>& MotherVtx() const        { return fMotherVtx;        }
+      /// Mother momentum (4-momentum in MeV/c & MeV) getter
+      const std::vector<double>& MotherMomentum() const   { return fMotherMomentum;   }
+      /// Daughter vtx position (4-position in cm & ns) getter
+      const std::vector<double>& DaughterVtx() const      { return fDaughterVtx;      }
+      /// Daughter momentum (4-momentum in MeV/c & MeV) getter
+      const std::vector<double>& DaughterMomentum() const { return fDaughterMomentum; }
       
     protected:
-      
-      Int_t  fMotherPDGID;                   ///< mother PDG code
-      std::vector<Double_t> fMotherVtx;      ///< mother position 4-vector @ generation
-      std::vector<Double_t> fMotherMomentum; ///< mother momentum 4-vector @ generation
-      /// mother 3D angle phi (along shower angle definition, not ordinary coord. system)
-      Double_t fMotherPhi;
-      /// mother 3D angle theta (along shower angle definition, not ordinary coord. system)
-      Double_t fMotherTheta;
+
+      //---- Mother info  -----//
+      int  fMotherPDGID;                   ///< mother PDG code
+      std::vector<double> fMotherVtx;      ///< mother position 4-vector @ generation
+      std::vector<double> fMotherMomentum; ///< mother momentum 4-vector @ generation
       
       //---- Daughter info ----//
-      std::vector<UInt_t>  fDaughterTrackID;  ///< Daughters' track ID
-      std::vector<Double_t> fDaughterVtx;      ///< Daughters' deposit point closest to the mother vtx
-      std::vector<Double_t> fDaughterMomentum; ///< Daughters' deposit sum momentum 4-vector
-      /// daughter 3D angle phi (along shower angle definition, not ordinary coord. system)
-      Float_t fDaughterPhi;
-      /// daughter 3D angle theta (along shower angle definition, not ordinary coord. system)
-      Float_t fDaughterTheta;
-      
-      //---- Charge per plane ----//
-      std::vector<Float_t> fPlaneCharge; ///< Charge deposit per plane
-      
+      std::vector<double> fDaughterVtx;      ///< Daughters' deposit point closest to the mother vtx
+      std::vector<double> fDaughterMomentum; ///< Daughters' deposit sum momentum 4-vector
+
     };
     
   }//end namespace data

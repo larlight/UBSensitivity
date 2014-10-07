@@ -11,19 +11,19 @@ namespace ubsens {
     if( !_my_tonnage ){
       
       //if the user has set the detector they want to use
-      if(_my_Detector == GEOCONSTANTS::kNULLDetector){
+      if(_my_Detector == geo::kNULLDetector){
 	std::cerr<<"Ruh roh. You need to either manually set tonnage, or set the detector to something I recognize. Assuming you're using MicroBooNE..."<<std::endl;
-	_my_tonnage = GEOCONSTANTS::UB_TONNAGE_GRAMS;
+	_my_tonnage = geo::UB_TONNAGE_GRAMS;
       }
-      else if(_my_Detector == GEOCONSTANTS::kMicroBooNE)
-	_my_tonnage = GEOCONSTANTS::UB_TONNAGE_GRAMS;
+      else if(_my_Detector == geo::kMicroBooNE)
+	_my_tonnage = geo::UB_TONNAGE_GRAMS;
       else{
 	std::cerr<<"You set the detector to something I dunno the tonnage for. Better fix this yourself."<<std::endl;
       }
       
     }
     
-    return (_my_tonnage / GEOCONSTANTS::MINIBOONE_TONNAGE_GRAMS);
+    return (_my_tonnage / geo::MINIBOONE_TONNAGE_GRAMS);
   }
 
 }//end namespace ubsens

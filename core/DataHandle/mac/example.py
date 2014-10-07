@@ -1,13 +1,43 @@
-import sys
+import ROOT,sys
 from ROOT import *
 
-try:
+# Demonstrate how to write data
+mgr = ubsens.data.DataManager()
+mgr.SetIOMode(ubsens.data.DataManager.WRITE)
+mgr.SetOutputFilename("aho.root")
+mgr.Open()
 
-    print "PyROOT recognized your class %s" % str(DataHandle)
+mgr.GetWriteableData().AppendTruthShower(ubsens.data.TruthShower())
+mgr.GetWriteableData().AppendRecoShower(ubsens.data.RecoShower())
+mgr.SaveEntry()
+mgr.SaveEntry()
 
-except NameError:
+mgr.Close()
 
-    print "Failed importing DataHandle..."
+# Demonstrate how to read data
+mgr.SetIOMode(ubsens.data.DataManager.READ)
+mgr.AddInputFilename("aho.root")
+mgr.Open()
 
-sys.exit(0)
+mgr.NextEntry()
+print 'First event...'
+print 'Truth shower count:',mgr.GetData().TruthShowerCollection().size()
+print 'Reco  shower count:',mgr.GetData().RecoShowerCollection().size()
+
+mgr.NextEntry()
+print 'Second event...'
+print 'Truth shower count:',mgr.GetData().TruthShowerCollection().size()
+print 'Reco  shower count:',mgr.GetData().RecoShowerCollection().size()
+mgr.Close()
+
+# Demonstrate how to read & write
+mgr.SetIOMode(ubsens.data.DataManager.BOTH)
+mgr.AddInputFilename("aho.root")
+mgr.SetOutputFilename("boke.root")
+mgr.Open()
+mgr.NextEntry()
+mgr.SaveEntry()
+mgr.NextEntry()
+mgr.SaveEntry()
+mgr.Close()
 

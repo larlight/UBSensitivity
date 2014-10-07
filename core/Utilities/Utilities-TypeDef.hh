@@ -5,13 +5,9 @@
 #ifndef UTILITIES_TYPEDEF_HH
 #define UTILITIES_TYPEDEF_HH
 
-// Header files included here
-#include "Utilities.hh"
-
 // Class forward declaration here
 namespace ubsens{
   namespace util{
-    class Utilities;
     class TGraphReader;
     class PlotWriter;
   }
