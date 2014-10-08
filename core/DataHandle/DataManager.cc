@@ -31,7 +31,8 @@ namespace ubsens {
       // Whether fInTree/fOutTree belongs to InFile or OutFile, it should be deleted by this point
       fInTree  = nullptr;
       fOutTree = nullptr;
-      fData->Reset();
+      if(fData)
+	fData->Reset();
 
       fIOMode = DataManager::READ;
       fInFileName.clear();
