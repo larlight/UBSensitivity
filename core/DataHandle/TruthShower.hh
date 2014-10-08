@@ -17,7 +17,8 @@
 #include <iostream>
 #include <TVector3.h>
 #include "DHException.hh"
-#include "Constants/FMWKConstants.hh"
+#include "FMWKConstants.hh"
+
 namespace ubsens {
 
   namespace data {

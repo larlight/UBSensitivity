@@ -11,6 +11,7 @@ OBJECTS = $(SOURCES:.cc=.o)
 
 # include options for this package
 INCFLAGS  = -I$(LITE_FMWK_COREDIR)
+INCFLAGS  = -I$(LITE_FMWK_COREDIR)/Constants
 INCFLAGS += -I./                       #Include itself
 
 # platform-specific options
