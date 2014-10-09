@@ -15,8 +15,8 @@ namespace ubsens {
 
       // data collection reset
       //kaleko: crashes happen here
-      //      vTruthShower.clear();
-      //      vRecoShower.clear();
+      vTruthShower.clear();
+      vRecoShower.clear();
 
     }
 
