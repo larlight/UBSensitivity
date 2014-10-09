@@ -105,9 +105,9 @@ namespace ubsens {
 
 	fOutFile = TFile::Open(fOutFileName.c_str(),"RECREATE");
 	fOutTree = new TTree("ubsens_tree","");
-	//kaleko changed this... typo ?! "Data"-->"&fData"
+	//kaleko changed this... typo ?! "Data"-->"fData"
 	//	fOutTree->Branch("event","EventRecord",Data);
-	fOutTree->Branch("event","EventRecord",&fData);
+	fOutTree->Branch("event","EventRecord",fData);
       }
 
       if(fIOMode == DataManager::READ ||
