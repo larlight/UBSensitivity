@@ -20,7 +20,12 @@ namespace ubsens {
 
     DataManager::~DataManager()
     {
-      delete fData;
+      if(fOutTree)
+	delete fOutTree;
+      if(fInTree)
+	delete fInTree;
+      if(fData)
+	delete fData;
     }
 
     void DataManager::Reset()
@@ -31,8 +36,11 @@ namespace ubsens {
       // Whether fInTree/fOutTree belongs to InFile or OutFile, it should be deleted by this point
       fInTree  = nullptr;
       fOutTree = nullptr;
-      if(fData)
+
+      if(fData){
+	//kaleko: sometimes crashes here
 	fData->Reset();
+      }
 
       fIOMode = DataManager::READ;
       fInFileName.clear();
@@ -97,7 +105,9 @@ namespace ubsens {
 
 	fOutFile = TFile::Open(fOutFileName.c_str(),"RECREATE");
 	fOutTree = new TTree("ubsens_tree","");
-	fOutTree->Branch("event","EventRecord",fData);
+	//kaleko changed this... typo ?! "Data"-->"&fData"
+	//	fOutTree->Branch("event","EventRecord",Data);
+	fOutTree->Branch("event","EventRecord",&fData);
       }
 
       if(fIOMode == DataManager::READ ||

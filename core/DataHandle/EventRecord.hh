@@ -32,6 +32,8 @@ namespace ubsens {
       
       /// Default constructor
       EventRecord(){};
+      //kaleko: should the default constructor look like this instead?
+      //EventRecord() : TObject(){};
       
       /// Default destructor
       virtual ~EventRecord(){};
@@ -78,7 +80,7 @@ namespace ubsens {
       /// Reco-ed shower collection
       std::vector<ubsens::data::RecoShower> vRecoShower;
 
-      ClassDef(EventRecord,1)
+      ClassDef(EventRecord,1);
 
     };
     
