@@ -18,10 +18,16 @@ namespace lar1{
     fBinSize=0.05; // using histograms with 50MeV bins
 
     // Get the path to the files using the larlight env variable:
+<<<<<<< HEAD
     //    std::string path = GetEnv("MAKE_TOP_DIR");
 
     //    path.append("/UserDev/lar1Osc/");
     std::string path = "~/Data/LAr1Ntuples/";
+=======
+    std::string path = GetEnv("MAKE_TOP_DIR");
+
+    path.append("/UserDev/lar1Osc/");
+>>>>>>> master
 
     //miniboone histogram file
     std::string mbhistfile= path;
