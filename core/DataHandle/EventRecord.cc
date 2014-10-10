@@ -20,6 +20,7 @@ namespace ubsens {
       fSubRunNumber = ::ubsens::fmwk::INVALID_UINT;
 
       // data collection reset
+      //kaleko: crashes happen here
       vTruthShower.clear();
       vRecoShower.clear();
 

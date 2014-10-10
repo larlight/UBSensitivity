@@ -31,7 +31,13 @@ namespace ubsens {
     public:
       
       /// Default constructor
+<<<<<<< HEAD
       EventRecord();
+=======
+      EventRecord(){};
+      //kaleko: should the default constructor look like this instead?
+      //EventRecord() : TObject(){};
+>>>>>>> 55a19f0d54facde2c6fe5aaff942c6d82f7ad917
       
       /// Default destructor
       virtual ~EventRecord(){};
@@ -78,7 +84,7 @@ namespace ubsens {
       /// Reco-ed shower collection
       std::vector< ::ubsens::data::RecoShower> vRecoShower;
 
-      ClassDef(EventRecord,1)
+      ClassDef(EventRecord,1);
 
     };
     

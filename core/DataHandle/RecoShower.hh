@@ -16,7 +16,11 @@
 
 #include <iostream>
 #include <TVector3.h>
+<<<<<<< HEAD
 #include "FMWKBase/FMWKConstants.hh"
+=======
+#include "FMWKConstants.hh"
+>>>>>>> 55a19f0d54facde2c6fe5aaff942c6d82f7ad917
 #include "DHException.hh"
 
 namespace ubsens {
