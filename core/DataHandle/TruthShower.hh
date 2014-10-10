@@ -17,7 +17,7 @@
 #include <iostream>
 #include <TVector3.h>
 #include "DHException.hh"
-#include "Constants/FMWKConstants.hh"
+#include "FMWKBase/FMWKConstants.hh"
 namespace ubsens {
 
   namespace data {
@@ -26,7 +26,7 @@ namespace ubsens {
        \class TruthShower
        Data holder for a single truth shower data product info
     */
-    class TruthShower {
+    class TruthShower : public TObject {
       
     public:
       
@@ -78,6 +78,7 @@ namespace ubsens {
       std::vector<double> fDaughterVtx;      ///< Daughters' deposit point closest to the mother vtx
       std::vector<double> fDaughterMomentum; ///< Daughters' deposit sum momentum 4-vector
 
+      ClassDef(TruthShower,1)
     };
     
   }//end namespace data

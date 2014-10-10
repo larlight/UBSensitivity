@@ -2,7 +2,6 @@
 #define CONSTANTS_TYPEDEF_HH
 
 // Header files included here
-#include <FMWKConstants.hh>
 #include <POTConstants.hh>
 #include <GeometryConstants.hh>
 

@@ -6,6 +6,12 @@
 namespace ubsens {
   namespace data {
 
+    EventRecord::EventRecord() : vTruthShower(),
+				 vRecoShower()
+    {
+      Reset();
+    }
+
     void EventRecord::Reset() 
     {
       // event unique id reset

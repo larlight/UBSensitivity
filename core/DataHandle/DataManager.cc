@@ -7,7 +7,8 @@ namespace ubsens {
 
   namespace data {
 
-    DataManager::DataManager() : fData(nullptr),
+    DataManager::DataManager() : fVerbosity(::ubsens::fmwk::msg::kNORMAL),
+				 fData(nullptr),
 				 fInTree(nullptr),
 				 fOutTree(nullptr),
 				 fOutFile(nullptr),
@@ -25,9 +26,40 @@ namespace ubsens {
 
     void DataManager::Reset()
     {
-      if(fInTree)  { delete fInTree;    fInTree = nullptr;  }
-      if(fOutFile) { fOutFile->Close(); fOutFile = nullptr; }
-      if(!fData)   fData = new EventRecord;
+
+      if(fVerbosity <= ::ubsens::fmwk::msg::kDEBUG)
+
+	fMsg.send(::ubsens::fmwk::msg::kDEBUG, __FUNCTION__, " called...");
+
+      if(fInTree)  { 
+
+	if(fVerbosity <= ::ubsens::fmwk::msg::kINFO)
+
+	  fMsg.send(::ubsens::fmwk::msg::kINFO, __FUNCTION__,"Removing the input TTree...");
+
+	delete fInTree;    
+	fInTree = nullptr;  
+      }
+
+      if(fOutFile) { 
+
+	if(fVerbosity <= ::ubsens::fmwk::msg::kWARNING)
+
+	  fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__,
+		    Form(" %s called before Close(). Closing the output file...",__FUNCTION__));
+
+	Close();
+      }
+
+      if(!fData) {
+
+	if(fVerbosity <= ::ubsens::fmwk::msg::kINFO)
+
+	  fMsg.send(::ubsens::fmwk::msg::kINFO, __FUNCTION__,"Removing a local EventRecord instance from the heap...");
+
+	fData = new EventRecord;
+      }
+
       // Whether fInTree/fOutTree belongs to InFile or OutFile, it should be deleted by this point
       fInTree  = nullptr;
       fOutTree = nullptr;
@@ -43,20 +75,30 @@ namespace ubsens {
 
     bool DataManager::NextEntry()
     {
+      if(fVerbosity <= ::ubsens::fmwk::msg::kDEBUG)
+
+	fMsg.send(::ubsens::fmwk::msg::kDEBUG, __FUNCTION__, " called...");
+
       return GetEntry(fTreeIndex+1);
     }
 
     bool DataManager::GetEntry(size_t index)
     {
+      if(fVerbosity <= ::ubsens::fmwk::msg::kDEBUG)
+
+	fMsg.send(::ubsens::fmwk::msg::kDEBUG, __FUNCTION__, " called...");
+
       if(index >= GetEntries()) {
-	std::cerr << "\033[93m<<" 
-		  << __FUNCTION__ 
-		  << ">>\033[00m"
-		  << " Index " << index 
-		  << " is beyond event counts in the TTree ... " << GetEntries()
-		  << std::endl;
+
+	fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, 
+		  Form(" Index %zu is beyond event counts in the TTree (%zu)... ",index,GetEntries())
+		  );
 	return false;
       }
+
+      if(fVerbosity <= ::ubsens::fmwk::msg::kINFO)
+
+	fMsg.send(::ubsens::fmwk::msg::kINFO, __FUNCTION__, " read 1 event from TTree...");
 
       fInTree->GetEntry(index);
       fTreeIndex = index;
@@ -65,24 +107,40 @@ namespace ubsens {
 
     void DataManager::SaveEntry()
     {
+      if(fVerbosity <= ::ubsens::fmwk::msg::kDEBUG)
+
+	fMsg.send(::ubsens::fmwk::msg::kDEBUG, __FUNCTION__, " called...");
+
       if(!fOutTree)
 	throw DHException(__FUNCTION__,"Output TTree does not exist... can't save an entry!");
       fOutTree->Fill();
       ++fOutTreeEntries;
       fData->Reset();
+
+      if(fVerbosity <= ::ubsens::fmwk::msg::kINFO)
+
+	fMsg.send(::ubsens::fmwk::msg::kINFO, __FUNCTION__, " saved 1 event to TTree...");
     }
 
     size_t DataManager::GetEntries()
     {
+      if(fVerbosity <= ::ubsens::fmwk::msg::kDEBUG)
+
+	fMsg.send(::ubsens::fmwk::msg::kDEBUG, __FUNCTION__, " called...");
+
       if(fInTreeEntries) return fInTreeEntries;
       if(!fInTree) 
 	throw DHException(__FUNCTION__,"Input TTree does not exist... can't get an entry!");
       fInTreeEntries = fInTree->GetEntriesFast();
+
       return fInTreeEntries;
     }
 
     void DataManager::Open()
     {
+      if(fVerbosity <= ::ubsens::fmwk::msg::kDEBUG)
+
+	fMsg.send(::ubsens::fmwk::msg::kDEBUG, __FUNCTION__, " called...");
 
       if(fInTree || fOutTree) 
 	
@@ -95,8 +153,11 @@ namespace ubsens {
 	  throw DHException(__FUNCTION__,"Output file name not specified!");
 
 	fOutFile = TFile::Open(fOutFileName.c_str(),"RECREATE");
-	fOutTree = new TTree("ubsens_tree","");
-	fOutTree->Branch("event","EventRecord",fData);
+	fOutFile->cd();
+	fOutTree = new TTree("ubsens_tree","UBSensitivity Data TTree");
+        fOutTree->SetMaxTreeSize    (1024*1024*1024);
+	fOutTree->SetMaxVirtualSize (1024*1024*1024);
+	fOutTree->Branch("ubsens_branch",fData->GetName(),&fData);
       }
 
       if(fIOMode == DataManager::READ ||
@@ -112,7 +173,7 @@ namespace ubsens {
 	if(!(fInTree->GetEntries()))
 	  throw DHException(__FUNCTION__,"Input file does not contain data tree!");
 
-	fInTree->SetBranchAddress("event",&fData);
+	fInTree->SetBranchAddress("ubsens_branch",&fData);
 	
       }
       // Reset Tree index
@@ -122,10 +183,24 @@ namespace ubsens {
 
     void DataManager::Close()
     {
+      if(fVerbosity <= ::ubsens::fmwk::msg::kDEBUG)
+
+	fMsg.send(::ubsens::fmwk::msg::kDEBUG, __FUNCTION__, " called...");
+
       if(fOutTree) {
+
+	if(fVerbosity <= ::ubsens::fmwk::msg::kNORMAL)
+	  
+	  fMsg.send(::ubsens::fmwk::msg::kNORMAL, __FUNCTION__,
+		    Form("Written the output TTree (%lld events)...",fOutTree->GetEntries()));
+	
 	fOutFile->cd();
 	fOutTree->Write();
+	fOutFile->Close();
+	fOutFile = nullptr;
+	fOutTree = nullptr;
       }
+      
       Reset();
     }
 

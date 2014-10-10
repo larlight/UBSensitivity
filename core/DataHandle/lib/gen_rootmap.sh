@@ -17,4 +17,4 @@ rootlibmap() {
 ######################################################
 # DataHandle
 rootlibmap libDataHandle.rootmap libDataHandle.so $LITE_FMWK_COREDIR/DataHandle/LinkDef.h \
-    libTree.so libHist.so libPhysics.so libConstants.so
+    libTree.so libHist.so libPhysics.so libConstants.so libFMWKBase.so

@@ -1,14 +1,16 @@
 import ROOT,sys
 from ROOT import *
+ROOT.gSystem.Load("libFMWKBase.so")
 
 # Demonstrate how to write data
 mgr = ubsens.data.DataManager()
+mgr.VerbosityLevel(ubsens.fmwk.msg.kDEBUG)
 mgr.SetIOMode(ubsens.data.DataManager.WRITE)
 mgr.SetOutputFilename("aho.root")
 mgr.Open()
 
-mgr.GetWriteableData().AppendTruthShower(ubsens.data.TruthShower())
-mgr.GetWriteableData().AppendRecoShower(ubsens.data.RecoShower())
+#mgr.GetWriteableData().AppendTruthShower(ubsens.data.TruthShower())
+#mgr.GetWriteableData().AppendRecoShower(ubsens.data.RecoShower())
 mgr.SaveEntry()
 mgr.SaveEntry()
 
@@ -21,13 +23,13 @@ mgr.Open()
 
 mgr.NextEntry()
 print 'First event...'
-print 'Truth shower count:',mgr.GetData().TruthShowerCollection().size()
-print 'Reco  shower count:',mgr.GetData().RecoShowerCollection().size()
+#print 'Truth shower count:',mgr.GetData().TruthShowerCollection().size()
+#print 'Reco  shower count:',mgr.GetData().RecoShowerCollection().size()
 
 mgr.NextEntry()
 print 'Second event...'
-print 'Truth shower count:',mgr.GetData().TruthShowerCollection().size()
-print 'Reco  shower count:',mgr.GetData().RecoShowerCollection().size()
+#print 'Truth shower count:',mgr.GetData().TruthShowerCollection().size()
+#print 'Reco  shower count:',mgr.GetData().RecoShowerCollection().size()
 mgr.Close()
 
 # Demonstrate how to read & write

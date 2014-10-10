@@ -17,7 +17,9 @@
 #include <iostream>
 #include <TFile.h>
 #include <TChain.h>
+#include "FMWKBase/Message.hh"
 #include "EventRecord.hh"
+
 namespace ubsens {
   namespace data {
     /**
@@ -34,7 +36,7 @@ namespace ubsens {
 	WRITE,
 	BOTH
       };
-      
+
     public:
       
       /// Default constructor
@@ -48,6 +50,13 @@ namespace ubsens {
 
       /// Getter for a write-permitted EventRecord instance
       EventRecord& GetWriteableData() { return *fData; }
+
+      /// Verbosity setter
+      void VerbosityLevel(::ubsens::fmwk::msg::VerbosityLevel_t level)
+      { fVerbosity = level; }
+      
+      /// Verbosity getter
+      ::ubsens::fmwk::msg::VerbosityLevel_t VerbosityLevel() const { return fVerbosity; }
 
       /// Read specific TTree entry
       bool GetEntry(size_t index);
@@ -80,6 +89,12 @@ namespace ubsens {
       void Close();
 
     private:
+
+      /// Verbosity level
+      ::ubsens::fmwk::msg::VerbosityLevel_t fVerbosity;
+
+      /// Messenger instance
+      ::ubsens::fmwk::Message fMsg;
 
       /// Event record
       EventRecord* fData;

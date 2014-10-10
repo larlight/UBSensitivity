@@ -16,7 +16,7 @@
 
 #include <iostream>
 #include <TVector3.h>
-#include "Constants/FMWKConstants.hh"
+#include "FMWKBase/FMWKConstants.hh"
 #include "DHException.hh"
 
 namespace ubsens {
@@ -27,7 +27,7 @@ namespace ubsens {
        \class RecoShower
        Data holder for a single reco-ed shower data product info
     */
-    class RecoShower {
+    class RecoShower : public TObject {
       
     public:
       
@@ -95,6 +95,7 @@ namespace ubsens {
       /// Error on fdEdx
       double fSigmadEdx;
 
+      ClassDef(RecoShower,1)
     };
   }
 }

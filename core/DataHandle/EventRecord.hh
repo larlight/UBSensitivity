@@ -31,7 +31,7 @@ namespace ubsens {
     public:
       
       /// Default constructor
-      EventRecord(){};
+      EventRecord();
       
       /// Default destructor
       virtual ~EventRecord(){};
@@ -73,10 +73,10 @@ namespace ubsens {
       //
 
       /// Truth shower collection
-      std::vector<ubsens::data::TruthShower> vTruthShower;
+      std::vector< ::ubsens::data::TruthShower> vTruthShower;
 
       /// Reco-ed shower collection
-      std::vector<ubsens::data::RecoShower> vRecoShower;
+      std::vector< ::ubsens::data::RecoShower> vRecoShower;
 
       ClassDef(EventRecord,1)
 

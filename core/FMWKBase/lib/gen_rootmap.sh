@@ -15,6 +15,5 @@ rootlibmap() {
 }
 
 ######################################################
-# Constants
-rootlibmap libConstants.rootmap libConstants.so $LITE_FMWK_COREDIR/Constants/LinkDef.h \
-    libFMWKBase.so libPhysics.so
+# FMWKBase
+rootlibmap libFMWKBase.rootmap libFMWKBase.so $LITE_FMWK_COREDIR/FMWKBase/LinkDef.h 
