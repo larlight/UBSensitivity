@@ -1,5 +1,5 @@
 
-export USER_MODULE="Constants DataHandle LEE Utilities"
+export USER_MODULE="FMWKBase Constants DataHandle LEE Utilities"
 # Find the location of this script:
 me="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Find the directory one above.
