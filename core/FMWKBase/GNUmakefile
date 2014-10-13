@@ -3,15 +3,15 @@
 #
 
 # specific names for this package
-DICT  = DataHandleCint
-SHLIB = libDataHandle.so
+DICT  = FMWKBaseCint
+SHLIB = libFMWKBase.so
 SOURCES = $(wildcard *.cc)
 HEADERS = $(wildcard *.hh)
 OBJECTS = $(SOURCES:.cc=.o)
 
 # include options for this package
 INCFLAGS  = -I$(LITE_FMWK_COREDIR)
-INCFLAGS  += -I./                       #Include itself
+INCFLAGS += -I./                       #Include itself
 
 # platform-specific options
 OSNAME          = $(shell uname -s)

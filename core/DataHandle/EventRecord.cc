@@ -12,6 +12,7 @@ namespace ubsens {
       Reset();
     }
 
+   
     void EventRecord::Reset() 
     {
       // event unique id reset

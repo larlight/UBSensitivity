@@ -30,14 +30,8 @@ namespace ubsens {
       
     public:
       
-      /// Default constructor
-<<<<<<< HEAD
+      /// constructor
       EventRecord();
-=======
-      EventRecord(){};
-      //kaleko: should the default constructor look like this instead?
-      //EventRecord() : TObject(){};
->>>>>>> 55a19f0d54facde2c6fe5aaff942c6d82f7ad917
       
       /// Default destructor
       virtual ~EventRecord(){};

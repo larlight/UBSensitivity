@@ -162,18 +162,11 @@ namespace ubsens {
 	  throw DHException(__FUNCTION__,"Output file name not specified!");
 
 	fOutFile = TFile::Open(fOutFileName.c_str(),"RECREATE");
-<<<<<<< HEAD
 	fOutFile->cd();
 	fOutTree = new TTree("ubsens_tree","UBSensitivity Data TTree");
         fOutTree->SetMaxTreeSize    (1024*1024*1024);
 	fOutTree->SetMaxVirtualSize (1024*1024*1024);
 	fOutTree->Branch("ubsens_branch",fData->GetName(),&fData);
-=======
-	fOutTree = new TTree("ubsens_tree","");
-	//kaleko changed this... typo ?! "Data"-->"fData"
-	//	fOutTree->Branch("event","EventRecord",Data);
-	fOutTree->Branch("event","EventRecord",fData);
->>>>>>> 55a19f0d54facde2c6fe5aaff942c6d82f7ad917
       }
 
       if(fIOMode == DataManager::READ ||
