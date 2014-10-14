@@ -15,7 +15,11 @@
 #define FLUXSCALING_HH
 
 #include <iostream>
-#include "Utilities/TGraphReader.hh"
+#include <sstream>
+#include "LEEException.hh"
+#include "Utilities/PlotReader.hh"
+#include "Utilities/PlotWriter.hh"
+#include "FMWKBase/Message.hh"
 #include "TGraph.h"
 
 /**
@@ -38,6 +42,7 @@ namespace ubsens {
       _my_flux_TGraph_name = "";
       _MB_flux_input_filename = "";
       _MB_flux_TGraph_name = "";
+      _classname = "FluxScaling";
     };
     
     /// Default destructor
@@ -61,7 +66,12 @@ namespace ubsens {
     
     TGraph* GetFluxRatio(){ return _flux_ratio; }
     
+    void WritePlots();
     
+  private:
+
+    ::ubsens::fmwk::Message fMsg;
+
   protected:
     
     //cross section graph for your detector
@@ -75,7 +85,8 @@ namespace ubsens {
     std::string _my_flux_TGraph_name;
     std::string _MB_flux_input_filename;
     std::string _MB_flux_TGraph_name;
-    
+
+    std::string _classname;
   };
   
 }// end namespace ubsens

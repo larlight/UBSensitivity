@@ -12,14 +12,17 @@ namespace ubsens{
     _MB_flux_input_filename = "/Users/davidkaleko/Data/LEE/total_nu_flux_ub_mb.root";
     _my_flux_TGraph_name = "uB_total_nu_flux";
     _MB_flux_TGraph_name = "MB_total_nu_flux";
+
+    util::PlotReader::GetME()->Reset();
     
-    util::TGraphReader::GetME()->SetFileName(_my_flux_input_filename);
-    util::TGraphReader::GetME()->SetGraphName(_my_flux_TGraph_name);
-    _my_flux = util::TGraphReader::GetME()->GetGraph();
-    util::TGraphReader::GetME()->SetFileName(_MB_flux_input_filename);
-    util::TGraphReader::GetME()->SetGraphName(_MB_flux_TGraph_name);
-    _MB_flux = util::TGraphReader::GetME()->GetGraph();
+    util::PlotReader::GetME()->SetFileName(_my_flux_input_filename);
+    util::PlotReader::GetME()->SetPlotName(_my_flux_TGraph_name);
+    _my_flux = util::PlotReader::GetME()->GetGraph();
+    util::PlotReader::GetME()->SetFileName(_MB_flux_input_filename);
+    util::PlotReader::GetME()->SetPlotName(_MB_flux_TGraph_name);
+    _MB_flux = util::PlotReader::GetME()->GetGraph();
     
+
     return true;
   }
   
@@ -27,7 +30,12 @@ namespace ubsens{
   void FluxScaling::ComputeFluxRatio(){
     
     if(!_my_flux || !_MB_flux){
-      std::cerr<<"ERROR: You need to set the cross section graphs/files first!"<<std::endl;
+	std::ostringstream msg;
+	msg << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	    << "ERROR: You need to get the flux graphs/files first!"
+	    << std::endl;
+	throw LEEException(msg.str());
+
       return;
     }
     
@@ -49,6 +57,30 @@ namespace ubsens{
     }
   }
   
+  void FluxScaling::WritePlots(){
+
+    if ( !_my_flux || !_MB_flux || !_flux_ratio ){
+      std::ostringstream msg;
+      msg << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	  << "ERROR: Either xsec filenames aren't set, graph names aren't set,"
+	  << " or you haven't yet computed the ratio graph."
+	  << std::endl;
+      throw LEEException(msg.str());
+
+      return;
+    }
+
+    try{
+      util::PlotWriter::GetME()->Write(_my_flux,_classname.c_str());
+      util::PlotWriter::GetME()->Write(_MB_flux,_classname.c_str());
+      util::PlotWriter::GetME()->Write(_flux_ratio,_classname.c_str());
+    }
+    catch (LEEException &e) {
+      fMsg.send(::ubsens::fmwk::msg::kERROR,e.what());
+    }
+  
+
+  }
 
 } //end namespace ubsens
 #endif

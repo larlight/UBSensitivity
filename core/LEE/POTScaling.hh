@@ -32,6 +32,7 @@ namespace ubsens{
     POTScaling(){
       _MINIBOONE_POT = pot::MINIBOONE_POT_DEFAULT;
       _my_POT = pot::UB_POT_DEFAULT;
+      _classname = "POTScaling";
     };
     
     /// Default destructor
@@ -52,7 +53,8 @@ namespace ubsens{
     
     //the POT you want to look at in your detector
     double _my_POT;
-    
+
+    std::string _classname;
   };
   
 }//end namespace ubsens

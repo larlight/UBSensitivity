@@ -8,11 +8,14 @@
 // Class forward declaration here
 namespace ubsens{
   namespace util{
-    class TGraphReader;
+    class UtilException;
+    class PlotReader;
     class PlotWriter;
   }
 }
+
 //ADD_EMPTY_CLASS ... do not change this comment line
 
 #endif
+
 

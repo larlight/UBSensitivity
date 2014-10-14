@@ -17,8 +17,12 @@
 #define XSECSCALING_HH
 
 #include <iostream>
-#include "Utilities/TGraphReader.hh"
+#include <sstream>
+#include "LEEException.hh"
+#include "Utilities/PlotReader.hh"
+#include "Utilities/PlotWriter.hh"
 #include "Constants/GeometryConstants.hh"
+#include "FMWKBase/Message.hh"
 #include "TGraph.h"
 
 /**
@@ -44,6 +48,7 @@ namespace ubsens{
       _MB_xsec_TGraph_name = "";
       _my_ntargetspergram = geo::UB_TARGETS_PER_GRAM;
       _MB_ntargetspergram = geo::MINIBOONE_TARGETS_PER_GRAM;
+      _classname = "XSecScaling";
     };
     
     /// Default destructor
@@ -74,7 +79,12 @@ namespace ubsens{
     
     TGraph* GetXSecRatio(){ return _xsec_ratio; }
     
+    void WritePlots();
     
+  private:
+
+    ::ubsens::fmwk::Message fMsg;
+
   protected:
     
     //cross section graph for your detector
@@ -91,6 +101,8 @@ namespace ubsens{
     
     double _my_ntargetspergram;
     double _MB_ntargetspergram;
+
+    std::string _classname;
   };
   
 }//end namespace ubsens

@@ -13,12 +13,14 @@ namespace ubsens{
     _my_xsec_TGraph_name = "genie_total_cc_graph";
     _MB_xsec_TGraph_name = "nuance_total_cc_graph";
     
-    util::TGraphReader::GetME()->SetFileName(_my_xsec_input_filename);
-    util::TGraphReader::GetME()->SetGraphName(_my_xsec_TGraph_name);
-    _my_xsec = util::TGraphReader::GetME()->GetGraph();
-    util::TGraphReader::GetME()->SetFileName(_MB_xsec_input_filename);
-    util::TGraphReader::GetME()->SetGraphName(_MB_xsec_TGraph_name);
-    _MB_xsec = util::TGraphReader::GetME()->GetGraph();
+    util::PlotReader::GetME()->Reset();
+    
+    util::PlotReader::GetME()->SetFileName(_my_xsec_input_filename);
+    util::PlotReader::GetME()->SetPlotName(_my_xsec_TGraph_name);
+    _my_xsec = util::PlotReader::GetME()->GetGraph();
+    util::PlotReader::GetME()->SetFileName(_MB_xsec_input_filename);
+    util::PlotReader::GetME()->SetPlotName(_MB_xsec_TGraph_name);
+    _MB_xsec = util::PlotReader::GetME()->GetGraph();
     
     return true;
   }
@@ -27,12 +29,22 @@ namespace ubsens{
   void XSecScaling::ComputeXSecRatio(){
     
     if(!_my_xsec || !_MB_xsec){
-      std::cerr<<"ERROR: You need to set the cross section graphs/files first!"<<std::endl;
+      std::ostringstream msg;
+      msg << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	  << "ERROR: You need to set the cross section graphs/files first!"
+	  << std::endl;
+      throw LEEException(msg.str());
+
       return;
     }
     
     if(!_my_ntargetspergram || !_MB_ntargetspergram){
-      std::cerr<<"ERROR: You need to set the n targets per gram for both detectors!"<<std::endl;
+      std::ostringstream msg;
+      msg << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	  << "ERROR: You need to set the n targets per gram for both detectors!"
+	  << std::endl;
+      throw LEEException(msg.str());
+      
       return;
     }
     
@@ -67,6 +79,36 @@ namespace ubsens{
     }
   }
   
+  void XSecScaling::WritePlots(){
+
+    if ( _my_xsec_input_filename == "" ||
+	 _MB_xsec_input_filename == "" ||
+	 _my_xsec_TGraph_name == "" ||
+	 _MB_xsec_TGraph_name == "" ||
+	 !_xsec_ratio ){
+      std::ostringstream msg;
+      msg << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	  << "ERROR: Either xsec filenames aren't set, graph names aren't set,"
+	  << " or you haven't yet computed the ratio graph."
+	  << std::endl;
+      throw LEEException(msg.str());
+
+      return;
+    }
+      
+    try{
+      util::PlotWriter::GetME()->Write(_my_xsec,_classname.c_str());
+      util::PlotWriter::GetME()->Write(_MB_xsec,_classname.c_str());
+      util::PlotWriter::GetME()->Write(_xsec_ratio,_classname.c_str());
+    }
+    catch (LEEException &e) {
+      fMsg.send(::ubsens::fmwk::msg::kERROR,e.what());
+    }
+  
+
+
+    
+  }
 
 }//end namespace ubsens
 

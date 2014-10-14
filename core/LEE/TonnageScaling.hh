@@ -15,6 +15,8 @@
 #define TONNAGESCALING_HH
 
 #include <iostream>
+#include <sstream>
+#include "LEEException.hh"
 #include "Constants/GeometryConstants.hh"
 
 /**
@@ -32,7 +34,8 @@ namespace ubsens{
     /// Default constructor
     TonnageScaling(){
       _my_Detector = geo::kNULLDetector;
-      _my_tonnage = 0.;    
+      _my_tonnage = 0.;   
+      _classname = "TonnageScaling";
     };
     
     /// Default destructor
@@ -51,7 +54,8 @@ namespace ubsens{
     double _my_tonnage;
     
     geo::Detector_t _my_Detector;
-    
+
+    std::string _classname;
   };
   
 }//end namespace ubsens
