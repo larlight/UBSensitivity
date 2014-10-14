@@ -5,7 +5,7 @@ njobs = int(500)
 
 for ijob in xrange(njobs):
 
-    task_name = "e_LEE_%03d" % ijob
+    task_name = "g_LEE_%03d" % ijob
     larlight_out_name = "g_LEE_LArLight_out_%03d.root" % ijob
     larsoft_out_name = "g_LEE_LArSoft_out_%03d.root" % ijob
     text_input_name = "g_LEE_txtinput_%03d.txt" % ijob
