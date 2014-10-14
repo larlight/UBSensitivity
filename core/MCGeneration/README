@@ -1,0 +1,4 @@
+This folder contains the scripts/files I used to generate the MC files
+for the low energy excess. This was done on the nevis cluster, with jobs
+submitted from Houston. I used condor to run the larsoft event generation
+and data scanner. Aftewards, I rsynced the files to FNAL (and my local machine).
