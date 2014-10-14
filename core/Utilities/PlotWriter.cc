@@ -8,7 +8,29 @@ namespace ubsens{
   namespace util{
     
     PlotWriter* PlotWriter::_me = 0;
-    
+
+    void PlotWriter::Write(TObject *object_to_write,std::string subdir){
+
+      if( _filename == "" ){
+	std::ostringstream msg;
+	msg << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	    << "ERROR: PlotWriter needs you to set filename."
+	    << std::endl;
+	throw UtilException(msg.str());
+      }
+
+      TFile *f = new TFile(_filename.c_str(),"UPDATE");
+
+      //If subdir doesn't exist, make it
+      if( !f->GetDirectory(subdir.c_str()) )
+	f->mkdir(subdir.c_str());
+
+      f->cd(subdir.c_str());
+      object_to_write->Write();
+      f->Close();
+      delete f;
+
+    }
 
   }//end namespace util
 

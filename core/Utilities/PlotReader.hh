@@ -1,9 +1,10 @@
 /**
- * \file TGraphReader.hh
+ * \file PlotReader.hh
  *
  * \ingroup LEE
  * 
- * \brief This opens up TFiles and reads in TGraphs, and returns them
+ * \brief This opens up TFiles and reads in TGraphs, TH1D, TH2Fs etc, 
+ * and returns them
  *
  * @author davidkaleko
  */
@@ -11,16 +12,19 @@
 /** \addtogroup LEE
 
     @{*/
-#ifndef TGRAPHREADER_HH
-#define TGRAPHREADER_HH
+#ifndef PLOTREADER_HH
+#define PLOTREADER_HH
 
 #include <iostream>
+#include <sstream>
+#include "UtilException.hh"
 #include "TGraph.h"
+#include "TH2.h"
 #include "TFile.h"
 
 /**
-   \class TGraphReader
-   User defined class TGraphReader ... these comments are used to generate
+   \class PlotReader
+   User defined class PlotReader ... these comments are used to generate
    doxygen documentation!
  */
 
@@ -28,42 +32,51 @@ namespace ubsens{
 
   namespace util{
     
-    class TGraphReader{
+    class PlotReader{
       
     public:
       
       void SetFileName(std::string filename) { _filename = filename; }
       
-      void SetGraphName(std::string graphname) { _graphname = graphname; }
-      
+      void SetPlotName(std::string plotname) { _plotname = plotname; }
+    
+      void Reset() {
+	_filename = "";
+	_plotname = "";
+	_classname = "PlotReader";
+      }
+
       TGraph* GetGraph();
       
+      TH2F* GetTH2F();
+
       //singleton getter?!?!?!
-      static TGraphReader* GetME(){
-	if(!_me) _me = new TGraphReader;
+      static PlotReader* GetME(){
+	if(!_me) _me = new PlotReader;
 	return _me;
       }
     
     private:
       //singleton!?!
-      static TGraphReader* _me;
+      static PlotReader* _me;
       
       //constructor is private for singletons right?
       /// Default constructor
-      TGraphReader(){
+      PlotReader(){
 	_filename = "";
-	_graphname = "";
+	_plotname = "";
       }
       
       /// Default destructor
-      virtual ~TGraphReader(){};
+      virtual ~PlotReader(){};
       
       
     protected:
       
       std::string _filename;
-      std::string _graphname;
-      
+      std::string _plotname;
+
+      std::string _classname;
     };
     
   }//end namespace util

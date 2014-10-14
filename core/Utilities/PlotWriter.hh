@@ -4,6 +4,7 @@
  * \ingroup Utilities
  * 
  * \brief Singleton that writes all tgraphs/histos to a single output file
+ * (actually it can write anything that inherits from TObject)
  *
  * @author davidkaleko
  */
@@ -15,7 +16,10 @@
 #define PLOTWRITER_HH
 
 #include <iostream>
+#include <sstream>
+#include "UtilException.hh"
 #include "TGraph.h"
+#include "TH2.h"
 #include "TFile.h"
 
 /**
@@ -33,6 +37,8 @@ namespace ubsens{
       
       void SetFileName(std::string filename) { _filename = filename; }
       
+      void Write(TObject *object_to_write,std::string subdirectory="");
+
       //singleton getter?!?!?!
       static PlotWriter* GetME(){
 	if(!_me) _me = new PlotWriter;
@@ -48,6 +54,7 @@ namespace ubsens{
 	_filename = "";
 	_plotname = "";
 	_plottitle = "";
+	_classname = "";
       };
       
       /// Default destructor
@@ -59,8 +66,8 @@ namespace ubsens{
       std::string _filename;
       std::string _plotname;
       std::string _plottitle;
-      
-      
+
+      std::string _classname;
     };
     
   } //end namespace util
