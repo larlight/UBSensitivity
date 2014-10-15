@@ -68,9 +68,13 @@ namespace ubsens{
 	  // Parse the line
 	  token[0] = strtok(buf, DELIMITER); // first token
 	  
-	  if (token[0]) // zero if line is blank
+	  //if the line starts with "#" it's a comment. skip it
+	  if (token[0]) //this prevents segfaults (crashes on blank lines)
+	    if(std::strncmp(&token[0][0],"#",1) == 0)
+	      continue;
+	  
+	  if (token[0]) 
 	    {
-
 	      //if the last character in the first word is a COLON,
 	      //then that signifies the start of a new block of configs
 	      //for each block, make a std::map of <string,string>,
@@ -104,8 +108,8 @@ namespace ubsens{
 		}
 	    }
 	  
+	  
 	  /*
-	    
 	  // debug: print the tokens	  
 	  std::cout<<"block_name is "<<block_name<<std::endl;
 	  std::cout<<"n = "<<n<<std::endl;
