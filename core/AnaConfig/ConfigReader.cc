@@ -124,8 +124,13 @@ namespace ubsens{
 	  std::cout << std::endl;
 	  }
 	  */
-	  
-	  if(token[0] && token[1])
+
+	  //lines with blank params (IE should use default)
+	  //insert empty string as value
+	  if( n == 1)
+	    tmpmap.insert (std::pair<std::string,std::string>(token[0],std::string("")));
+	  //normal lines (two columns)
+	  else if(token[0] && token[1])
 	    tmpmap.insert (std::pair<std::string,std::string>(token[0],token[1]));
 	}
       
