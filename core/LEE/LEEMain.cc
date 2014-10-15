@@ -29,15 +29,28 @@ namespace ubsens{
 
     std::cout<<"counter = "<<counter<<std::endl;
 
-    //test: run xsec scaling stuff from here
+    //POTScaling stuff here
+
+    //XSecScaling stuff here
     XSecScaling _xsecscaling;
     _xsecscaling.Configure(_cfgmgr.GetConfigMap());
     _xsecscaling.LoadInputGraphs();
     _xsecscaling.ComputeXSecRatio();
-
     TGraph *xsecratio = _xsecscaling.GetXSecRatio();
-    std::cout<<xsecratio->GetN()<<std::endl;
+    std::cout<<"debug: xsec ratio has :" << xsecratio->GetN()<<std::endl;
+
+    //FluxScaling stuff here
+    FluxScaling _fluxscaling;
+    _fluxscaling.Configure(_cfgmgr.GetConfigMap());
+    _fluxscaling.LoadInputGraphs();
+    _fluxscaling.ComputeFluxRatio();
+    TGraph *fluxratio = _fluxscaling.GetFluxRatio();
+    std::cout<<"debug: flux ratio has :" << fluxratio->GetN()<<std::endl;
+
+
     return true;
+
+
   }
 
   bool LEEMain::Finalize(){

@@ -21,7 +21,8 @@
 #include "AnaConfig/ConfigManager.hh"
 #include "DataHandle/DataManager.hh"
 #include "XSecScaling.hh"
-#include "TGraph.h"
+#include "FluxScaling.hh"
+
 /**
    \class LEEMain
    User defined class LEEMain ... these comments are used to generate
