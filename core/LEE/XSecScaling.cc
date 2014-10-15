@@ -18,6 +18,24 @@ namespace ubsens{
       std::cout<<e.what()<<std::endl;
     }
    
+    //If the config file has blank lines, use defaults
+    if(_my_xsec_input_filename.empty()){
+      std::cout<<class_name()<<" is using default value for _my_xsec_input_filename."<<std::endl;
+      _my_xsec_input_filename = "/Users/davidkaleko/Data/LEE/tot_cc_genie_nuance_graphs.root";
+    }
+    if(_my_xsec_TGraph_name.empty()){
+      std::cout<<class_name()<<" is using default value for _my_xsec_TGraph_name."<<std::endl;
+      _my_xsec_TGraph_name = "genie_total_cc_graph";
+    }
+    if(_MB_xsec_input_filename.empty()){
+      std::cout<<class_name()<<" is using default value for _MB_xsec_input_filename."<<std::endl;
+      _MB_xsec_input_filename = "/Users/davidkaleko/Data/LEE/tot_cc_genie_nuance_graphs.root";
+    }
+    if(_MB_xsec_TGraph_name.empty()){
+      std::cout<<class_name()<<" is using default value for _MB_xsec_TGraph_name."<<std::endl;
+      _MB_xsec_TGraph_name = "nuance_total_cc_graph";
+    }
+
     return true;
   };
   

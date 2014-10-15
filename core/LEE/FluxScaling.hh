@@ -18,7 +18,7 @@
 #include "LEEBase.hh"
 #include "Utilities/PlotReader.hh"
 #include "Utilities/PlotWriter.hh"
-#include "TGraph.h"
+#include "Utilities/FindInMapMap.hh"
 
 /**
    \class FluxScaling
@@ -42,6 +42,9 @@ namespace ubsens {
       _MB_flux_TGraph_name = "";
       _name = "FluxScaling";
     };
+
+ /// Inherited configure function from LEEBase
+    virtual bool Configure(const std::map<std::string,std::map<std::string,std::string>> &_configMap);
     
     /// Default destructor
     virtual ~FluxScaling(){};
