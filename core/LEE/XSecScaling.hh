@@ -17,13 +17,11 @@
 #define XSECSCALING_HH
 
 #include <iostream>
-#include <sstream>
-#include "LEEException.hh"
+#include "LEEBase.hh"
 #include "Utilities/PlotReader.hh"
 #include "Utilities/PlotWriter.hh"
+#include "Utilities/FindInMapMap.hh"
 #include "Constants/GeometryConstants.hh"
-#include "FMWKBase/Message.hh"
-#include "TGraph.h"
 
 /**
    \class XSecScaling
@@ -32,7 +30,7 @@
  */
 namespace ubsens{
   
-  class XSecScaling{
+  class XSecScaling : public LEEBase{
     
   public:
     
@@ -48,21 +46,22 @@ namespace ubsens{
       _MB_xsec_TGraph_name = "";
       _my_ntargetspergram = geo::UB_TARGETS_PER_GRAM;
       _MB_ntargetspergram = geo::MINIBOONE_TARGETS_PER_GRAM;
-      _classname = "XSecScaling";
+      _name = "XSecScaling";
     };
     
+    /// Inherited configure function from LEEBase
+    virtual bool Configure(const std::map<std::string,std::map<std::string,std::string>> &_configMap);
+
     /// Default destructor
     virtual ~XSecScaling(){};
-    
+        
+    /// Manual setters if you aren't getting this info from ConfigManager
     void SetMyInputFile(std::string filename_and_path)
     { _my_xsec_input_filename = filename_and_path; }
-    
     void SetMBInputFile(std::string filename_and_path)
     { _MB_xsec_input_filename = filename_and_path; }
-    
     void SetMyInputGraphName(std::string in_graph)
     { _my_xsec_TGraph_name = in_graph; }
-    
     void SetMBInputGraphName(std::string in_graph)
     { _MB_xsec_TGraph_name = in_graph; }
     
@@ -102,7 +101,6 @@ namespace ubsens{
     double _my_ntargetspergram;
     double _MB_ntargetspergram;
 
-    std::string _classname;
   };
   
 }//end namespace ubsens

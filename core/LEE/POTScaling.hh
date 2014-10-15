@@ -15,6 +15,7 @@
 #define POTSCALING_HH
 
 #include <iostream>
+#include "LEEBase.hh"
 #include "Constants/POTConstants.hh"
 /**
    \class POTScaling
@@ -24,7 +25,7 @@
 
 namespace ubsens{
   
-  class POTScaling{
+  class POTScaling : public LEEBase{
     
   public:
     
@@ -32,7 +33,7 @@ namespace ubsens{
     POTScaling(){
       _MINIBOONE_POT = pot::MINIBOONE_POT_DEFAULT;
       _my_POT = pot::UB_POT_DEFAULT;
-      _classname = "POTScaling";
+      _name = "POTScaling";
     };
     
     /// Default destructor
@@ -54,7 +55,6 @@ namespace ubsens{
     //the POT you want to look at in your detector
     double _my_POT;
 
-    std::string _classname;
   };
   
 }//end namespace ubsens

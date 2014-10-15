@@ -10,7 +10,6 @@ namespace ubsens {
   namespace config {
     class ConfigReader;
     class ConfigManager;
-    class AnaConfigException;
   }
 }
 

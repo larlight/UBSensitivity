@@ -18,11 +18,9 @@
 #define NULEPTECORRELATION_HH
 
 #include <iostream>
-#include <sstream>
-#include "LEEException.hh"
+#include "LEEBase.hh"
 #include "Utilities/PlotReader.hh"
 #include "Utilities/PlotWriter.hh"
-#include "FMWKBase/Message.hh"
 #include "TH2.h"
 /**
    \class NuLeptECorrelation
@@ -32,7 +30,7 @@
 
 namespace ubsens{
   
-  class NuLeptECorrelation{
+  class NuLeptECorrelation : public LEEBase {
     
   public:
     
@@ -43,7 +41,7 @@ namespace ubsens{
       _my_th2f_name = "";
       _my_th2f = 0;
       _my_tmp_slice = 0;
-      _classname = "NuLeptECorrelation";
+      _name = "NuLeptECorrelation";
     };
     
     /// Default destructor
@@ -72,7 +70,6 @@ namespace ubsens{
     TH2F *_my_th2f;
     TH1D *_my_tmp_slice;
     
-    std::string _classname;
   };
   
 }//end namespace ubsens

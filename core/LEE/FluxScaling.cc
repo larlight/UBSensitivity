@@ -31,10 +31,10 @@ namespace ubsens{
     
     if(!_my_flux || !_MB_flux){
 	std::ostringstream msg;
-	msg << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	msg << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
 	    << "ERROR: You need to get the flux graphs/files first!"
 	    << std::endl;
-	throw LEEException(msg.str());
+	throw fmwk::FMWKException(msg.str());
 
       return;
     }
@@ -61,21 +61,21 @@ namespace ubsens{
 
     if ( !_my_flux || !_MB_flux || !_flux_ratio ){
       std::ostringstream msg;
-      msg << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+      msg << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
 	  << "ERROR: Either xsec filenames aren't set, graph names aren't set,"
 	  << " or you haven't yet computed the ratio graph."
 	  << std::endl;
-      throw LEEException(msg.str());
+      throw fmwk::FMWKException(msg.str());
 
       return;
     }
 
     try{
-      util::PlotWriter::GetME()->Write(_my_flux,_classname.c_str());
-      util::PlotWriter::GetME()->Write(_MB_flux,_classname.c_str());
-      util::PlotWriter::GetME()->Write(_flux_ratio,_classname.c_str());
+      util::PlotWriter::GetME()->Write(_my_flux,class_name().c_str());
+      util::PlotWriter::GetME()->Write(_MB_flux,class_name().c_str());
+      util::PlotWriter::GetME()->Write(_flux_ratio,class_name().c_str());
     }
-    catch (LEEException &e) {
+    catch (fmwk::FMWKException &e) {
       fMsg.send(::ubsens::fmwk::msg::kERROR,e.what());
     }
   

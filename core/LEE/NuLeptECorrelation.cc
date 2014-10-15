@@ -29,11 +29,11 @@ namespace ubsens{
     //check that _my_th2f is loaded, etc
     if( !_my_th2f ){
       std::ostringstream msg;
-      msg << "<<" << _classname <<"::"<< __FUNCTION__ <<">> "
+      msg << "<<" << class_name() <<"::"<< __FUNCTION__ <<">> "
 	  << "ERROR: You need to load in the TH2F from the fullosc file "
 	  << "if you want to correlate lepton energy with nu energy!"
 	  << std::endl;
-      throw LEEException(msg.str());
+      throw fmwk::FMWKException(msg.str());
       return -1;
     }
 
@@ -60,13 +60,13 @@ namespace ubsens{
 	  << "ERROR: You need to load in the TH2F from the fullosc file "
 	  << "if you want to correlate lepton energy with nu energy!"
 	  << std::endl;
-      throw LEEException(msg.str());
+      throw fmwk::FMWKException(msg.str());
     }
     
     try{
-      util::PlotWriter::GetME()->Write(_my_th2f,_classname.c_str());
+      util::PlotWriter::GetME()->Write(_my_th2f,class_name().c_str());
     }
-    catch (LEEException &e) {
+    catch (fmwk::FMWKException &e) {
       std::cout<<"Caught an exception! It is "<<e.what()<<std::endl;
     }
   

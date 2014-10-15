@@ -15,10 +15,10 @@
 #define CONFIGMANAGER_HH
 
 #include <iostream>
-#include <sstream>
 #include <map>
 #include "ConfigReader.hh"
 #include "ConfigConstants.hh"
+#include "FMWKBase/FMWKBase.hh"
 #include "FMWKBase/Message.hh"
 
 /**
@@ -31,12 +31,13 @@ namespace ubsens{
 
   namespace config{
     
-    class ConfigManager{
+    class ConfigManager : public ::ubsens::fmwk::FMWKBase{
       
     public:
       /// Default constructor
       ConfigManager(){
-	_classname = "ConfigManager";
+	_name = "ConfigManager";
+	_config_loaded = false;
       };
       
       /// Default destructor
@@ -49,19 +50,30 @@ namespace ubsens{
       /// that ConfigManager has read in from input config file
       std::string GetParam(MODULE_TYPE_t module, std::string param_name);
 
+      /// Getter function for the configuration mapping.
+      /// Note: individule modules shouldn't know ConfigManager exists,
+      /// they should be handed their configurations by whoever owns
+      /// ConfigManager (IE the event loop+plotting script)
+      const std::map<std::string,std::map<std::string,std::string>> & GetConfigMap()
+      {	return _map; }
+
       void Reset();
       
+      void DebugDump() { _cr.Dump(); }
+
     protected:
       
       ::ubsens::config::ConfigReader _cr;
 
+      //Map of module name --> < parameter name --> parameter value >
       std::map<std::string,std::map<std::string,std::string> > _map;
 
     private:
+
+      bool _config_loaded;
       
       ::ubsens::fmwk::Message fMsg;
 
-      std::string _classname;
     };
 
   }// end namespace config

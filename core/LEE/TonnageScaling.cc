@@ -19,10 +19,10 @@ namespace ubsens {
 	_my_tonnage = geo::UB_TONNAGE_GRAMS;
       else{
 	std::ostringstream msg;
-	msg << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	msg << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
 	    << "ERROR: You set the detector to something I dunno the tonnage for. Better fix this yourself."
 	    << std::endl;
-	throw LEEException(msg.str());
+	throw fmwk::FMWKException(msg.str());
       }
       
     }

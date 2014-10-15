@@ -16,8 +16,8 @@
 #define PLOTWRITER_HH
 
 #include <iostream>
-#include <sstream>
-#include "UtilException.hh"
+#include "FMWKBase/FMWKBase.hh"
+#include "FMWKBase/FMWKException.hh"
 #include "TGraph.h"
 #include "TH2.h"
 #include "TFile.h"
@@ -31,7 +31,7 @@
 namespace ubsens{
   namespace util{
     
-    class PlotWriter{
+    class PlotWriter : public ::ubsens::fmwk::FMWKBase {
       
     public:
       
@@ -54,7 +54,7 @@ namespace ubsens{
 	_filename = "";
 	_plotname = "";
 	_plottitle = "";
-	_classname = "";
+	_name = "PlotWriter";
       };
       
       /// Default destructor
@@ -67,7 +67,6 @@ namespace ubsens{
       std::string _plotname;
       std::string _plottitle;
 
-      std::string _classname;
     };
     
   } //end namespace util

@@ -14,7 +14,6 @@
 
 #pragma link C++ class ubsens::config::ConfigReader+;
 #pragma link C++ class ubsens::config::ConfigManager+;
-#pragma link C++ class ubsens::config::AnaConfigException+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
 

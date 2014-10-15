@@ -15,11 +15,9 @@
 #define FLUXSCALING_HH
 
 #include <iostream>
-#include <sstream>
-#include "LEEException.hh"
+#include "LEEBase.hh"
 #include "Utilities/PlotReader.hh"
 #include "Utilities/PlotWriter.hh"
-#include "FMWKBase/Message.hh"
 #include "TGraph.h"
 
 /**
@@ -29,7 +27,7 @@
  */
 namespace ubsens {
 
-  class FluxScaling{
+  class FluxScaling : public LEEBase {
     
   public:
     
@@ -42,7 +40,7 @@ namespace ubsens {
       _my_flux_TGraph_name = "";
       _MB_flux_input_filename = "";
       _MB_flux_TGraph_name = "";
-      _classname = "FluxScaling";
+      _name = "FluxScaling";
     };
     
     /// Default destructor
@@ -86,7 +84,6 @@ namespace ubsens {
     std::string _MB_flux_input_filename;
     std::string _MB_flux_TGraph_name;
 
-    std::string _classname;
   };
   
 }// end namespace ubsens

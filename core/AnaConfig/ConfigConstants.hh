@@ -42,7 +42,6 @@ namespace ubsens{
     };
 
     //    static const std::string UNSET_STRING = "AHFAOAWEFHIOPEQHFQPIEFH";
-
     
   }// end namespace config
 }// end namespace ubsens

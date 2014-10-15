@@ -14,10 +14,10 @@ namespace ubsens{
       if (!blah)
 	{
 	  std::ostringstream msg;
-	  msg << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	  msg << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
 	      << "ERROR: Config file does not exist."
 	      << std::endl;
-	  throw AnaConfigException(msg.str());
+	  throw ::ubsens::fmwk::FMWKException(msg.str());
 	  return false;
 	}
       
@@ -88,10 +88,10 @@ namespace ubsens{
 		    //problem with config file... block header wasn't in module list
 		    //need to fix config file, or update ConfigConstants lists
 		    std::ostringstream msg;
-		    msg << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+		    msg << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
 			<< "ERROR: Module type "<< block_name <<" from config file does not exist."
 			<< std::endl;
-		    throw AnaConfigException(msg.str());
+		    throw ::ubsens::fmwk::FMWKException(msg.str());
 		  }
 		}
 		
@@ -127,12 +127,15 @@ namespace ubsens{
 	  
 	  if(token[0] && token[1])
 	    tmpmap.insert (std::pair<std::string,std::string>(token[0],token[1]));
-	} 
+	}
       
       //use block_name_withcolon to find the key in the map
       //insert the last block's tmpmap into _map
       _map.insert (std::pair<std::string,std::map<std::string,std::string > >(block_name,tmpmap));
       
+      //close input stream
+      fin.close();
+
       return true;      
 
     }

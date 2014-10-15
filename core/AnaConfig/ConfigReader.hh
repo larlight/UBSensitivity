@@ -15,12 +15,13 @@
 #define CONFIGREADER_HH
 
 #include <iostream>
-#include <sstream>
 #include <fstream>
 #include <map>
 #include <algorithm> //std::find
+#include "FMWKBase/FMWKBase.hh"
+#include "FMWKBase/FMWKException.hh"
 #include "ConfigConstants.hh"
-#include "AnaConfigException.hh"
+
 
 /**
    \class ConfigReader
@@ -31,15 +32,15 @@ namespace ubsens{
 
   namespace config{
 
-    class ConfigReader{
-
+    class ConfigReader : public ::ubsens::fmwk::FMWKBase{
+      
     public:
       
       /// Default constructor
       ConfigReader()
       {
 	_in_filename = "";
-	_classname = "ConfigReader";
+	_name = "ConfigReader";
       }
       
       /// Default destructor
@@ -71,8 +72,6 @@ namespace ubsens{
       /// Map of module name --> (variable name --> variable value)
       std::map<std::string,std::map<std::string,std::string> > _map;
 
-
-      std::string _classname;
     };
 
   }// end namespace config

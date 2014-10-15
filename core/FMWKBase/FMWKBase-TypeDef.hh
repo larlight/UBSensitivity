@@ -13,13 +13,17 @@
 namespace ubsens {
 
   namespace fmwk {
-    
+    class FMWKBase;    
+    class FMWKException;
     class Message;
   }
 
   namespace msg {}
 
 }
+
 //ADD_EMPTY_CLASS ... do not change this comment line
 
 #endif
+
+

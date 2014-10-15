@@ -8,14 +8,16 @@
 // Class forward declaration here
 namespace ubsens{
   namespace util{
-    class UtilException;
     class PlotReader;
     class PlotWriter;
+    class FindInMapMap;
   }
 }
+
 
 //ADD_EMPTY_CLASS ... do not change this comment line
 
 #endif
+
 
 

@@ -16,8 +16,8 @@
 #define PLOTREADER_HH
 
 #include <iostream>
-#include <sstream>
-#include "UtilException.hh"
+#include "FMWKBase/FMWKBase.hh"
+#include "FMWKBase/FMWKException.hh"
 #include "TGraph.h"
 #include "TH2.h"
 #include "TFile.h"
@@ -32,7 +32,7 @@ namespace ubsens{
 
   namespace util{
     
-    class PlotReader{
+    class PlotReader : public ::ubsens::fmwk::FMWKBase {
       
     public:
       
@@ -43,7 +43,7 @@ namespace ubsens{
       void Reset() {
 	_filename = "";
 	_plotname = "";
-	_classname = "PlotReader";
+	_name = "PlotReader";
       }
 
       TGraph* GetGraph();
@@ -76,7 +76,6 @@ namespace ubsens{
       std::string _filename;
       std::string _plotname;
 
-      std::string _classname;
     };
     
   }//end namespace util

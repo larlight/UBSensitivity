@@ -13,10 +13,10 @@ namespace ubsens{
 
       if( _filename == "" ){
 	std::ostringstream msg;
-	msg << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	msg << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
 	    << "ERROR: PlotWriter needs you to set filename."
 	    << std::endl;
-	throw UtilException(msg.str());
+	throw ::ubsens::fmwk::FMWKException(msg.str());
       }
 
       TFile *f = new TFile(_filename.c_str(),"UPDATE");

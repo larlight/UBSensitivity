@@ -10,11 +10,12 @@
 #pragma link off all functions;
 
 #pragma link C++ namespace ubsens::util+;
-#pragma link C++ class ubsens::util::UtilException+;
 #pragma link C++ class ubsens::util::PlotReader+;
 #pragma link C++ class ubsens::util::PlotWriter+;
+#pragma link C++ class ubsens::util::FindInMapMap+;
 
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
 
 

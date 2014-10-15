@@ -7,17 +7,20 @@
 
 // Class forward declaration here
 namespace ubsens {
-  class LEEException;
+  class LEEBase;
   class POTScaling;
   class TonnageScaling;
   class XSecScaling;
   class FluxScaling;
   class NuLeptECorrelation;
+  class LEEMain;
 }
+
 
 //ADD_EMPTY_CLASS ... do not change this comment line
 
 #endif
+
 
 
 

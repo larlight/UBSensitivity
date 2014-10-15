@@ -14,10 +14,10 @@ namespace ubsens{
       
       if(_filename.empty() || _plotname.empty()){
 	std::ostringstream msg;
-	msg << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	msg << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
 	    << "ERROR: PlotReader needs you to set filename and plot name."
 	    << std::endl;
-	throw UtilException(msg.str());
+	throw ::ubsens::fmwk::FMWKException(msg.str());
 
 	return result;
       }
@@ -28,21 +28,21 @@ namespace ubsens{
       if(!f){
 	std::ostringstream msg;
 	msg
-	  << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	  << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
 	  << "ERROR: File "<< _filename << " does not exist!"
 	  << std::endl;
-	throw UtilException(msg.str());
+	throw ::ubsens::fmwk::FMWKException(msg.str());
 	
 	return result;
       }
       if(!f->GetListOfKeys()->Contains(_plotname.c_str())){
 	std::ostringstream msg;
 	msg
-	  << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	  << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
 	  << "ERROR: File "<< _filename <<" does not contain object "
 	  << _plotname << "."
 	  << std::endl;
-	throw UtilException(msg.str());
+	throw ::ubsens::fmwk::FMWKException(msg.str());
 
 	return result;
       }
@@ -52,13 +52,13 @@ namespace ubsens{
 	{
 	  std::ostringstream msg;
 	  msg
-	    << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	    << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
 	    << "ERROR: File "<< _filename <<" contains object "
 	    << _plotname << ", but that object is not a TGraph! "
 	    << "It is a "
 	    << f->GetListOfKeys()->FindObject(_plotname.c_str())->ClassName()
 	    << std::endl;
-	  throw UtilException(msg.str());
+	  throw ::ubsens::fmwk::FMWKException(msg.str());
 	  
 	  return result;
 	}
@@ -75,10 +75,10 @@ namespace ubsens{
 
       if(_filename.empty() || _plotname.empty()){
 	std::ostringstream msg;
-	msg << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	msg << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
 	    << "ERROR: PlotReader needs you to set filename and plot name."
 	    << std::endl;
-	throw UtilException(msg.str());
+	throw ::ubsens::fmwk::FMWKException(msg.str());
 
 	return result;
       }
@@ -89,21 +89,21 @@ namespace ubsens{
       if(!f){
 	std::ostringstream msg;
 	msg
-	  << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	  << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
 	  << "ERROR: File "<< _filename << " does not exist!"
 	  << std::endl;
-	throw UtilException(msg.str());
+	throw ::ubsens::fmwk::FMWKException(msg.str());
 	
 	return result;
       }
       if(!f->GetListOfKeys()->Contains(_plotname.c_str())){
 	std::ostringstream msg;
 	msg
-	  << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	  << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
 	  << "ERROR: File "<< _filename <<" does not contain object "
 	  << _plotname << "."
 	  << std::endl;
-	throw UtilException(msg.str());
+	throw ::ubsens::fmwk::FMWKException(msg.str());
 
 	return result;
       }
@@ -113,13 +113,13 @@ namespace ubsens{
 	{
 	  std::ostringstream msg;
 	  msg
-	    << "<<" << _classname << "::" << __FUNCTION__ << ">> "
+	    << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
 	    << "ERROR: File "<< _filename <<" contains object "
 	    << _plotname << ", but that object is not a TH2F! "
 	    << "It is a "
 	    << f->GetListOfKeys()->FindObject(_plotname.c_str())->ClassName()
 	    << std::endl;
-	  throw UtilException(msg.str());
+	  throw ::ubsens::fmwk::FMWKException(msg.str());
 	  
 	  return result;
 	}
