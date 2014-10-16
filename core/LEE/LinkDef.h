@@ -16,9 +16,11 @@
 #pragma link C++ class ubsens::FluxScaling+;
 #pragma link C++ class ubsens::NuLeptECorrelation+;
 #pragma link C++ class ubsens::LEEMain+;
+#pragma link C++ class ubsens::FinalPlotter+;
 
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
 
 
 

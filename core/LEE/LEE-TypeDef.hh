@@ -14,12 +14,15 @@ namespace ubsens {
   class FluxScaling;
   class NuLeptECorrelation;
   class LEEMain;
+  class FinalPlotter;
 }
+
 
 
 //ADD_EMPTY_CLASS ... do not change this comment line
 
 #endif
+
 
 
 
