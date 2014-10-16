@@ -36,7 +36,7 @@ namespace ubsens{
       // Max # of characters allowed in one line
       const int MAX_CHARS_PER_LINE = 512;
       // Max # of columns in each line (separated by DELIMITER)
-      const int MAX_TOKENS_PER_LINE = 2;
+      const int MAX_TOKENS_PER_LINE = 50;
       // What separates each column
       const char* const DELIMITER = " ";
 
@@ -49,9 +49,10 @@ namespace ubsens{
 	return false;
       }
       
-      std::string block_name_withcolon = "";
       std::string block_name = "";
+
       std::map<std::string,std::string> tmpmap;
+
       //Read each line of the file
       while (!fin.eof())
 	{
@@ -67,46 +68,46 @@ namespace ubsens{
 	  
 	  // Parse the line
 	  token[0] = strtok(buf, DELIMITER); // first token
+	
+	  // If the line is blank, skip it
+	  if(!token[0]) continue;
+  
+	  //If the line starts with "#" it's a comment. skip it
+	  if(std::strncmp(&token[0][0],"#",1) == 0)
+	    continue;
 	  
-	  //if the line starts with "#" it's a comment. skip it
-	  if (token[0]) //this prevents segfaults (crashes on blank lines)
-	    if(std::strncmp(&token[0][0],"#",1) == 0)
-	      continue;
-	  
-	  if (token[0]) 
-	    {
-	      //if the last character in the first word is a COLON,
-	      //then that signifies the start of a new block of configs
-	      //for each block, make a std::map of <string,string>,
-	      //then insert it into the main map
-	      if ( std::strncmp(&token[0][strlen(token[0])-1],":",1) == 0 ) {
-		
-		if(tmpmap.size() && !block_name.empty()){
-		  if(IsInModuleList(block_name))
-		    _map.insert (std::pair<std::string,std::map<std::string,std::string > >(block_name,tmpmap));
-		  else{
-		    //problem with config file... block header wasn't in module list
-		    //need to fix config file, or update ConfigConstants lists
-		    std::ostringstream msg;
-		    msg << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
-			<< "ERROR: Module type "<< block_name <<" from config file does not exist."
-			<< std::endl;
-		    throw ::ubsens::fmwk::FMWKException(msg.str());
-		  }
-		}
-		
-		tmpmap.clear();
-		block_name_withcolon = std::string(token[0]);
-		block_name = block_name_withcolon.substr(0,block_name_withcolon.size()-1);
-		continue;
+	  //If the last character in the first word is a COLON,
+	  //then that signifies the start of a new block of configs
+	  //for each block, make a std::map of <string,string>,
+	  //then insert it into the main map when you get to the next COLON'd word
+	  if ( std::strncmp(&token[0][strlen(token[0])-1],":",1) == 0 ) {
+	    
+	    if(tmpmap.size() && !block_name.empty()){
+	      if(IsInModuleList(block_name))
+		_map.insert (std::pair<std::string,std::map<std::string,std::string > >(block_name,tmpmap));
+	      else{
+		//Exception: block header wasn't in module list
+		//User neeeds to fix config file, or update ConfigConstants lists
+		std::ostringstream msg;
+		msg << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
+		    << "ERROR: Module type "<< block_name <<" from config file does not exist."
+		    << std::endl;
+		throw ::ubsens::fmwk::FMWKException(msg.str());
 	      }
-	      
-	      for (n = 1; n < MAX_TOKENS_PER_LINE; n++)
-		{
-		  token[n] = strtok(0, DELIMITER); // subsequent tokens
-		  if (!token[n]) break; // no more tokens
-		}
 	    }
+	    
+	    tmpmap.clear();
+	    block_name = std::string(token[0]).substr(0,std::string(token[0]).size()-1);
+	    continue;
+	  }
+	  
+	  //Continue reading next words in the line
+	  for (n = 1; n < MAX_TOKENS_PER_LINE; n++)
+	    {
+	      token[n] = strtok(0, DELIMITER); // subsequent tokens
+	      if (!token[n]) break; // no more tokens
+	    }
+	  
 	  
 	  
 	  /*
@@ -124,17 +125,25 @@ namespace ubsens{
 	  std::cout << std::endl;
 	  }
 	  */
-
-	  //lines with blank params (IE should use default)
-	  //insert empty string as value
+	  
+	  //Lines with blank params (IE should use default)
+	  //Insert empty string as value
 	  if( n == 1)
 	    tmpmap.insert (std::pair<std::string,std::string>(token[0],std::string("")));
-	  //normal lines (two columns)
-	  else if(token[0] && token[1])
-	    tmpmap.insert (std::pair<std::string,std::string>(token[0],token[1]));
-	}
+	  //Lines with 2+ words: first word is taken as parameter name,
+	  //all subsequent words added together with spaces to make a single string
+	  //(this works fine with most 2-word columns, but also allows spaces in parameter
+	  //values for things like histogram titles)
+	  else{
+	    std::string paramvalue = "";
+	    for(int i = 1; i < n; i++)
+	      paramvalue += std::string(token[i]) + " ";
+	    tmpmap.insert (std::pair<std::string,std::string>(token[0],paramvalue));
+	  }
+
+	}//Done reading in lines from file
       
-      //use block_name_withcolon to find the key in the map
+      //use block_name to find the key in the map
       //insert the last block's tmpmap into _map
       _map.insert (std::pair<std::string,std::map<std::string,std::string > >(block_name,tmpmap));
       
