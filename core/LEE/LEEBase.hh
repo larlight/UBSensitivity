@@ -42,6 +42,9 @@ namespace ubsens{
     /// Function to configure
     virtual bool Configure(const std::map<std::string,std::map<std::string,std::string>> &_configMap){ return false; }
     
+    /// Function to write relevant plots (histos, tgraphs) to shared out file
+    virtual void WritePlots(){};
+
   };
 
 }// end namespace ubsens

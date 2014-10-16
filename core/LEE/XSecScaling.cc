@@ -77,6 +77,7 @@ namespace ubsens{
     }
     
     _xsec_ratio = new TGraph();
+    _xsec_ratio->SetName("xsec_ratio");
     
     //ratio graph should have same # of points as input graph with most points
     //for now hard-coding as using the points from the miniboone graph

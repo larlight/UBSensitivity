@@ -5,10 +5,31 @@
 
 namespace ubsens{
 
-  bool NuLeptECorrelation::LoadInputTH2F(){
+  bool NuLeptECorrelation::Configure(const std::map<std::string,std::map<std::string,std::string>> &_configMap){
 
-    _my_fosc_filename = "/Users/davidkaleko/Data/LEE/combined_ntuple_470m_nu_fosc_CC_nu_lept_energycorrelation.root";
-    _my_th2f_name = "fosc_isCC_enugen_vs_Elep";
+    try{
+      _my_fosc_filename = util::FindInMapMap().GetParamValue(class_name(),std::string("FullOscFileName"),_configMap);
+      _my_th2f_name = util::FindInMapMap().GetParamValue(class_name(),std::string("TH2FName"),_configMap);
+    }
+    catch (fmwk::FMWKException &e) {
+      std::cout<<e.what()<<std::endl;
+    }
+
+    //If the config file has blank lines, use defaults
+    if(_my_fosc_filename.empty()){
+      std::cout<<class_name()<<" is using default value for _my_fosc_filename."<<std::endl;
+      _my_fosc_filename = "/Users/davidkaleko/Data/LEE/combined_ntuple_470m_nu_fosc_CC_nu_lept_energycorrelation.root";
+    }
+    if(_my_th2f_name.empty()){
+       std::cout<<class_name()<<" is using default value for _my_th2f_name."<<std::endl;
+       _my_th2f_name = "fosc_isCC_enugen_vs_Elep";
+    }
+
+    return true;
+  }
+  
+
+  bool NuLeptECorrelation::LoadInputTH2F(){
 
     util::PlotReader::GetME()->Reset();
 

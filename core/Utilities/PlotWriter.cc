@@ -9,7 +9,7 @@ namespace ubsens{
     
     PlotWriter* PlotWriter::_me = 0;
 
-    void PlotWriter::Write(TObject *object_to_write,std::string subdir){
+    void PlotWriter::Write(TObject *object_to_write,std::string subdir,std::string opt){
 
       if( _filename == "" ){
 	std::ostringstream msg;
@@ -26,7 +26,7 @@ namespace ubsens{
 	f->mkdir(subdir.c_str());
 
       f->cd(subdir.c_str());
-      object_to_write->Write();
+      object_to_write->Write(opt.c_str());
       f->Close();
       delete f;
 

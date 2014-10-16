@@ -12,8 +12,13 @@ namespace ubsens{
     _datamgr.Open();
     
     _cfgmgr.LoadConfig("/Users/davidkaleko/UBSensitivity/core/AnaConfig/mac/sample_config.config");
-    _cfgmgr.DebugDump();
 
+    //Configure the class that saves all the histos/graphs/configlog etc
+    ConfigurePlotWriter();
+
+    _cfgmgr.SaveConfig();
+    _cfgmgr.DebugDump();
+    
     return true;
   }
 
@@ -29,7 +34,16 @@ namespace ubsens{
 
     std::cout<<"counter = "<<counter<<std::endl;
 
+    //NuLeptECorrelation stuff here
+    NuLeptECorrelation _nulec;
+    _nulec.Configure(_cfgmgr.GetConfigMap());
+    _nulec.LoadInputTH2F();
+    _nulec.WritePlots();
+    std::cout<<"debug: nuleptE 1.234 turns into "<<_nulec.NuEFromLeptE(1.234)<<std::endl;
+
     //POTScaling stuff here
+    //MyPOT
+    //MBPOT
 
     //XSecScaling stuff here
     XSecScaling _xsecscaling;
@@ -37,6 +51,7 @@ namespace ubsens{
     _xsecscaling.LoadInputGraphs();
     _xsecscaling.ComputeXSecRatio();
     TGraph *xsecratio = _xsecscaling.GetXSecRatio();
+    _xsecscaling.WritePlots();
     std::cout<<"debug: xsec ratio has :" << xsecratio->GetN()<<std::endl;
 
     //FluxScaling stuff here
@@ -45,6 +60,7 @@ namespace ubsens{
     _fluxscaling.LoadInputGraphs();
     _fluxscaling.ComputeFluxRatio();
     TGraph *fluxratio = _fluxscaling.GetFluxRatio();
+    _fluxscaling.WritePlots();
     std::cout<<"debug: flux ratio has :" << fluxratio->GetN()<<std::endl;
 
 
@@ -59,5 +75,21 @@ namespace ubsens{
 
     return true;
   }
+
+
+  void LEEMain::ConfigurePlotWriter(){
+
+    std::string pw_filename = "";
+
+    pw_filename = util::FindInMapMap().GetParamValue(std::string("PlotWriter"),
+						     std::string("OutFileName"),
+						     _cfgmgr.GetConfigMap());
+    if( pw_filename.empty() ) //use default
+      util::PlotWriter::GetME()->SetFileName("/Users/davidkaleko/UBSensitivity/core/LEE/mac/plotwriter_out.root");
+    else
+      util::PlotWriter::GetME()->SetFileName(pw_filename);
+    
+  }
+
 }//end namespace ubsens
 #endif

@@ -52,6 +52,9 @@ namespace ubsens{
     /// Inherited configure function from LEEBase
     virtual bool Configure(const std::map<std::string,std::map<std::string,std::string>> &_configMap);
 
+    /// Inherited writeplots function from LEEBase
+    void WritePlots();
+
     /// Default destructor
     virtual ~XSecScaling(){};
         
@@ -77,8 +80,6 @@ namespace ubsens{
     void ComputeXSecRatio();
     
     TGraph* GetXSecRatio(){ return _xsec_ratio; }
-    
-    void WritePlots();
     
   private:
 

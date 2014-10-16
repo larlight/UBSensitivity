@@ -43,8 +43,11 @@ namespace ubsens {
       _name = "FluxScaling";
     };
 
- /// Inherited configure function from LEEBase
+    /// Inherited configure function from LEEBase
     virtual bool Configure(const std::map<std::string,std::map<std::string,std::string>> &_configMap);
+
+    /// Inherited writeplots function from LEEBase
+    void WritePlots();
     
     /// Default destructor
     virtual ~FluxScaling(){};
@@ -67,7 +70,6 @@ namespace ubsens {
     
     TGraph* GetFluxRatio(){ return _flux_ratio; }
     
-    void WritePlots();
     
   private:
 

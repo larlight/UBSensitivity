@@ -35,6 +35,9 @@ namespace ubsens{
       _my_POT = pot::UB_POT_DEFAULT;
       _name = "POTScaling";
     };
+
+    /// Inherited configure function from LEEBase
+    virtual bool Configure(const std::map<std::string,std::map<std::string,std::string>> &_configMap);
     
     /// Default destructor
     virtual ~POTScaling(){};

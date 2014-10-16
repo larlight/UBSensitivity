@@ -20,8 +20,13 @@
 #include "LEEBase.hh"
 #include "AnaConfig/ConfigManager.hh"
 #include "DataHandle/DataManager.hh"
+#include "POTScaling.hh"
+#include "TonnageScaling.hh"
 #include "XSecScaling.hh"
 #include "FluxScaling.hh"
+#include "NuLeptECorrelation.hh"
+
+#include "Utilities/FindInMapMap.hh"
 
 /**
    \class LEEMain
@@ -48,6 +53,8 @@ namespace ubsens{
 
     /// Finalize stuff
     bool Finalize();
+
+    void ConfigurePlotWriter();
 
   private:
 

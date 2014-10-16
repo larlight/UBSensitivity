@@ -21,6 +21,8 @@
 #include "LEEBase.hh"
 #include "Utilities/PlotReader.hh"
 #include "Utilities/PlotWriter.hh"
+#include "Utilities/FindInMapMap.hh"
+
 #include "TH2.h"
 /**
    \class NuLeptECorrelation
@@ -43,6 +45,12 @@ namespace ubsens{
       _my_tmp_slice = 0;
       _name = "NuLeptECorrelation";
     };
+
+    /// Inherited configure function from LEEBase
+    virtual bool Configure(const std::map<std::string,std::map<std::string,std::string>> &_configMap);
+    
+    /// Inherited writeplots function from LEEBase
+    void WritePlots();
     
     /// Default destructor
     virtual ~NuLeptECorrelation(){};
@@ -57,11 +65,6 @@ namespace ubsens{
     /// from an input lepton energy. It takes a slice of the TH2F corresponding
     /// to that lepton energy, then draws a random number from that distribution.
     double NuEFromLeptE(double lept_e);
-
-    /// Function to save the TH2F that was used to the output plots file
-    /// (uses PlotWriter utility). Useful for debugging or cross-checks
-    /// or making powerpoint slides.
-    void WritePlots();
 
   protected:
     

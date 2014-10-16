@@ -77,6 +77,7 @@ namespace ubsens{
     }
 
     _flux_ratio = new TGraph();
+    _flux_ratio->SetName("flux_ratio");
     _flux_ratio->Set(0);
     
     //ratio graph should have same # of points as input graph with most points

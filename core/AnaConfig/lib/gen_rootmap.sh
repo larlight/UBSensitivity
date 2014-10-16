@@ -16,4 +16,5 @@ rootlibmap() {
 
 ######################################################
 # AnaConfig
-rootlibmap libAnaConfig.rootmap libAnaConfig.so $LITE_FMWK_COREDIR/AnaConfig/LinkDef.h
+rootlibmap libAnaConfig.rootmap libAnaConfig.so $LITE_FMWK_COREDIR/AnaConfig/LinkDef.h \
+    libUtilities.so

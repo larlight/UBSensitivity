@@ -20,6 +20,8 @@
 #include "ConfigConstants.hh"
 #include "FMWKBase/FMWKBase.hh"
 #include "FMWKBase/Message.hh"
+#include "Utilities/PlotWriter.hh"
+#include "time.h"
 
 /**
    \class ConfigManager
@@ -45,6 +47,13 @@ namespace ubsens{
 
       /// Function to read in the config file
       bool LoadConfig(std::string filename);
+
+      /// Function that copies contents of the configuration file 
+      /// into the output file (along with all the plots, graphs, etc)
+      /// The purpose is to have one self-describing output file that
+      /// contains all relevant information. Don't need to save and
+      /// keep track of all the input configuration files.
+      void SaveConfig();
 
       /// Main function: module asks ConfigManager for a parameter
       /// that ConfigManager has read in from input config file
