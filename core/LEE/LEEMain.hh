@@ -43,10 +43,14 @@ namespace ubsens{
     /// Default constructor
     LEEMain(){ 
       _name="LEEMain"; 
+      _cfg_file="";
+      _data_file="";
       _LEE_hist_name="";
       _LEE_hist_title="";
       _LEE_hist_bins_string="";
       _LEE_hist=0;
+      _ElectronOrGamma="";
+      _isElectronSample=true;
     };
     
     /// Default destructor
@@ -61,11 +65,17 @@ namespace ubsens{
     /// Finalize stuff
     bool Finalize();
 
+    void SetConfigFile(std::string cfgfile){ 
+      _cfg_file = cfgfile; 
+      std::cout<<"Using configuration file: "<<_cfg_file<<std::endl;
+    };
+
     /// Inherited configure fucntion from LEEBase
     virtual bool Configure(const std::map<std::string,std::map<std::string,std::string>> &_configMap);
 
     void ConfigurePlotWriter();
 
+    void InitializeHistos();
 
   private:
 
@@ -73,10 +83,15 @@ namespace ubsens{
 
     ::ubsens::data::DataManager _datamgr;
 
+    std::string _cfg_file;
+    std::string _data_file;
     std::string _LEE_hist_name;
     std::string _LEE_hist_title;
     std::string _LEE_hist_bins_string;
+    std::string _ElectronOrGamma;
 
+    bool _isElectronSample;
+    
     TH1F* _LEE_hist;
   };
 

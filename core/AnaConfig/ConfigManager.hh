@@ -40,6 +40,7 @@ namespace ubsens{
       ConfigManager(){
 	_name = "ConfigManager";
 	_config_loaded = false;
+	_saved_configfilename = "";
       };
       
       /// Default destructor
@@ -81,6 +82,8 @@ namespace ubsens{
 
       bool _config_loaded;
       
+      std::string _saved_configfilename;
+
       ::ubsens::fmwk::Message fMsg;
 
     };

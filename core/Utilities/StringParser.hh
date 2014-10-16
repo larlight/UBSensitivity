@@ -3,7 +3,9 @@
  *
  * \ingroup Utilities
  * 
- * \brief Class def header for a class StringParser
+ * \brief Class that takes in strings and has different functions
+ * to parse/return different things out of those strings.
+ * I.E. take in "[3,4,5]" and return std::vector<double>{3,4,5}
  *
  * @author davidkaleko
  */
@@ -15,31 +17,35 @@
 #define STRINGPARSER_HH
 
 #include <iostream>
+#include <sstream>
+#include <vector>
+#include "FMWKBase/FMWKBase.hh"
+#include "FMWKBase/FMWKException.hh"
 
 /**
    \class StringParser
    User defined class StringParser ... these comments are used to generate
    doxygen documentation!
- */
+*/
 namespace ubsens{
   namespace util{
-
-    class StringParser{
+    
+    class StringParser : public ::ubsens::fmwk::FMWKBase {
       
     public:
       
       /// Default constructor
-      StringParser(){};
+      StringParser(){ _name = "StringParser"; };
       
       /// Default destructor
       virtual ~StringParser(){};
       
-      const double* ParseBinsString(std::string binstring);
-
+      const std::vector<double>* ParseBinsString(std::string binstring);
+      
     };
   }// end namespace util
 }// end namespace ubsens
-    
+
 #endif
 /** @} */ // end of doxygen group 
 

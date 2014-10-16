@@ -21,6 +21,9 @@ namespace ubsens{
 	fMsg.send(::ubsens::fmwk::msg::kERROR,e.what());
       }
   
+      //Save the config file name for the config log dump
+      _saved_configfilename = filename;
+
       _map = _cr.GetMap();
       
       return true;
@@ -44,6 +47,7 @@ namespace ubsens{
       else{
 
 	tmpstring += "Configuration for this run shown below.\n";
+	tmpstring += "Configuration file name: " + _saved_configfilename + "\n";
 	tmpstring += "Creation date and time: ";
 	
 	time_t t = time(0);
