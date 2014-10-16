@@ -11,6 +11,7 @@ namespace ubsens{
     class PlotReader;
     class PlotWriter;
     class FindInMapMap;
+    class StringParser;
   }
 }
 
@@ -18,6 +19,7 @@ namespace ubsens{
 //ADD_EMPTY_CLASS ... do not change this comment line
 
 #endif
+
 
 
 

@@ -27,6 +27,7 @@
 #include "NuLeptECorrelation.hh"
 
 #include "Utilities/FindInMapMap.hh"
+#include "Utilities/StringParser.hh"
 
 /**
    \class LEEMain
@@ -40,7 +41,13 @@ namespace ubsens{
   public:
     
     /// Default constructor
-    LEEMain(){ _name="LEEMain"; };
+    LEEMain(){ 
+      _name="LEEMain"; 
+      _LEE_hist_name="";
+      _LEE_hist_title="";
+      _LEE_hist_bins_string="";
+      _LEE_hist=0;
+    };
     
     /// Default destructor
     virtual ~LEEMain(){};
@@ -54,7 +61,11 @@ namespace ubsens{
     /// Finalize stuff
     bool Finalize();
 
+    /// Inherited configure fucntion from LEEBase
+    virtual bool Configure(const std::map<std::string,std::map<std::string,std::string>> &_configMap);
+
     void ConfigurePlotWriter();
+
 
   private:
 
@@ -62,6 +73,11 @@ namespace ubsens{
 
     ::ubsens::data::DataManager _datamgr;
 
+    std::string _LEE_hist_name;
+    std::string _LEE_hist_title;
+    std::string _LEE_hist_bins_string;
+
+    TH1F* _LEE_hist;
   };
 
 }

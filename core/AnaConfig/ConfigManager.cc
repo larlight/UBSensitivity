@@ -44,7 +44,7 @@ namespace ubsens{
       else{
 
 	tmpstring += "Configuration for this run shown below.\n";
-	tmpstring += "Date and time: ";
+	tmpstring += "Creation date and time: ";
 	
 	time_t t = time(0);
 	struct tm *now = localtime(&t);

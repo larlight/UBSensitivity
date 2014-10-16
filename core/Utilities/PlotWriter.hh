@@ -48,9 +48,15 @@ namespace ubsens{
 	if(!_me) _me = new PlotWriter;
 	return _me;
       }
+
+      /// Reset: deletes output file if it already exists
+      /// (since it uses "UPDATE" in writing otherwise)
+      void Reset();
+
       
     private:
-      //singleton!?!
+
+      //singleton :(
       static PlotWriter* _me;
       
       /// Default constructor

@@ -9,6 +9,23 @@ namespace ubsens{
     
     PlotWriter* PlotWriter::_me = 0;
 
+    void PlotWriter::Reset(){
+
+      if( _filename == "" ){
+	std::ostringstream msg;
+	msg << "<<" << class_name() << "::" << __FUNCTION__ << ">> "
+	    << "ERROR: PlotWriter needs you to set filename."
+	    << std::endl;
+	throw ::ubsens::fmwk::FMWKException(msg.str());
+      }
+
+      //open up the output file with "RECREATE" option, then close
+      //this should clear the contents
+      TFile *f = new TFile(_filename.c_str(),"RECREATE");
+      f->Close();
+      
+    }
+
     void PlotWriter::Write(TObject *object_to_write,std::string subdir,std::string opt){
 
       if( _filename == "" ){
@@ -32,6 +49,7 @@ namespace ubsens{
 
     }
 
+    
   }//end namespace util
 
 }//end namespace ubsens
