@@ -134,10 +134,13 @@ namespace ubsens{
 	  //all subsequent words added together with spaces to make a single string
 	  //(this works fine with most 2-word columns, but also allows spaces in parameter
 	  //values for things like histogram titles)
+	  else if( n == 2 )
+	    tmpmap.insert (std::pair<std::string,std::string>(token[0],token[1]));
 	  else{
 	    std::string paramvalue = "";
 	    for(int i = 1; i < n; i++)
-	      paramvalue += std::string(token[i]) + " ";
+	      if (i==n-1) paramvalue += std::string(token[i]);
+	      else      paramvalue += std::string(token[i]) + " ";
 	    tmpmap.insert (std::pair<std::string,std::string>(token[0],paramvalue));
 	  }
 
@@ -173,11 +176,11 @@ namespace ubsens{
 	  for(std::map<std::string,std::string>::const_iterator iter2((*iter).second.begin());
 	      iter2!=(*iter).second.end();
 	      ++iter2){
-	    std::cout<< (*iter).first.c_str()
+	    std::cout<< "\"" << (*iter).first.c_str() << "\""
 		     << " ... "
-		     << (*iter2).first.c_str()
+		     << "\"" << (*iter2).first.c_str() << "\""
 		     << " ... "
-		     << (*iter2).second.c_str()
+		     << "\"" << (*iter2).second.c_str() << "\""
 		     << std::endl;
 	  }
 
