@@ -108,27 +108,25 @@ namespace ubsens{
     _xsecscaling.Configure(_cfgmgr.GetConfigMap());
     _xsecscaling.LoadInputGraphs();
     _xsecscaling.ComputeXSecRatio();
-    TGraph *xsecratio = _xsecscaling.GetXSecRatio();
     _xsecscaling.WritePlots();
-    std::cout<<"debug: xsec ratio has :" << xsecratio->GetN()<<std::endl;
 
     //FluxScaling stuff here
     FluxScaling _fluxscaling;
     _fluxscaling.Configure(_cfgmgr.GetConfigMap());
     _fluxscaling.LoadInputGraphs();
     _fluxscaling.ComputeFluxRatio();
-    TGraph *fluxratio = _fluxscaling.GetFluxRatio();
     _fluxscaling.WritePlots();
-    std::cout<<"debug: flux ratio has :" << fluxratio->GetN()<<std::endl;
+
+    //POT scaling stuff here
+    POTScaling _potscaling;
 
     //Tonnage scaling stuff here (implement this)
     TonnageScaling _tonnagescaling;
+    _tonnagescaling.SetMyDetector(geo::Detector_t::kMicroBooNE);
     //    _tonnagescaling.Configure(_cfgmgr.GetConfigMap());
 
     EfficiencyScaling _effscaling;
     _effscaling.MakeGraph();
-    _effscaling.WritePlots();
-    TGraph *eff = _effscaling.GetEfficiencyGraph();
     _effscaling.WritePlots();
 
     ////////////////
@@ -151,30 +149,25 @@ namespace ubsens{
       }
       
       double true_lept_E_MEV = myTruthShowers.at(0).MotherMomentum().at(3);
-      double true_lept_E_GEV = true_lept_E_MEV/1000.;
- 
+      double true_lept_E_GEV = true_lept_E_MEV/1000.; 
       double correlated_nu_energy_GEV = _nulec.NuEFromLeptE(true_lept_E_GEV);
 
       // Weight event by all scaling factors
       double weight = 1.;
-      // POT weight (implement this)
-      weight *= 1.022;
-      // Tonnage weight (implement this):
-      weight *= 0.128;
+      // POT weight (implement this w/ Configure() function, using default now)
+      weight *= _potscaling.GetPOTScaling();
+      // Tonnage weight (implement this w/ Configure() function, default now):
+      weight *= _tonnagescaling.GetTonnageScaling();
       // X-Sec weight:
-      weight *= xsecratio->Eval(correlated_nu_energy_GEV);
+      weight *= _xsecscaling.GetXSecRatio()->Eval(correlated_nu_energy_GEV);
       // Flux weight:
-      weight *= fluxratio->Eval(correlated_nu_energy_GEV);
-      // Efficiency weight (implement this)
-      weight *= eff->Eval(true_lept_E_GEV);
+      weight *= _fluxscaling.GetFluxRatio()->Eval(correlated_nu_energy_GEV);
+      // Efficiency weight:
+      weight *= _effscaling.GetEfficiencyGraph()->Eval(true_lept_E_GEV);
       // Fill histo here      
       _LEE_hist->Fill(true_lept_E_GEV,weight);
 
     }
-
-    //POTScaling stuff here
-    //MyPOT
-    //MBPOT
 
     return true;
 

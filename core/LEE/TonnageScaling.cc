@@ -12,7 +12,7 @@ namespace ubsens {
       
       //if the user has set the detector they want to use
       if(_my_Detector == geo::kNULLDetector){
-	std::cout<<"WARNING: You need to either manually set tonnage, or set the detector. For now, I'll assume you're using MicroBooNE..."<<std::endl;
+	//	std::cout<<"WARNING: You need to either manually set tonnage, or set the detector. For now, I'll assume you're using MicroBooNE..."<<std::endl;
 	_my_tonnage = geo::UB_TONNAGE_GRAMS;
       }
       else if(_my_Detector == geo::kMicroBooNE)

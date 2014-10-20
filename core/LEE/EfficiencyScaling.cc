@@ -9,7 +9,7 @@ namespace ubsens{
     //for now this is hard-coded as an 80% efficiency graph
     _eff_graph = new TGraph();
     _eff_graph->SetName("eff_graph");
-    _eff_graph->SetTitle("Efficiency;Effiency;Lepton Energy [GeV]");
+    _eff_graph->SetTitle("Efficiency;Lepton Energy [GeV];Effiency");
 
     _eff_graph->SetPoint(0,0,0.8);
     _eff_graph->SetPoint(1,3,0.8);
