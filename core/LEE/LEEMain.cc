@@ -96,40 +96,12 @@ namespace ubsens{
 
     std::vector<data::TruthShower> myTruthShowers;
 
-    //loop over all events
-    while(_datamgr.NextEntry()){
-      
-      myEventRecord.Reset();
-      myTruthShowers.clear();
-
-      myEventRecord = _datamgr.GetData();
-      myTruthShowers= myEventRecord.TruthShowerCollection();
-
-      if(myTruthShowers.size() > 1){
-	std::cout << "wtf more than 1 truth shower?"
-		  << " I thought you were generating single e or g's"
-		  << ". Skipping this event." 
-		  << std::endl;
-	continue;
-      }
-
-      // Fill histo here
-      // (truth shower energy is MeV, want GeV, so divide by 1000)
-      double truth_energy_GEV = myTruthShowers.at(0).MotherMomentum().at(3)/1000.;
-      _LEE_hist->Fill(truth_energy_GEV);
-
-    }
-
     //NuLeptECorrelation stuff here
     NuLeptECorrelation _nulec;
     _nulec.Configure(_cfgmgr.GetConfigMap());
     _nulec.LoadInputTH2F();
     _nulec.WritePlots();
     std::cout<<"debug: nuleptE 1.234 turns into "<<_nulec.NuEFromLeptE(1.234)<<std::endl;
-
-    //POTScaling stuff here
-    //MyPOT
-    //MBPOT
 
     //XSecScaling stuff here
     XSecScaling _xsecscaling;
@@ -149,6 +121,60 @@ namespace ubsens{
     _fluxscaling.WritePlots();
     std::cout<<"debug: flux ratio has :" << fluxratio->GetN()<<std::endl;
 
+    //Tonnage scaling stuff here (implement this)
+    TonnageScaling _tonnagescaling;
+    //    _tonnagescaling.Configure(_cfgmgr.GetConfigMap());
+
+    EfficiencyScaling _effscaling;
+    _effscaling.MakeGraph();
+    _effscaling.WritePlots();
+    TGraph *eff = _effscaling.GetEfficiencyGraph();
+    _effscaling.WritePlots();
+
+    ////////////////
+    // EVENT LOOP //
+    ////////////////
+    while(_datamgr.NextEntry()){
+      
+      myEventRecord.Reset();
+      myTruthShowers.clear();
+
+      myEventRecord = _datamgr.GetData();
+      myTruthShowers= myEventRecord.TruthShowerCollection();
+
+      if(myTruthShowers.size() > 1){
+	std::cout << "wtf more than 1 truth shower?"
+		  << " I thought you were generating single e or g's"
+		  << ". Skipping this event." 
+		  << std::endl;
+	continue;
+      }
+      
+      double true_lept_E_MEV = myTruthShowers.at(0).MotherMomentum().at(3);
+      double true_lept_E_GEV = true_lept_E_MEV/1000.;
+ 
+      double correlated_nu_energy_GEV = _nulec.NuEFromLeptE(true_lept_E_GEV);
+
+      // Weight event by all scaling factors
+      double weight = 1.;
+      // POT weight (implement this)
+      weight *= 1.022;
+      // Tonnage weight (implement this):
+      weight *= 0.128;
+      // X-Sec weight:
+      weight *= xsecratio->Eval(correlated_nu_energy_GEV);
+      // Flux weight:
+      weight *= fluxratio->Eval(correlated_nu_energy_GEV);
+      // Efficiency weight (implement this)
+      weight *= eff->Eval(true_lept_E_GEV);
+      // Fill histo here      
+      _LEE_hist->Fill(true_lept_E_GEV,weight);
+
+    }
+
+    //POTScaling stuff here
+    //MyPOT
+    //MBPOT
 
     return true;
 

@@ -25,7 +25,7 @@
 #include "XSecScaling.hh"
 #include "FluxScaling.hh"
 #include "NuLeptECorrelation.hh"
-
+#include "EfficiencyScaling.hh"
 #include "Utilities/FindInMapMap.hh"
 #include "Utilities/StringParser.hh"
 

@@ -15,13 +15,16 @@ namespace ubsens {
   class NuLeptECorrelation;
   class LEEMain;
   class FinalPlotter;
+  class EfficiencyScaling;
 }
+
 
 
 
 //ADD_EMPTY_CLASS ... do not change this comment line
 
 #endif
+
 
 
 
