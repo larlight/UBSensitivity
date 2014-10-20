@@ -12,13 +12,19 @@ namespace ubsens{
     class PlotWriter;
     class FindInMapMap;
     class StringParser;
+    class HistManip;
+    class ECCQECalculator;    
   }
 }
+
+
 
 
 //ADD_EMPTY_CLASS ... do not change this comment line
 
 #endif
+
+
 
 
 

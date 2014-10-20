@@ -18,8 +18,7 @@
 #include <iostream>
 #include "FMWKBase/FMWKBase.hh"
 #include "FMWKBase/FMWKException.hh"
-#include "TGraph.h"
-#include "TH2.h"
+#include "TObject.h"
 #include "TFile.h"
 
 /**
@@ -38,17 +37,17 @@ namespace ubsens{
       
       void SetFileName(std::string filename) { _filename = filename; }
       
-      void SetPlotName(std::string plotname) { _plotname = plotname; }
+      void SetObjectName(std::string objectname) { _objectname = objectname; }
     
       void Reset() {
 	_filename = "";
-	_plotname = "";
+	_objectname = "";
 	_name = "PlotReader";
       }
 
-      TGraph* GetGraph();
-      
-      TH2F* GetTH2F();
+      /// Function to get an object from a file
+      /// (whoever gets the object should cast it to the appropriate type)
+      TObject* GetObject();
 
       //singleton getter?!?!?!
       static PlotReader* GetME(){
@@ -64,7 +63,7 @@ namespace ubsens{
       /// Default constructor
       PlotReader(){
 	_filename = "";
-	_plotname = "";
+	_objectname = "";
       }
       
       /// Default destructor
@@ -74,7 +73,7 @@ namespace ubsens{
     protected:
       
       std::string _filename;
-      std::string _plotname;
+      std::string _objectname;
 
     };
     

@@ -9,14 +9,16 @@
   myvec->push_back(4);
   myvec->push_back(6);
 
-  std::cout<<"hist is "<<hist<<std::endl;
-  std::cout<<"myvec is "<<myvec<<std::endl;
+  bool good = fp.CheckBins(hist,myvec);
+  std::cout<<"Are bins good? "<<good<<std::endl;
 
-  std::cout<<"here"<<std::endl;
 
-  fp.CheckBins(hist,myvec);
+  TH1F *hist2 = new TH1F("hist2","histtitle",5,0,10.97523);
+  good = fp.CheckBins(hist2,myvec);
+  std::cout<<"how about now? "<<good<<std::endl;
 
-  std::cout<<"here2"<<std::endl;
-
+  delete hist;
+  delete hist2;
   
+  exit();
 }

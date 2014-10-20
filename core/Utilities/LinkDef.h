@@ -14,9 +14,13 @@
 #pragma link C++ class ubsens::util::PlotWriter+;
 #pragma link C++ class ubsens::util::FindInMapMap+;
 #pragma link C++ class ubsens::util::StringParser+;
+#pragma link C++ class ubsens::util::HistManip+;
+#pragma link C++ class ubsens::util::ECCQECalculator+;
 
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
+
 
 
 
