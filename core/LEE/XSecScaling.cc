@@ -44,11 +44,11 @@ namespace ubsens{
     util::PlotReader::GetME()->Reset();
     
     util::PlotReader::GetME()->SetFileName(_my_xsec_input_filename);
-    util::PlotReader::GetME()->SetPlotName(_my_xsec_TGraph_name);
-    _my_xsec = util::PlotReader::GetME()->GetGraph();
+    util::PlotReader::GetME()->SetObjectName(_my_xsec_TGraph_name);
+    _my_xsec = (TGraph*)util::PlotReader::GetME()->GetObject();
     util::PlotReader::GetME()->SetFileName(_MB_xsec_input_filename);
-    util::PlotReader::GetME()->SetPlotName(_MB_xsec_TGraph_name);
-    _MB_xsec = util::PlotReader::GetME()->GetGraph();
+    util::PlotReader::GetME()->SetObjectName(_MB_xsec_TGraph_name);
+    _MB_xsec = (TGraph*)util::PlotReader::GetME()->GetObject();
     
     return true;
   }

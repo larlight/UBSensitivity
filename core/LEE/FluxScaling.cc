@@ -53,11 +53,11 @@ namespace ubsens{
     util::PlotReader::GetME()->Reset();
     
     util::PlotReader::GetME()->SetFileName(_my_flux_input_filename);
-    util::PlotReader::GetME()->SetPlotName(_my_flux_TGraph_name);
-    _my_flux = util::PlotReader::GetME()->GetGraph();
+    util::PlotReader::GetME()->SetObjectName(_my_flux_TGraph_name);
+    _my_flux = (TGraph*)util::PlotReader::GetME()->GetObject();
     util::PlotReader::GetME()->SetFileName(_MB_flux_input_filename);
-    util::PlotReader::GetME()->SetPlotName(_MB_flux_TGraph_name);
-    _MB_flux = util::PlotReader::GetME()->GetGraph();
+    util::PlotReader::GetME()->SetObjectName(_MB_flux_TGraph_name);
+    _MB_flux = (TGraph*)util::PlotReader::GetME()->GetObject();
     
 
     return true;

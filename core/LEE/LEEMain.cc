@@ -85,6 +85,8 @@ namespace ubsens{
     _datamgr.AddInputFilename(_data_file);
     _datamgr.Open();
         
+    InitializeScalings();
+
     InitializeHistos();
 
     return true;
@@ -96,42 +98,10 @@ namespace ubsens{
 
     std::vector<data::TruthShower> myTruthShowers;
 
-    //NuLeptECorrelation stuff here
-    NuLeptECorrelation _nulec;
-    _nulec.Configure(_cfgmgr.GetConfigMap());
-    _nulec.LoadInputTH2F();
-    _nulec.WritePlots();
-    std::cout<<"debug: nuleptE 1.234 turns into "<<_nulec.NuEFromLeptE(1.234)<<std::endl;
-
-    //XSecScaling stuff here
-    XSecScaling _xsecscaling;
-    _xsecscaling.Configure(_cfgmgr.GetConfigMap());
-    _xsecscaling.LoadInputGraphs();
-    _xsecscaling.ComputeXSecRatio();
-    _xsecscaling.WritePlots();
-
-    //FluxScaling stuff here
-    FluxScaling _fluxscaling;
-    _fluxscaling.Configure(_cfgmgr.GetConfigMap());
-    _fluxscaling.LoadInputGraphs();
-    _fluxscaling.ComputeFluxRatio();
-    _fluxscaling.WritePlots();
-
-    //POT scaling stuff here
-    POTScaling _potscaling;
-
-    //Tonnage scaling stuff here (implement this)
-    TonnageScaling _tonnagescaling;
-    _tonnagescaling.SetMyDetector(geo::Detector_t::kMicroBooNE);
-    //    _tonnagescaling.Configure(_cfgmgr.GetConfigMap());
-
-    EfficiencyScaling _effscaling;
-    _effscaling.MakeGraph();
-    _effscaling.WritePlots();
-
     ////////////////
     // EVENT LOOP //
     ////////////////
+    bool firstevent = true;
     while(_datamgr.NextEntry()){
       
       myEventRecord.Reset();
@@ -154,23 +124,78 @@ namespace ubsens{
 
       // Weight event by all scaling factors
       double weight = 1.;
+      if(firstevent) std::cout<<"weight = "<<weight<<std::endl;
       // POT weight (implement this w/ Configure() function, using default now)
       weight *= _potscaling.GetPOTScaling();
+      if(firstevent) std::cout<<"times "<<_potscaling.GetPOTScaling()<<std::endl;
       // Tonnage weight (implement this w/ Configure() function, default now):
       weight *= _tonnagescaling.GetTonnageScaling();
+      if(firstevent) std::cout<<"times = "<<_tonnagescaling.GetTonnageScaling()<<std::endl;
       // X-Sec weight:
       weight *= _xsecscaling.GetXSecRatio()->Eval(correlated_nu_energy_GEV);
+      if(firstevent) std::cout<<"nu energy = "<<correlated_nu_energy_GEV<<", times "<<_xsecscaling.GetXSecRatio()->Eval(correlated_nu_energy_GEV)<<std::endl;
       // Flux weight:
       weight *= _fluxscaling.GetFluxRatio()->Eval(correlated_nu_energy_GEV);
+      if(firstevent) std::cout<<"nu energy = "<<correlated_nu_energy_GEV<<", times "<<_fluxscaling.GetFluxRatio()->Eval(correlated_nu_energy_GEV)<<std::endl;
       // Efficiency weight:
       weight *= _effscaling.GetEfficiencyGraph()->Eval(true_lept_E_GEV);
-      // Fill histo here      
-      _LEE_hist->Fill(true_lept_E_GEV,weight);
+      if(firstevent) std::cout<<"times = "<<_effscaling.GetEfficiencyGraph()->Eval(true_lept_E_GEV)<<std::endl;
 
+      
+      double tmp_trueMBexcessevents_over_neventsgenerated = 
+	1212.114/50000.;
+      if(firstevent) std::cout<<"times = "<<tmp_trueMBexcessevents_over_neventsgenerated<<std::endl;
+      weight *= tmp_trueMBexcessevents_over_neventsgenerated;
+
+
+      // Fill histo here
+      //temp: use eccqe
+      double u_z = TMath::ACos(myTruthShowers.at(0).MotherMomentum().at(2)/
+	(pow(
+	  pow(myTruthShowers.at(0).MotherMomentum().at(0),2)+
+	  pow(myTruthShowers.at(0).MotherMomentum().at(1),2)+
+	  pow(myTruthShowers.at(0).MotherMomentum().at(2),2), 0.5)
+	)
+      );
+	
+      double e_ccqe = util::ECCQECalculator::ComputeECCQE(true_lept_E_MEV,u_z);
+      e_ccqe /= 1000.;
+
+      //      _LEE_hist->Fill(true_lept_E_GEV,weight);
+      _LEE_hist->Fill(e_ccqe,weight);
+      
+      firstevent = false;
     }
 
-    return true;
+    
 
+    ///////////////////////////////////////
+    //tmp thstack stuff, need to reorganize this better. 
+    //hard coding for now because i need to finish this technote tonight!
+    ::ubsens::util::PlotReader::GetME()->Reset();
+    ::ubsens::util::PlotReader::GetME()->SetFileName("/Users/davidkaleko/Data/LEE/SingleElectronBackgrounds_101614.root");
+    //    ::ubsens::util::PlotReader::GetME()->SetObjectName("NueBackgroundsLepE");
+    ::ubsens::util::PlotReader::GetME()->SetObjectName("NueBackgroundsCCQE");
+    _tmp_stack=(THStack*)util::PlotReader::GetME()->GetObject();
+
+    const std::vector<double> *xbins_vec = util::StringParser().ParseBinsString(_LEE_hist_bins_string);
+
+   
+    _tmp_stack=util::HistManip::RebinStack(_tmp_stack,xbins_vec);
+    _tmp_stack=util::HistManip::AddTH1FToStack(_LEE_hist,_tmp_stack);
+    _tmp_stack->SetName("e_LEE_stack");
+    util::PlotWriter::GetME()->Write(_tmp_stack,class_name());
+
+
+    //save the legend too
+    util::PlotReader::GetME()->Reset();
+    util::PlotReader::GetME()->SetFileName("/Users/davidkaleko/Data/LEE/SingleElectronBackgrounds_101614.root");
+    util::PlotReader::GetME()->SetObjectName("ElectronBackgroundLegend");
+    util::PlotWriter::GetME()->Write((TLegend*)util::PlotReader::GetME()->GetObject(),class_name());
+
+    //////////////////////////////////////////////////////////
+
+    return true;
 
   }
 
@@ -209,17 +234,44 @@ namespace ubsens{
 
     double xbins[nbins];
 
-    //    std::cout<<"nbins = "<<nbins<<", xbins is: "<<std::endl;;
-
     for (size_t i = 0; i < nbins; i++){
       xbins[i]=xbins_vec->at(i);
-      //      std::cout<<"xbins["<<i<<"] = "<<xbins[i]<<std::endl;
     }
 
-    //_LEE_hist = new TH1F(_LEE_hist_name.c_str(),_LEE_hist_title.c_str(),10,0.2,3.0);
     _LEE_hist = new TH1F(_LEE_hist_name.c_str(),_LEE_hist_title.c_str(),nbins-1,xbins);
     
+  }
 
+  void LEEMain::InitializeScalings(){
+
+    //NuLeptECorrelation stuff here
+    _nulec.Configure(_cfgmgr.GetConfigMap());
+    _nulec.LoadInputTH2F();
+    _nulec.WritePlots();
+    
+    //XSecScaling stuff here
+    _xsecscaling.Configure(_cfgmgr.GetConfigMap());
+    _xsecscaling.LoadInputGraphs();
+    _xsecscaling.ComputeXSecRatio();
+    _xsecscaling.WritePlots();
+
+    //FluxScaling stuff here
+    _fluxscaling.Configure(_cfgmgr.GetConfigMap());
+    _fluxscaling.LoadInputGraphs();
+    _fluxscaling.ComputeFluxRatio();
+    _fluxscaling.WritePlots();
+
+    //POT scaling stuff here (implement this)
+    //    _potscaling.Configure(_cfgmgr.GetConfigMap());
+
+    //Tonnage scaling stuff here (implement this)
+    _tonnagescaling.SetMyDetector(geo::Detector_t::kMicroBooNE);
+    //    _tonnagescaling.Configure(_cfgmgr.GetConfigMap());
+
+    //Efficiency scaling stuff here:
+    //_effscaling.Confignre(_cfgmgr.GetConfigMap());
+    _effscaling.MakeGraph();
+    _effscaling.WritePlots();
 
   }
 }//end namespace ubsens

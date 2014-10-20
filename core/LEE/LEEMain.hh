@@ -28,6 +28,11 @@
 #include "EfficiencyScaling.hh"
 #include "Utilities/FindInMapMap.hh"
 #include "Utilities/StringParser.hh"
+#include "Utilities/HistManip.hh"
+#include "Utilities/ECCQECalculator.hh"
+#include "TMath.h"
+#include "THStack.h"
+#include "TLegend.h"
 
 /**
    \class LEEMain
@@ -51,6 +56,7 @@ namespace ubsens{
       _LEE_hist=0;
       _ElectronOrGamma="";
       _isElectronSample=true;
+      _tmp_stack=0;
     };
     
     /// Default destructor
@@ -77,11 +83,21 @@ namespace ubsens{
 
     void InitializeHistos();
 
+    void InitializeScalings();
+
   private:
 
     ::ubsens::config::ConfigManager _cfgmgr;
 
     ::ubsens::data::DataManager _datamgr;
+
+    NuLeptECorrelation _nulec;
+    XSecScaling _xsecscaling;
+    FluxScaling _fluxscaling;
+    POTScaling _potscaling;
+    TonnageScaling _tonnagescaling;
+    EfficiencyScaling _effscaling;
+
 
     std::string _cfg_file;
     std::string _data_file;
@@ -93,6 +109,8 @@ namespace ubsens{
     bool _isElectronSample;
     
     TH1F* _LEE_hist;
+
+    THStack* _tmp_stack;
   };
 
 }

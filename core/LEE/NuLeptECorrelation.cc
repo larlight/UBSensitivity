@@ -34,8 +34,8 @@ namespace ubsens{
     util::PlotReader::GetME()->Reset();
 
     util::PlotReader::GetME()->SetFileName(_my_fosc_filename);
-    util::PlotReader::GetME()->SetPlotName(_my_th2f_name);
-    _my_th2f = util::PlotReader::GetME()->GetTH2F();
+    util::PlotReader::GetME()->SetObjectName(_my_th2f_name);
+    _my_th2f = (TH2F*)util::PlotReader::GetME()->GetObject();
 
     return true;
   }
