@@ -17,6 +17,7 @@
 #include <iostream>
 #include "LEEBase.hh"
 #include "Constants/POTConstants.hh"
+#include "Utilities/FindInMapMap.hh"
 /**
    \class POTScaling
    User defined class POTScaling ... these comments are used to generate
@@ -34,6 +35,8 @@ namespace ubsens{
       _MINIBOONE_POT = pot::MINIBOONE_POT_DEFAULT;
       _my_POT = pot::UB_POT_DEFAULT;
       _name = "POTScaling";
+      _MINIBOONE_POT_string = "";
+      _my_POT_string = "";
     };
 
     /// Inherited configure function from LEEBase
@@ -58,6 +61,8 @@ namespace ubsens{
     //the POT you want to look at in your detector
     double _my_POT;
 
+    std::string _MINIBOONE_POT_string;
+    std::string _my_POT_string;
   };
   
 }//end namespace ubsens

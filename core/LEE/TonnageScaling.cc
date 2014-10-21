@@ -5,6 +5,35 @@
 
 namespace ubsens {
 
+  bool TonnageScaling::Configure(const std::map<std::string,std::map<std::string,std::string>> &_configMap){
+        
+    try{
+      _my_Detector_string = util::FindInMapMap().GetParamValue(class_name(),std::string("MyDetector"),_configMap);
+    }
+    catch (fmwk::FMWKException &e) {
+      std::cout<<e.what()<<std::endl;
+    }
+   
+    //If the config file has blank lines, use defaults
+    if(_my_Detector_string.empty()){
+      std::cout<<class_name()<<" is using default value for _my_Detector_string."<<std::endl;
+      _my_Detector_string = "MicroBooNE";
+    }
+
+    //Convert _my_Detector_string into an actual detector
+    if(std::strcmp(_my_Detector_string.c_str(),"MicroBooNE")==0)
+      _my_Detector = geo::kMicroBooNE;
+    else if(std::strcmp(_my_Detector_string.c_str(),"LAr1")==0)
+      _my_Detector = geo::kLAr1;
+    else{
+      std::cout<<"you chose a bad detector!"<<std::endl;
+      return false;
+    }
+      
+    return true;
+  };
+
+
   double TonnageScaling::GetTonnageScaling(){
     
     //if the user has manually set tonnage, skip all this

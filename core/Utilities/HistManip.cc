@@ -27,8 +27,18 @@ namespace ubsens{
 	  
 	  iold++;
 	  
-	  if( iold == hist->GetNbinsX() ){
-	    if(debug_me) std::cout<<"no match found."<<std::endl;
+	  //+2 is to cover for underflow and overflow bin boundaries
+	  if( iold == hist->GetNbinsX()+2 ){
+	    std::cout<<"Problem with Check Bins. No match found! Here's debug info:"<<std::endl;
+	    std::cout<<"\t Input histogram bins: [";
+	    for(int david = 0; david < hist->GetNbinsX()+2; david++)
+	      std::cout<<hist->GetXaxis()->GetBinLowEdge(david)<<",";
+	    std::cout<<"]"<<std::endl;
+	    std::cout<<"\t Input new bins: [";
+	    for(size_t david = 0; david < nbins->size(); david++)
+	      std::cout<<nbins->at(david)<<",";
+	    std::cout<<"]"<<std::endl;
+	    std::cout<<"\t\t Unable to rebin because one of the input new bins does not match any of the input histogram bin low edge boundaries."<<std::endl;
 	    return false;
 	  }
 	}
@@ -48,7 +58,13 @@ namespace ubsens{
       for(size_t i = 0; i < hist->GetNbinsX(); i++)
 	histbins->push_back(hist->GetXaxis()->GetBinLowEdge(i));
       
-      TH1F* blah = (TH1F*)stack->GetHists()->At(0);
+      TH1F* blah;
+      if((TH1F*)stack->GetHists())
+	blah = (TH1F*)stack->GetHists()->At(0);
+      else{
+	std::cout<<"error, stack provided to AddTH1FToStack is empty"<<std::endl;
+	return result;
+      }
       std::cout<<"check: stack histos bins are "<<blah->GetNbinsX()<<std::endl;
       
       if(!CheckBins((TH1F*)stack->GetHists()->At(0),histbins)){

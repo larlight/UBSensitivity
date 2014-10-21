@@ -13,7 +13,10 @@ namespace ubsens{
       _LEE_hist_title = util::FindInMapMap().GetParamValue(class_name(),std::string("LEEHistTitle"),_configMap);
       _LEE_hist_bins_string =  util::FindInMapMap().GetParamValue(class_name(),std::string("LEEHistBins"),_configMap);
       _ElectronOrGamma = util::FindInMapMap().GetParamValue(class_name(),std::string("ElectronOrGamma"),_configMap);
+      _EnergyDefinition = util::FindInMapMap().GetParamValue(class_name(),std::string("EnergyDefinition"),_configMap);
       _data_file = util::FindInMapMap().GetParamValue(class_name(),std::string("DataFile"),_configMap);
+      _n_evts_generated = util::FindInMapMap().GetParamValue(class_name(),std::string("NEventsGenerated"),_configMap);
+      _true_MB_excess_evts = util::FindInMapMap().GetParamValue(class_name(),std::string("NTrueMBExcessEvts"),_configMap);
     }
     catch (fmwk::FMWKException &e) {
       std::cout<<e.what()<<std::endl;
@@ -51,6 +54,18 @@ namespace ubsens{
       return false;
     }
 
+    if(_EnergyDefinition.empty()){
+      std::cout<<class_name()<<" is using default value for _EnergyDefinition."<<std::endl;
+      _EnergyDefinition = "TrueLepE";
+    }
+    if(_n_evts_generated.empty()){
+      std::cout<<class_name()<<" is using default value for _n_evts_generated."<<std::endl;
+      _n_evts_generated = "50000";
+    }
+    if(_true_MB_excess_evts.empty()){
+      std::cout<<class_name()<<" is using default value for _true_MB_excess_evts."<<std::endl;
+      _true_MB_excess_evts = "1212.114";
+    }
 
     return true;
   }
@@ -101,7 +116,6 @@ namespace ubsens{
     ////////////////
     // EVENT LOOP //
     ////////////////
-    bool firstevent = true;
     while(_datamgr.NextEntry()){
       
       myEventRecord.Reset();
@@ -111,7 +125,7 @@ namespace ubsens{
       myTruthShowers= myEventRecord.TruthShowerCollection();
 
       if(myTruthShowers.size() > 1){
-	std::cout << "wtf more than 1 truth shower?"
+	std::cout << "Why is there more than 1 truth shower?"
 		  << " I thought you were generating single e or g's"
 		  << ". Skipping this event." 
 		  << std::endl;
@@ -124,32 +138,20 @@ namespace ubsens{
 
       // Weight event by all scaling factors
       double weight = 1.;
-      if(firstevent) std::cout<<"weight = "<<weight<<std::endl;
       // POT weight (implement this w/ Configure() function, using default now)
       weight *= _potscaling.GetPOTScaling();
-      if(firstevent) std::cout<<"times "<<_potscaling.GetPOTScaling()<<std::endl;
       // Tonnage weight (implement this w/ Configure() function, default now):
       weight *= _tonnagescaling.GetTonnageScaling();
-      if(firstevent) std::cout<<"times = "<<_tonnagescaling.GetTonnageScaling()<<std::endl;
       // X-Sec weight:
       weight *= _xsecscaling.GetXSecRatio()->Eval(correlated_nu_energy_GEV);
-      if(firstevent) std::cout<<"nu energy = "<<correlated_nu_energy_GEV<<", times "<<_xsecscaling.GetXSecRatio()->Eval(correlated_nu_energy_GEV)<<std::endl;
       // Flux weight:
       weight *= _fluxscaling.GetFluxRatio()->Eval(correlated_nu_energy_GEV);
-      if(firstevent) std::cout<<"nu energy = "<<correlated_nu_energy_GEV<<", times "<<_fluxscaling.GetFluxRatio()->Eval(correlated_nu_energy_GEV)<<std::endl;
       // Efficiency weight:
       weight *= _effscaling.GetEfficiencyGraph()->Eval(true_lept_E_GEV);
-      if(firstevent) std::cout<<"times = "<<_effscaling.GetEfficiencyGraph()->Eval(true_lept_E_GEV)<<std::endl;
+      // Overall normalization to true MB excess events
+      weight *= atof(_true_MB_excess_evts.c_str()) / atof(_n_evts_generated.c_str());
 
-      
-      double tmp_trueMBexcessevents_over_neventsgenerated = 
-	1212.114/50000.;
-      if(firstevent) std::cout<<"times = "<<tmp_trueMBexcessevents_over_neventsgenerated<<std::endl;
-      weight *= tmp_trueMBexcessevents_over_neventsgenerated;
-
-
-      // Fill histo here
-      //temp: use eccqe
+      /* //tmp stuff showing how to calculate CCQE energy
       double u_z = TMath::ACos(myTruthShowers.at(0).MotherMomentum().at(2)/
 	(pow(
 	  pow(myTruthShowers.at(0).MotherMomentum().at(0),2)+
@@ -160,41 +162,15 @@ namespace ubsens{
 	
       double e_ccqe = util::ECCQECalculator::ComputeECCQE(true_lept_E_MEV,u_z);
       e_ccqe /= 1000.;
-
-      //      _LEE_hist->Fill(true_lept_E_GEV,weight);
       _LEE_hist->Fill(e_ccqe,weight);
+      */
       
-      firstevent = false;
+      // Fill histo here
+      _LEE_hist->Fill(true_lept_E_GEV,weight);
+
     }
 
     
-
-    ///////////////////////////////////////
-    //tmp thstack stuff, need to reorganize this better. 
-    //hard coding for now because i need to finish this technote tonight!
-    ::ubsens::util::PlotReader::GetME()->Reset();
-    ::ubsens::util::PlotReader::GetME()->SetFileName("/Users/davidkaleko/Data/LEE/SingleElectronBackgrounds_101614.root");
-    //    ::ubsens::util::PlotReader::GetME()->SetObjectName("NueBackgroundsLepE");
-    ::ubsens::util::PlotReader::GetME()->SetObjectName("NueBackgroundsCCQE");
-    _tmp_stack=(THStack*)util::PlotReader::GetME()->GetObject();
-
-    const std::vector<double> *xbins_vec = util::StringParser().ParseBinsString(_LEE_hist_bins_string);
-
-   
-    _tmp_stack=util::HistManip::RebinStack(_tmp_stack,xbins_vec);
-    _tmp_stack=util::HistManip::AddTH1FToStack(_LEE_hist,_tmp_stack);
-    _tmp_stack->SetName("e_LEE_stack");
-    util::PlotWriter::GetME()->Write(_tmp_stack,class_name());
-
-
-    //save the legend too
-    util::PlotReader::GetME()->Reset();
-    util::PlotReader::GetME()->SetFileName("/Users/davidkaleko/Data/LEE/SingleElectronBackgrounds_101614.root");
-    util::PlotReader::GetME()->SetObjectName("ElectronBackgroundLegend");
-    util::PlotWriter::GetME()->Write((TLegend*)util::PlotReader::GetME()->GetObject(),class_name());
-
-    //////////////////////////////////////////////////////////
-
     return true;
 
   }
@@ -204,6 +180,13 @@ namespace ubsens{
     _datamgr.Close();
 
     util::PlotWriter::GetME()->Write(_LEE_hist,class_name());
+
+    //Make a FinalPlotter instance and have it do its magic
+    FinalPlotter fp;
+    fp.Configure(_cfgmgr.GetConfigMap());
+    fp.LoadLEEHisto(_LEE_hist);
+    fp.MakeStackedHisto();
+    fp.WritePlots();
 
     delete _LEE_hist;
 

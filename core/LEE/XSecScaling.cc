@@ -12,7 +12,8 @@ namespace ubsens{
       _my_xsec_TGraph_name = util::FindInMapMap().GetParamValue(class_name(),std::string("MyGraphName"),_configMap);
       _MB_xsec_input_filename = util::FindInMapMap().GetParamValue(class_name(),std::string("MBInFileName"),_configMap);
       _MB_xsec_TGraph_name = util::FindInMapMap().GetParamValue(class_name(),std::string("MBGraphName"),_configMap);
-
+      _xsec_ratio_maximum = util::FindInMapMap().GetParamValue(class_name(),std::string("RatioCutoffMax"),_configMap);
+      _xsec_ratio_minimum = util::FindInMapMap().GetParamValue(class_name(),std::string("RatioCutoffMin"),_configMap);
     }
     catch (fmwk::FMWKException &e) {
       std::cout<<e.what()<<std::endl;
@@ -34,6 +35,14 @@ namespace ubsens{
     if(_MB_xsec_TGraph_name.empty()){
       std::cout<<class_name()<<" is using default value for _MB_xsec_TGraph_name."<<std::endl;
       _MB_xsec_TGraph_name = "nuance_total_cc_graph";
+    }
+    if(_xsec_ratio_maximum.empty()){
+      std::cout<<class_name()<<" is using default value for _xsec_ratio_maximum."<<std::endl;
+      _xsec_ratio_maximum = "99999.";
+    }
+    if(_xsec_ratio_minimum.empty()){
+      std::cout<<class_name()<<" is using default value for _xsec_ratio_minimum."<<std::endl;
+      _xsec_ratio_minimum = "0.";
     }
 
     return true;
@@ -95,12 +104,11 @@ namespace ubsens{
       //multiply by n targets per gram... that's included in xsecscaling!
       myy *= ( _my_ntargetspergram / _MB_ntargetspergram );
       
-      //for now hard code: the ratio BLOWS UP at low energy, so have cut
-      //on ratio not being huge
-      //this is a PHYSICS DECISION that I need to make here
-      //for now, setting ratio to be 1.575 up until it deviates
-      //this is HARD CODING that i should probably fix
-      if(myy > 1.575) myy = 1.575;
+      //Some times the ratio BLOWS UP at low energy, so have cut
+      //on ratio not being huge (or too tiny, I guess).
+      //These cutoff values are included in the .config file used
+      if(myy > atof(_xsec_ratio_maximum.c_str())) myy = atof(_xsec_ratio_maximum.c_str());
+      if(myy < atof(_xsec_ratio_minimum.c_str())) myy = atof(_xsec_ratio_minimum.c_str());
       
       _xsec_ratio->SetPoint(point_counter,myx,myy);
       point_counter++;

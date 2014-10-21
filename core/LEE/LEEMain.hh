@@ -26,6 +26,7 @@
 #include "FluxScaling.hh"
 #include "NuLeptECorrelation.hh"
 #include "EfficiencyScaling.hh"
+#include "FinalPlotter.hh"
 #include "Utilities/FindInMapMap.hh"
 #include "Utilities/StringParser.hh"
 #include "Utilities/HistManip.hh"
@@ -55,8 +56,11 @@ namespace ubsens{
       _LEE_hist_bins_string="";
       _LEE_hist=0;
       _ElectronOrGamma="";
+      _EnergyDefinition="";
+      _n_evts_generated="";
+      _true_MB_excess_evts="";
       _isElectronSample=true;
-      _tmp_stack=0;
+     
     };
     
     /// Default destructor
@@ -85,6 +89,7 @@ namespace ubsens{
 
     void InitializeScalings();
 
+    //get th1f function here?
   private:
 
     ::ubsens::config::ConfigManager _cfgmgr;
@@ -105,12 +110,16 @@ namespace ubsens{
     std::string _LEE_hist_title;
     std::string _LEE_hist_bins_string;
     std::string _ElectronOrGamma;
-
+    std::string _EnergyDefinition;
+    std::string _n_evts_generated;
+    std::string _true_MB_excess_evts;
+    
     bool _isElectronSample;
     
+
+
     TH1F* _LEE_hist;
 
-    THStack* _tmp_stack;
   };
 
 }

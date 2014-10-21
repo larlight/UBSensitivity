@@ -27,7 +27,9 @@ namespace ubsens{
       XSECSCALING,
       PLOTREADER,
       PLOTWRITER,
-
+      LEEMAIN,
+      FINALPLOTTER,
+      EFFICIENCYSCALING,
       MAX_MODULE_TYPE
     };
 
@@ -39,6 +41,9 @@ namespace ubsens{
       "XSecScaling",
       "PlotReader",
       "PlotWriter",
+      "LEEMain",
+      "FinalPlotter",
+      "EfficiencyScaling",
     };
 
     //    static const std::string UNSET_STRING = "AHFAOAWEFHIOPEQHFQPIEFH";

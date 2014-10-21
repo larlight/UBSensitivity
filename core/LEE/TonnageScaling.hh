@@ -17,6 +17,8 @@
 #include <iostream>
 #include "LEEBase.hh"
 #include "Constants/GeometryConstants.hh"
+#include "Utilities/FindInMapMap.hh"
+#include <string.h>
 
 /**
    \class TonnageScaling
@@ -34,9 +36,14 @@ namespace ubsens{
     TonnageScaling(){
       _my_Detector = geo::kNULLDetector;
       _my_tonnage = 0.;   
+      _my_Detector_string = "";
       _name = "TonnageScaling";
     };
     
+    /// Inherited configure function from LEEBase
+    virtual bool Configure(const std::map<std::string,std::map<std::string,std::string>> &_configMap);
+
+
     /// Default destructor
     virtual ~TonnageScaling(){};
     
@@ -51,6 +58,8 @@ namespace ubsens{
   protected:
     
     double _my_tonnage;
+    
+    std::string _my_Detector_string;
     
     geo::Detector_t _my_Detector;
 

@@ -46,6 +46,8 @@ namespace ubsens{
       _MB_xsec_TGraph_name = "";
       _my_ntargetspergram = geo::UB_TARGETS_PER_GRAM;
       _MB_ntargetspergram = geo::MINIBOONE_TARGETS_PER_GRAM;
+      _xsec_ratio_maximum="";
+      _xsec_ratio_minimum="";
       _name = "XSecScaling";
     };
     
@@ -102,6 +104,8 @@ namespace ubsens{
     double _my_ntargetspergram;
     double _MB_ntargetspergram;
 
+    std::string _xsec_ratio_maximum;
+    std::string _xsec_ratio_minimum;
   };
   
 }//end namespace ubsens
