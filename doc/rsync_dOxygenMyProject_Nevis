@@ -1,1 +1,1 @@
-rsync -v -e ssh -a -r kaleko@houston.nevis.columbia.edu:/a/home/houston/kaleko/WWW/UBSensitivity_doxygen/ /Users/davidkaleko/UBSensitivity/doc/dOxygenMyProject/html/
+rsync -v -e ssh -r /Users/davidkaleko/UBSensitivity/doc/dOxygenMyProject/html/ kaleko@houston.nevis.columbia.edu:/a/home/houston/kaleko/WWW/UBSensitivity_doxygen/ 
