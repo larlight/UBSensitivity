@@ -22,7 +22,6 @@
 #include "FMWKBase/FMWKException.hh"
 #include "ConfigConstants.hh"
 
-
 /**
    \class ConfigReader
    User defined class ConfigReader ... these comments are used to generate

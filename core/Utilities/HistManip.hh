@@ -3,7 +3,7 @@
  *
  * \ingroup Utilities
  * 
- * \brief Class def header for a class HistManip
+ * \brief Utility to rebin histograms, add histograms to THStacks, etc.
  *
  * @author davidkaleko
  */
@@ -16,15 +16,16 @@
 
 #include <iostream>
 #include "FMWKBase/FMWKBase.hh"
+#include "FMWKBase/FMWKException.hh"
+#include "FMWKBase/Message.hh"
 #include "TH1.h"
 #include "THStack.h"
 #include "TList.h"
-#include <vector>
+//#include <vector>
 
 /**
    \class HistManip
-   User defined class HistManip ... these comments are used to generate
-   doxygen documentation!
+   Utility to rebin histograms, add histograms to THStacks, etc.
  */
 
 namespace ubsens{
@@ -45,18 +46,23 @@ namespace ubsens{
       /// "all entries in the split bin in the original histogram will be 
       /// transferred to the lower of the two possible bins in the new histogram.
       /// This is probably not what you want" (from TH1 root documentation)
-      static bool CheckBins(const TH1F * const hist, const std::vector<double> *bins);
+      bool CheckBins(const TH1F * const hist, const std::vector<double> *bins);
       
       /// Function to add a TH1F to a THStack of TH1F, then return the new stack
-      static THStack* AddTH1FToStack(TH1F * const hist, THStack * const stack);
+      THStack* AddTH1FToStack(TH1F * const hist, THStack * const stack);
       
       /// Function to rebin a TH1F with custom bins, then return the new TH1F
-      static TH1F* RebinTH1F(TH1F * const hist, const std::vector<double> *newbins);
+      TH1F* RebinTH1F(TH1F * const hist, const std::vector<double> *newbins);
       
       /// Function to loop through histos in a stack, rebin each, then return 
       /// a new stack
-      static THStack* RebinStack(const THStack *stack, const std::vector<double> *newbins);
-      
+      THStack* RebinStack(const THStack *stack, const std::vector<double> *newbins);
+					       
+    private:
+
+      /// Messenger instance
+      ::ubsens::fmwk::Message fMsg;
+
     };
     
   }// end namespace util

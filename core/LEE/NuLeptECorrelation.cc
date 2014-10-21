@@ -12,19 +12,23 @@ namespace ubsens{
       _my_th2f_name = util::FindInMapMap().GetParamValue(class_name(),std::string("TH2FName"),_configMap);
     }
     catch (fmwk::FMWKException &e) {
-      std::cout<<e.what()<<std::endl;
+      fMsg.send(::ubsens::fmwk::msg::kEXCEPTION, __FUNCTION__, e.what());
     }
-
+    
     //If the config file has blank lines, use defaults
     if(_my_fosc_filename.empty()){
-      std::cout<<class_name()<<" is using default value for _my_fosc_filename."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _my_fosc_filename.";
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _my_fosc_filename = "/Users/davidkaleko/Data/LEE/combined_ntuple_470m_nu_fosc_CC_nu_lept_energycorrelation.root";
     }
     if(_my_th2f_name.empty()){
-       std::cout<<class_name()<<" is using default value for _my_th2f_name."<<std::endl;
-       _my_th2f_name = "fosc_isCC_enugen_vs_Elep";
+      std::string msg = "";
+      msg += class_name() + " is using default value for _my_th2f_name.";
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
+      _my_th2f_name = "fosc_isCC_enugen_vs_Elep";
     }
-
+    
     return true;
   }
   
@@ -88,7 +92,7 @@ namespace ubsens{
       util::PlotWriter::GetME()->Write(_my_th2f,class_name().c_str());
     }
     catch (fmwk::FMWKException &e) {
-      std::cout<<"Caught an exception! It is "<<e.what()<<std::endl;
+      fMsg.send(::ubsens::fmwk::msg::kEXCEPTION, __FUNCTION__, e.what());
     }
   
   }

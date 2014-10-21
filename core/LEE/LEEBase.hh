@@ -44,7 +44,7 @@ namespace ubsens{
     
     /// Function to write relevant plots (histos, tgraphs) to shared out file
     virtual void WritePlots(){};
-
+    
   };
 
 }// end namespace ubsens

@@ -29,7 +29,9 @@ namespace ubsens{
     bool ConfigReader::Read(){
 
       if( _in_filename == "" ){
-	std::cout<<"ERROR: Config reader hasn't set filename yet"<<std::endl;
+	std::string msg = "";
+	msg += "Config reader hasn't set filename yet.";
+	fMsg.send(::ubsens::fmwk::msg::kERROR,__FUNCTION__,msg);
 	return false;
       }
 
@@ -45,7 +47,9 @@ namespace ubsens{
       //Open the input configuration file
       fin.open(_in_filename.c_str());
       if (!fin.good()){
-	std::cout<<"ERROR: Didn't find config file."<<std::endl;
+	std::string msg = "";
+	msg += "Can't find config file.";
+	fMsg.send(::ubsens::fmwk::msg::kERROR,__FUNCTION__,msg);
 	return false;
       }
       
@@ -167,8 +171,9 @@ namespace ubsens{
     void ConfigReader::Dump(){
       
       if(_map.size()){
-	std::cout<<"Contents of _map shown below."<<std::endl;
-	std::cout<<"ModuleName ... ParamName ... ParamValue"<<std::endl;
+	std::string msg = "";
+	msg += "Contents of _map shown below.\n";
+	msg += "ModuleName ... ParamName ... ParamValue\n";
 	
 	for(std::map<std::string,std::map<std::string,std::string> >::const_iterator iter(_map.begin());
 	    iter!=_map.end();
@@ -176,20 +181,13 @@ namespace ubsens{
 	  for(std::map<std::string,std::string>::const_iterator iter2((*iter).second.begin());
 	      iter2!=(*iter).second.end();
 	      ++iter2){
-	    std::cout<< "\"" << (*iter).first.c_str() << "\""
-		     << " ... "
-		     << "\"" << (*iter2).first.c_str() << "\""
-		     << " ... "
-		     << "\"" << (*iter2).second.c_str() << "\""
-		     << std::endl;
+	    msg += "\"" + std::string((*iter).first) + "\" ... ";
+	    msg += "\"" + std::string((*iter2).first)+ "\" ... ";
+	    msg += "\"" + std::string((*iter2).second) + "\"\n";
 	  }
 
 	}
-	  //	  for(std::map<std::string,std::string>::const_iter iter2(iter.begin());
-	  //	       iter2!=iter.end();
-	  //	       ++iter2)
-	  //	    std::cout<<(*iter).first.c_str()<<" ... "<< (*iter2).first.c_str()<<", "<< (*iter2).second.c_str()<<std::endl;
-	
+	fMsg.send(::ubsens::fmwk::msg::kNORMAL,__FUNCTION__,msg);
       }
       
     }

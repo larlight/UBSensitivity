@@ -77,7 +77,10 @@ namespace ubsens{
 
     void SetConfigFile(std::string cfgfile){ 
       _cfg_file = cfgfile; 
-      std::cout<<"Using configuration file: "<<_cfg_file<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using configuration file: "
+	+ _cfg_file;
+      fMsg.send(::ubsens::fmwk::msg::kINFO, __FUNCTION__, msg);
     };
 
     /// Inherited configure fucntion from LEEBase

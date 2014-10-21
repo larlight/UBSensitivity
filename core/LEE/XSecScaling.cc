@@ -16,32 +16,44 @@ namespace ubsens{
       _xsec_ratio_minimum = util::FindInMapMap().GetParamValue(class_name(),std::string("RatioCutoffMin"),_configMap);
     }
     catch (fmwk::FMWKException &e) {
-      std::cout<<e.what()<<std::endl;
+      fMsg.send(fmwk::msg::kEXCEPTION, __FUNCTION__, e.what());
     }
    
     //If the config file has blank lines, use defaults
     if(_my_xsec_input_filename.empty()){
-      std::cout<<class_name()<<" is using default value for _my_xsec_input_filename."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _my_xsec_input_filename.";
+      fMsg.send(fmwk::msg::kWARNING, __FUNCTION__, msg);
       _my_xsec_input_filename = "/Users/davidkaleko/Data/LEE/tot_cc_genie_nuance_graphs.root";
     }
     if(_my_xsec_TGraph_name.empty()){
-      std::cout<<class_name()<<" is using default value for _my_xsec_TGraph_name."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _my_xsec_TGraph_name.";
+      fMsg.send(fmwk::msg::kWARNING, __FUNCTION__, msg);
       _my_xsec_TGraph_name = "genie_total_cc_graph";
     }
     if(_MB_xsec_input_filename.empty()){
-      std::cout<<class_name()<<" is using default value for _MB_xsec_input_filename."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _MB_xsec_input_filename.";
+      fMsg.send(fmwk::msg::kWARNING, __FUNCTION__, msg);
       _MB_xsec_input_filename = "/Users/davidkaleko/Data/LEE/tot_cc_genie_nuance_graphs.root";
     }
     if(_MB_xsec_TGraph_name.empty()){
-      std::cout<<class_name()<<" is using default value for _MB_xsec_TGraph_name."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _MB_xsec_TGraph_name.";
+      fMsg.send(fmwk::msg::kWARNING, __FUNCTION__, msg);
       _MB_xsec_TGraph_name = "nuance_total_cc_graph";
     }
     if(_xsec_ratio_maximum.empty()){
-      std::cout<<class_name()<<" is using default value for _xsec_ratio_maximum."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _xsec_ratio_maximum.";
+      fMsg.send(fmwk::msg::kWARNING, __FUNCTION__, msg);
       _xsec_ratio_maximum = "99999.";
     }
     if(_xsec_ratio_minimum.empty()){
-      std::cout<<class_name()<<" is using default value for _xsec_ratio_minimum."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _xsec_ratio_minimum.";
+      fMsg.send(fmwk::msg::kWARNING, __FUNCTION__, msg);
       _xsec_ratio_minimum = "0.";
     }
 

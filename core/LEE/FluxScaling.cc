@@ -16,25 +16,33 @@ namespace ubsens{
 
     }
     catch (fmwk::FMWKException &e) {
-      std::cout<<e.what()<<std::endl;
+      fMsg.send(::ubsens::fmwk::msg::kEXCEPTION, __FUNCTION__, e.what());
     }
    
 
     //If the config file has blank lines, use defaults
     if(_my_flux_input_filename.empty()){
-      std::cout<<class_name()<<" is using default value for _my_flux_input_filename."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _my_flux_input_filename.";
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _my_flux_input_filename = "/Users/davidkaleko/Data/LEE/total_nu_flux_ub_mb.root";
     }
     if(_my_flux_TGraph_name.empty()){
-      std::cout<<class_name()<<" is using default value for _my_flux_TGraph_name."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _my_flux_TGraph_name.";
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _my_flux_TGraph_name = "uB_total_nu_flux";
     }
     if(_MB_flux_input_filename.empty()){
-      std::cout<<class_name()<<" is using default value for _MB_flux_input_filename."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _MB_flux_input_filename.";
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _MB_flux_input_filename = "/Users/davidkaleko/Data/LEE/total_nu_flux_ub_mb.root";
     }
     if(_MB_flux_TGraph_name.empty()){
-      std::cout<<class_name()<<" is using default value for _MB_flux_TGraph_name."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _MB_flux_TGraph_name.";
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _MB_flux_TGraph_name = "MB_total_nu_flux";
     }
 

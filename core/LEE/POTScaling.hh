@@ -53,7 +53,7 @@ namespace ubsens{
     
     double GetPOTScaling() { return _my_POT/_MINIBOONE_POT; };
     
-  protected:
+  private:
     
     //the POT that miniboone used, default 6.46
     double _MINIBOONE_POT;

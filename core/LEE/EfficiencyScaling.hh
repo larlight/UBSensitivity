@@ -39,19 +39,15 @@ namespace ubsens{
 
     /// Default destructor
     virtual ~EfficiencyScaling(){};
+    
+    ///Function to make a hard-coded efficiency graph at 80%. Will update 
+    ///in the future
+    void MakeGraph();
 
-///Function to make a hard-coded efficiency graph at 80%. Will update 
-///in the future
-void MakeGraph();
-
-///Function to get the efficiency graph (vs lepton energy in GEV)
-TGraph* GetEfficiencyGraph() { return _eff_graph; }
+    ///Function to get the efficiency graph (vs lepton energy in GEV)
+    TGraph* GetEfficiencyGraph() { return _eff_graph; }
 
   private:
-
-    ::ubsens::fmwk::Message fMsg;
-
-  protected:
 
     /// TGraph of selection efficiency vs. lepton energy
     TGraph *_eff_graph;

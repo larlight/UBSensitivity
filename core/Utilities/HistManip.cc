@@ -12,7 +12,7 @@ namespace ubsens{
       
       //Check to make sure each of the bin low boundaries listed in nbins
       //matches with a bin already in hist
-      if(debug_me) std::cout<<"CheckBins start"<<std::endl;
+
       for (Int_t inew = 0; inew < nbins->size(); ++inew){
 	if(debug_me) std::cout<<"loop over vector provided. checking "<<nbins->at(inew)<<std::endl;
 	//Loop over bins in histogram
@@ -29,17 +29,22 @@ namespace ubsens{
 	  
 	  //+2 is to cover for underflow and overflow bin boundaries
 	  if( iold == hist->GetNbinsX()+2 ){
-	    std::cout<<"Problem with Check Bins. No match found! Here's debug info:"<<std::endl;
-	    std::cout<<"\t Input histogram bins: [";
+
+	    std::string msg = "";
+	    msg += "Problem with Check Bins. No match found! Here's debug info:\n";
+	    msg += "\tInput histogram bins: [";
 	    for(int david = 0; david < hist->GetNbinsX()+2; david++)
-	      std::cout<<hist->GetXaxis()->GetBinLowEdge(david)<<",";
-	    std::cout<<"]"<<std::endl;
-	    std::cout<<"\t Input new bins: [";
+	      msg += std::to_string(hist->GetXaxis()->GetBinLowEdge(david)) + ",";
+	    msg += "]\n";
+	    msg += "\tInput new bins: [";
 	    for(size_t david = 0; david < nbins->size(); david++)
-	      std::cout<<nbins->at(david)<<",";
-	    std::cout<<"]"<<std::endl;
-	    std::cout<<"\t\t Unable to rebin because one of the input new bins does not match any of the input histogram bin low edge boundaries."<<std::endl;
+	      msg += std::to_string(nbins->at(david)) + ",";
+	    msg += "]\n";
+	    msg += "\t\tUnable to rebin because one of the input new bins does not match ";
+	    msg += "any of the input histogram bin low edge boundaries.\n";
+	    fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
 	    return false;
+
 	  }
 	}
 	
@@ -62,13 +67,16 @@ namespace ubsens{
       if((TH1F*)stack->GetHists())
 	blah = (TH1F*)stack->GetHists()->At(0);
       else{
-	std::cout<<"error, stack provided to AddTH1FToStack is empty"<<std::endl;
+	std::string msg = "";
+	msg += "Stack provided to AddTH1FToStack is empty.";
+	fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
 	return result;
       }
-      std::cout<<"check: stack histos bins are "<<blah->GetNbinsX()<<std::endl;
       
       if(!CheckBins((TH1F*)stack->GetHists()->At(0),histbins)){
-	std::cout<<"problem. returning empty stack"<<std::endl;
+	std::string msg = "";
+	msg += "Stack provided has binning problem.";
+	fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
 	return result;
       }
       
@@ -82,13 +90,17 @@ namespace ubsens{
     
     TH1F* HistManip::RebinTH1F(TH1F * const hist, const std::vector<double> *newbins){
       
+      TH1F *result = hist;
+
       //Check to make sure newbins are all integer multiples of oringal hist bins
       //otherwise TH1F::Rebin does funky stuff.
       if( !CheckBins(hist,newbins) ){
-	std::cout<<"problem. implement exception here. rebinTH1F didn't pass CheckBins test"<<std::endl;
+	std::string msg = "";
+	msg += "TH1F provided provided has binning problem.";
+	fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
+	return hist;
       }
       
-      TH1F *result = hist;
       size_t nbins = newbins->size();
       Double_t xbins[nbins];
       for (Int_t i = 0; i < nbins; i++)
@@ -105,8 +117,10 @@ namespace ubsens{
       //Loop over the histograms in the stack, check each has compatible bins
       for(size_t i = 0; i < stack->GetHists()->GetSize(); i++){
 	if( !CheckBins((const TH1F*)stack->GetHists()->At(i),newbins) ){
-	  std::cout<<"problem with a histogram bin in stack. returning null result stack"<<std::endl;
-	  std::cout<<"i = "<<i<<std::endl;
+	  std::string msg = "";
+	  msg += "Problem with the binning of histogram " + std::to_string(i);
+	  msg += "in the stack. Returning null result stack.";
+	  fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
 	  return result;
 	}
 	

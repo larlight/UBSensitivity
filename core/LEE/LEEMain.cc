@@ -19,65 +19,93 @@ namespace ubsens{
       _true_MB_excess_evts = util::FindInMapMap().GetParamValue(class_name(),std::string("NTrueMBExcessEvts"),_configMap);
     }
     catch (fmwk::FMWKException &e) {
-      std::cout<<e.what()<<std::endl;
+      fMsg.send(::ubsens::fmwk::msg::kEXCEPTION, __FUNCTION__, e.what());
     }
 
     //If the config file has blank lines, use defaults
     if(_LEE_hist_name.empty()){
-      std::cout<<class_name()<<" is using default value for _LEE_hist_name."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _LEE_hist_name.";
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _LEE_hist_name = "default_LEE_histname";
     }
     if(_LEE_hist_title.empty()){
-      std::cout<<class_name()<<" is using default value for _LEE_hist_title."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _LEE_hist_title.";
+ fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _LEE_hist_title = "Default LEE histogram title";
     }
     if(_LEE_hist_bins_string.empty()){
-      std::cout<<class_name()<<" is using default value for _LEE_hist_bins_string."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _LEE_hist_bins_string.";
+ fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _LEE_hist_bins_string = "[0.2,0.48,0.76,1.04,1.32,1.6,1.88,2.16,2.44,2.72,3.0]";
     }
     if(_data_file.empty()){
-      std::cout<<class_name()<<" is using default data file."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default data file.";
+ fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _data_file="/Users/davidkaleko/UBSensitivity/single_electrons_allfiles.root";
     }
     if(_ElectronOrGamma.empty()){
-      std::cout<<class_name()<<" is using default value for _ElectronOrGamma."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _ElectronOrGamma.";
+ fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _ElectronOrGamma = "Electron";
     }
-
+    
     //Convert "Electron" or "Gamma" string into a bool
     if(strcmp(_ElectronOrGamma.c_str(),"Electron")==0)
       _isElectronSample=true;
     else if (strcmp(_ElectronOrGamma.c_str(),"Gamma")==0)
       _isElectronSample=false;
     else{
-      std::cerr<<"ERROR: use \"Electron\" or \"Gamma\" as ElectronOrGamma parameter in your config file."<<std::endl;
+      std::string msg = "";
+      msg += "ERROR: use \"Electron\" or \"Gamma\" as ElectronOrGamma parameter in your config file.";
+      fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
       return false;
     }
-
+    
     if(_EnergyDefinition.empty()){
-      std::cout<<class_name()<<" is using default value for _EnergyDefinition."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _EnergyDefinition.";
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _EnergyDefinition = "TrueLepE";
     }
     if(_n_evts_generated.empty()){
-      std::cout<<class_name()<<" is using default value for _n_evts_generated."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _n_evts_generated.";
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _n_evts_generated = "50000";
     }
     if(_true_MB_excess_evts.empty()){
-      std::cout<<class_name()<<" is using default value for _true_MB_excess_evts."<<std::endl;
+      std::string msg = "";
+      msg += class_name() + " is using default value for _true_MB_excess_evts.";
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _true_MB_excess_evts = "1212.114";
     }
-
+    
     return true;
   }
-
-
+  
+  
   bool LEEMain::Initialize(){
 
-    //Configure the ConfigManager
+
     if(_cfg_file.empty()){
-      std::cout<<"Set config file!"<<std::endl;
+      std::string msg = "";
+      msg += "Set the configuration file before running Initialize!";
+      fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
       return false;
     }
+    if(_data_file.empty()){
+      std::string msg = "";
+      msg += "Set the data file before running Initialize!";
+      fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
+      return false;
+    }
+
+    //Configure the ConfigManager
     _cfgmgr.LoadConfig(_cfg_file);
 
     //Configure the PlotWriter
@@ -92,10 +120,6 @@ namespace ubsens{
     //    _cfgmgr.DebugDump();
 
     //Configure the DataManager
-    if(_data_file.empty()){
-      std::cout<<"Set data file!"<<std::endl;
-      return false;
-    }
     _datamgr.SetIOMode(ubsens::data::DataManager::READ);
     _datamgr.AddInputFilename(_data_file);
     _datamgr.Open();
@@ -125,10 +149,11 @@ namespace ubsens{
       myTruthShowers= myEventRecord.TruthShowerCollection();
 
       if(myTruthShowers.size() > 1){
-	std::cout << "Why is there more than 1 truth shower?"
-		  << " I thought you were generating single e or g's"
-		  << ". Skipping this event." 
-		  << std::endl;
+	std::string msg = "";
+	msg += "Why is there more than 1 truth shower? ";
+	msg += "I thought you were generating single e or g's. ";
+	msg += "Skipping this event.";
+	fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
 	continue;
       }
       
@@ -138,16 +163,22 @@ namespace ubsens{
 
       // Weight event by all scaling factors
       double weight = 1.;
+      
       // POT weight (implement this w/ Configure() function, using default now)
       weight *= _potscaling.GetPOTScaling();
+      
       // Tonnage weight (implement this w/ Configure() function, default now):
       weight *= _tonnagescaling.GetTonnageScaling();
+      
       // X-Sec weight:
       weight *= _xsecscaling.GetXSecRatio()->Eval(correlated_nu_energy_GEV);
+      
       // Flux weight:
       weight *= _fluxscaling.GetFluxRatio()->Eval(correlated_nu_energy_GEV);
+      
       // Efficiency weight:
       weight *= _effscaling.GetEfficiencyGraph()->Eval(true_lept_E_GEV);
+      
       // Overall normalization to true MB excess events
       weight *= atof(_true_MB_excess_evts.c_str()) / atof(_n_evts_generated.c_str());
 
@@ -248,10 +279,10 @@ namespace ubsens{
     //    _potscaling.Configure(_cfgmgr.GetConfigMap());
 
     //Tonnage scaling stuff here (implement this)
-    _tonnagescaling.SetMyDetector(geo::Detector_t::kMicroBooNE);
-    //    _tonnagescaling.Configure(_cfgmgr.GetConfigMap());
+    _tonnagescaling.Configure(_cfgmgr.GetConfigMap());
 
     //Efficiency scaling stuff here:
+    //todo: uncomment this
     //_effscaling.Confignre(_cfgmgr.GetConfigMap());
     _effscaling.MakeGraph();
     _effscaling.WritePlots();

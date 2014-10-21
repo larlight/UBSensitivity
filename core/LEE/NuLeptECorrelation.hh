@@ -66,7 +66,7 @@ namespace ubsens{
     /// to that lepton energy, then draws a random number from that distribution.
     double NuEFromLeptE(double lept_e);
 
-  protected:
+  private:
     
     std::string _my_fosc_filename;
     std::string _my_th2f_name;

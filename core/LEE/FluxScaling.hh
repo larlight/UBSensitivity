@@ -70,13 +70,8 @@ namespace ubsens {
     
     TGraph* GetFluxRatio(){ return _flux_ratio; }
     
-    
-  private:
+  private:    
 
-    ::ubsens::fmwk::Message fMsg;
-
-  protected:
-    
     //cross section graph for your detector
     TGraph *_my_flux;
     //cross section graph for miniboone

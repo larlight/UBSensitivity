@@ -25,9 +25,10 @@
 
 /**
    \class XSecScaling
-   User defined class XSecScaling ... these comments are used to generate
-   doxygen documentation!
- */
+   This grabs xsection graphs from files and divides them.
+   It also multiplies cross sections by n-targets-per-ton,
+   so it's really more than just cross section scaling.
+*/
 namespace ubsens{
   
   class XSecScaling : public LEEBase{
@@ -84,10 +85,6 @@ namespace ubsens{
     TGraph* GetXSecRatio(){ return _xsec_ratio; }
     
   private:
-
-    ::ubsens::fmwk::Message fMsg;
-
-  protected:
     
     //cross section graph for your detector
     TGraph *_my_xsec;

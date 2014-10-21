@@ -55,7 +55,7 @@ namespace ubsens{
     
     double GetTonnageScaling();
     
-  protected:
+  private:
     
     double _my_tonnage;
     
