@@ -11,6 +11,7 @@ namespace ubsens{
       _background_stackname = util::FindInMapMap().GetParamValue(class_name(),std::string("BackgroundStackName"),_configMap);
       _background_legendname = util::FindInMapMap().GetParamValue(class_name(),std::string("BackgroundStackLegendName"),_configMap);
       _final_hist_bins_string =  util::FindInMapMap().GetParamValue(class_name(),std::string("FinalStackBins"),_configMap);
+      _final_stack_title = util::FindInMapMap().GetParamValue(class_name(),std::string("FinalStackTitle"),_configMap);
     }
     catch (fmwk::FMWKException &e) {
       std::cout<<e.what()<<std::endl;
@@ -35,6 +36,12 @@ namespace ubsens{
     if(_final_hist_bins_string.empty()){
       std::cout<<class_name()<<" is using default value for _final_hist_bins_string."<<std::endl;
       _final_hist_bins_string = "[0.2,0.48,0.76,1.04,1.32,1.6,1.88,2.16,2.44,2.72,3.0]";
+    }
+    
+
+    if(_final_stack_title.empty()){
+      std::cout<<class_name()<<" is using default value for _final_stack_title."<<std::endl;
+      _final_stack_title = "DEFAULT STACK TITLE;DEFAULT AXIS;DEFAULT BLAH";
     }
     
     return true;
@@ -69,16 +76,22 @@ namespace ubsens{
     const std::vector<double> *xbins_vec = util::StringParser().ParseBinsString(_final_hist_bins_string);
 
     _final_LEE_histo=util::HistManip::RebinTH1F(_final_LEE_histo,xbins_vec);
+    _final_LEE_histo->SetFillStyle(3002);
+    _final_LEE_histo->SetFillColor(kBlack);
+    _final_LEE_histo->SetLineColor(kBlack);
     _final_stack=util::HistManip::RebinStack(_final_stack,xbins_vec);
     _final_stack=util::HistManip::AddTH1FToStack(_final_LEE_histo,_final_stack);
     _final_stack->SetName("LEE_final_stack");
-
+    _final_stack->SetTitle(_final_stack_title.c_str());
+   
     //Add the LEE signal to the legend, too
     util::PlotReader::GetME()->Reset();
     util::PlotReader::GetME()->SetFileName(_background_stackfile);
     util::PlotReader::GetME()->SetObjectName(_background_legendname);
     _final_legend = (TLegend*)util::PlotReader::GetME()->GetObject();
-    _final_legend->AddEntry(_final_LEE_histo,_final_LEE_histo->GetTitle(),"f");
+    _final_legend->AddEntry(_final_LEE_histo,_final_LEE_histo->GetTitle(),"lf");
+    _final_legend->SetName("LEE_final_legend");
+    //Add "INTERNAL" or "PRELIMINARY" tag to final plot?
 
   }
   

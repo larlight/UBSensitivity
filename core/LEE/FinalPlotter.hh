@@ -47,6 +47,7 @@ namespace ubsens{
       _background_stackname = "";
       _background_legendname= "";
       _final_hist_bins_string="";
+      _final_stack_title="";
       _final_stack=0;
       _final_LEE_histo=0;
       _final_legend=0;
@@ -67,16 +68,19 @@ namespace ubsens{
     /// Function to load the LEE histo from LEEMain
     void LoadLEEHisto(TH1F* histo){ _final_LEE_histo = histo; }
 
+
   private:
 
     std::string _background_stackfile;
     std::string _background_stackname;
     std::string _background_legendname;
     std::string _final_hist_bins_string;
+    std::string _final_stack_title;
 
     THStack* _final_stack;
     TH1F* _final_LEE_histo;
     TLegend* _final_legend;
+
 
   };
 
