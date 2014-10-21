@@ -3,7 +3,7 @@
  *
  * \ingroup DataHandle
  * 
- * \brief Class def header for a class DataManager
+ * \brief Manager class for data handling. It holds a ubsens::data::EventRecord instance and also takes care of file I/O.
  *
  * @author kazuhiro
  */

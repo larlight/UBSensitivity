@@ -3,7 +3,7 @@
  *
  * \ingroup DataHandle
  * 
- * \brief Class def header for a class EventRecord
+ * \brief Class to hold event data, which is a collection of all necessary information per event.
  *
  * @author davidkaleko
  */

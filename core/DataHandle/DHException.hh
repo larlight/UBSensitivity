@@ -3,7 +3,7 @@
  *
  * \ingroup DataHandle
  * 
- * \brief Class def header for a class DHException
+ * \brief Exception class for data handler stuff.
  *
  * @author kazuhiro
  */

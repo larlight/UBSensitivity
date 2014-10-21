@@ -3,7 +3,7 @@
  *
  * \ingroup AnaConfig
  * 
- * \brief Class def header for a class ConfigManager
+ * \brief Manager class to handle configuration scripts. Talks to ConfigReader to read in the text file and creates a std::map to handle it. This map is handed to each module, which is in charge of searching through it to grab any configuration parameters relevant to that module.
  *
  * @author davidkaleko
  */

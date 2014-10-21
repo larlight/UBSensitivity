@@ -3,7 +3,7 @@
  *
  * \ingroup AnaConfig
  * 
- * \brief Class def header for a class ConfigReader
+ * \brief Class to read in a specially formatted text file (see sample.config) and parse it into a std::map, which it hands to ConfigManager
  *
  * @author davidkaleko
  */
