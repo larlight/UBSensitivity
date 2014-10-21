@@ -14,12 +14,9 @@
 #ifndef LEEBASE_HH
 #define LEEBASE_HH
 
-#include <iostream>
 #include "FMWKBase/FMWKBase.hh"
-#include "FMWKBase/Message.hh"
 #include "FMWKBase/FMWKException.hh"
 #include <map>
-#include "TGraph.h"
 
 
 /**

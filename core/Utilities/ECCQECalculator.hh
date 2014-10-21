@@ -3,7 +3,7 @@
  *
  * \ingroup Utilities
  * 
- * \brief Class def header for a class ECCQECalculator
+ * \brief A static function to calculate CCQE energy.
  *
  * @author davidkaleko
  */
@@ -14,8 +14,8 @@
 #ifndef ECCQECALCULATOR_HH
 #define ECCQECALCULATOR_HH
 
-#include <iostream>
 #include <math.h> //pow
+
 /**
    \class ECCQECalculator
    User defined class ECCQECalculator ... these comments are used to generate

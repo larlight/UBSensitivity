@@ -15,7 +15,6 @@
 #ifndef PLOTREADER_HH
 #define PLOTREADER_HH
 
-#include <iostream>
 #include "FMWKBase/FMWKBase.hh"
 #include "FMWKBase/FMWKException.hh"
 #include "TObject.h"

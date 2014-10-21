@@ -14,14 +14,11 @@
 #ifndef HISTMANIP_HH
 #define HISTMANIP_HH
 
-#include <iostream>
 #include "FMWKBase/FMWKBase.hh"
 #include "FMWKBase/FMWKException.hh"
-#include "FMWKBase/Message.hh"
 #include "TH1.h"
 #include "THStack.h"
 #include "TList.h"
-//#include <vector>
 
 /**
    \class HistManip

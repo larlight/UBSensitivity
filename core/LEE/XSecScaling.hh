@@ -16,12 +16,12 @@
 #ifndef XSECSCALING_HH
 #define XSECSCALING_HH
 
-#include <iostream>
 #include "LEEBase.hh"
 #include "Utilities/PlotReader.hh"
 #include "Utilities/PlotWriter.hh"
 #include "Utilities/FindInMapMap.hh"
 #include "Constants/GeometryConstants.hh"
+#include "TGraph.h"
 
 /**
    \class XSecScaling

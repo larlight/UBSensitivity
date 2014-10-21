@@ -14,9 +14,8 @@
 #ifndef CONFIGREADER_HH
 #define CONFIGREADER_HH
 
-#include <iostream>
-#include <fstream>
 #include <map>
+#include <fstream>
 #include <algorithm> //std::find
 #include "FMWKBase/FMWKBase.hh"
 #include "FMWKBase/FMWKException.hh"
@@ -24,8 +23,7 @@
 
 /**
    \class ConfigReader
-   User defined class ConfigReader ... these comments are used to generate
-   doxygen documentation!
+   Class to read in a specially formatted text file (see sample.config) and parse it into a std::map, which it hands to ConfigManager
  */
 namespace ubsens{
 

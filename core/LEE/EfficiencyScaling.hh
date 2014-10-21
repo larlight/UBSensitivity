@@ -14,9 +14,9 @@
 #ifndef EFFICIENCYSCALING_HH
 #define EFFICIENCYSCALING_HH
 
-#include <iostream>
 #include "LEEBase.hh"
 #include "Utilities/PlotWriter.hh"
+#include "TGraph.h"
 
 /**
    \class EfficiencyScaling

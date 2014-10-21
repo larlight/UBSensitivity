@@ -14,11 +14,11 @@
 #ifndef FLUXSCALING_HH
 #define FLUXSCALING_HH
 
-#include <iostream>
 #include "LEEBase.hh"
 #include "Utilities/PlotReader.hh"
 #include "Utilities/PlotWriter.hh"
 #include "Utilities/FindInMapMap.hh"
+#include "TGraph.h"
 
 /**
    \class FluxScaling

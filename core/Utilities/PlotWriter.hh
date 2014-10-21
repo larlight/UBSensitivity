@@ -15,13 +15,10 @@
 #ifndef PLOTWRITER_HH
 #define PLOTWRITER_HH
 
-#include <iostream>
 #include "FMWKBase/FMWKBase.hh"
 #include "FMWKBase/FMWKException.hh"
 #include "TFile.h"
 #include "TObjString.h"
-#include "TGraph.h"
-#include "TH2.h"
 
 
 /**

@@ -17,13 +17,12 @@
 #ifndef NULEPTECORRELATION_HH
 #define NULEPTECORRELATION_HH
 
-#include <iostream>
 #include "LEEBase.hh"
 #include "Utilities/PlotReader.hh"
 #include "Utilities/PlotWriter.hh"
 #include "Utilities/FindInMapMap.hh"
-
 #include "TH2.h"
+
 /**
    \class NuLeptECorrelation
    User defined class NuLeptECorrelation ... these comments are used to generate

@@ -16,12 +16,10 @@
 #ifndef FINALPLOTTER_HH
 #define FINALPLOTTER_HH
 
-#include <iostream>
 #include "LEEBase.hh"
 #include "TH1.h"
 #include "THStack.h"
 #include "TList.h"
-#include <vector>
 #include "TLegend.h"
 #include "Utilities/FindInMapMap.hh"
 #include "Utilities/PlotReader.hh"

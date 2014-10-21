@@ -14,11 +14,9 @@
 #ifndef TONNAGESCALING_HH
 #define TONNAGESCALING_HH
 
-#include <iostream>
 #include "LEEBase.hh"
 #include "Constants/GeometryConstants.hh"
 #include "Utilities/FindInMapMap.hh"
-#include <string.h>
 
 /**
    \class TonnageScaling

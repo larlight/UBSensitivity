@@ -14,23 +14,17 @@
 #ifndef CONFIGMANAGER_HH
 #define CONFIGMANAGER_HH
 
-#include <iostream>
-#include <map>
 #include "ConfigReader.hh"
-#include "ConfigConstants.hh"
 #include "FMWKBase/FMWKBase.hh"
-#include "FMWKBase/Message.hh"
 #include "Utilities/PlotWriter.hh"
-#include "time.h"
 
 /**
    \class ConfigManager
-   User defined class ConfigManager ... these comments are used to generate
-   doxygen documentation!
- */
+   Manager class to handle configuration scripts. Talks to ConfigReader to read in the text file and creates a std::map to handle it. This map is handed to each module, which is in charge of searching through it to grab any configuration parameters relevant to that module.
+*/
 
 namespace ubsens{
-
+  
   namespace config{
     
     class ConfigManager : public ::ubsens::fmwk::FMWKBase{
@@ -83,8 +77,6 @@ namespace ubsens{
       bool _config_loaded;
       
       std::string _saved_configfilename;
-
-      ::ubsens::fmwk::Message fMsg;
 
     };
 

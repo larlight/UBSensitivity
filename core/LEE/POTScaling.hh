@@ -14,7 +14,6 @@
 #ifndef POTSCALING_HH
 #define POTSCALING_HH
 
-#include <iostream>
 #include "LEEBase.hh"
 #include "Constants/POTConstants.hh"
 #include "Utilities/FindInMapMap.hh"

@@ -16,7 +16,7 @@
 #ifndef LEEMAIN_HH
 #define LEEMAIN_HH
 
-#include <iostream>
+//#include <iostream>
 #include "LEEBase.hh"
 #include "AnaConfig/ConfigManager.hh"
 #include "DataHandle/DataManager.hh"
@@ -31,9 +31,7 @@
 #include "Utilities/StringParser.hh"
 #include "Utilities/HistManip.hh"
 #include "Utilities/ECCQECalculator.hh"
-#include "TMath.h"
-#include "THStack.h"
-#include "TLegend.h"
+#include "TH1.h"
 
 /**
    \class LEEMain
@@ -106,7 +104,6 @@ namespace ubsens{
     TonnageScaling _tonnagescaling;
     EfficiencyScaling _effscaling;
 
-
     std::string _cfg_file;
     std::string _data_file;
     std::string _LEE_hist_name;
@@ -119,8 +116,6 @@ namespace ubsens{
     
     bool _isElectronSample;
     
-
-
     TH1F* _LEE_hist;
 
   };

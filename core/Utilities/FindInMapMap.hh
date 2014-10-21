@@ -17,7 +17,6 @@
 #ifndef FINDINMAPMAP_HH
 #define FINDINMAPMAP_HH
 
-#include <iostream>
 #include "FMWKBase/FMWKBase.hh"
 #include "FMWKBase/FMWKException.hh"
 #include <map>

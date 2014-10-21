@@ -16,11 +16,10 @@
 #ifndef STRINGPARSER_HH
 #define STRINGPARSER_HH
 
-#include <iostream>
-#include <sstream>
-#include <vector>
 #include "FMWKBase/FMWKBase.hh"
 #include "FMWKBase/FMWKException.hh"
+#include <vector>
+
 
 /**
    \class StringParser
