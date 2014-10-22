@@ -99,7 +99,7 @@ namespace ubsens {
 
       if(index >= GetEntries()) {
 
-	fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, 
+	fMsg.send(::ubsens::fmwk::msg::kINFO, __FUNCTION__, 
 		  Form(" Index %zu is beyond event counts in the TTree (%zu)... ",index,GetEntries())
 		  );
 	return false;

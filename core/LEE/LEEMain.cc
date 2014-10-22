@@ -38,13 +38,13 @@ namespace ubsens{
     if(_LEE_hist_bins_string.empty()){
       std::string msg = "";
       msg += class_name() + " is using default value for _LEE_hist_bins_string.";
- fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _LEE_hist_bins_string = "[0.2,0.48,0.76,1.04,1.32,1.6,1.88,2.16,2.44,2.72,3.0]";
     }
     if(_data_file.empty()){
       std::string msg = "";
       msg += class_name() + " is using default data file.";
- fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _data_file="/Users/davidkaleko/UBSensitivity/single_electrons_allfiles.root";
     }
     if(_ElectronOrGamma.empty()){
@@ -98,12 +98,6 @@ namespace ubsens{
       fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
       return false;
     }
-    if(_data_file.empty()){
-      std::string msg = "";
-      msg += "Set the data file before running Initialize!";
-      fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
-      return false;
-    }
 
     //Configure the ConfigManager
     _cfgmgr.LoadConfig(_cfg_file);
@@ -119,7 +113,14 @@ namespace ubsens{
     _cfgmgr.SaveConfig();
     //    _cfgmgr.DebugDump();
 
-    //Configure the DataManager
+    //Configure the DataManager (note, _data_file gets set by Configure())
+    if(_data_file.empty()){
+      std::string msg = "";
+      msg += "Set the data file before running Initialize!";
+      fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
+      return false;
+    }
+
     _datamgr.SetIOMode(ubsens::data::DataManager::READ);
     _datamgr.AddInputFilename(_data_file);
     _datamgr.Open();
