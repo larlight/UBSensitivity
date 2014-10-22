@@ -23,8 +23,8 @@
 
 /**
    \class PlotWriter
-   User defined class PlotWriter ... these comments are used to generate
-   doxygen documentation!
+   Singleton that writes all tgraphs/histos to a single output file
+   (actually it can write anything that inherits from TObject)
 */
 
 namespace ubsens{
