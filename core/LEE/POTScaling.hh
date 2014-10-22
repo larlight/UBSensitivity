@@ -3,7 +3,7 @@
  *
  * \ingroup LEE
  * 
- * \brief Class def header for a class POTScaling
+ * \brief Simple class to handle POT scaling.
  *
  * @author davidkaleko
  */
@@ -19,8 +19,7 @@
 #include "Utilities/FindInMapMap.hh"
 /**
    \class POTScaling
-   User defined class POTScaling ... these comments are used to generate
-   doxygen documentation!
+   Simple class to handle POT scaling.
  */
 
 namespace ubsens{

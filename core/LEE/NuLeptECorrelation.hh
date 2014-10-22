@@ -25,8 +25,10 @@
 
 /**
    \class NuLeptECorrelation
-   User defined class NuLeptECorrelation ... these comments are used to generate
-   doxygen documentation!
+   This class reads in a fullosc file, makes a TH2F showing the
+   correlation between lepton energy and true neutrino energy, then has
+   a function that takes in lepton energy and draws randomly to spit out
+   a true neutrino energy (or vice versa).
  */
 
 namespace ubsens{

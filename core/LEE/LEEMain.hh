@@ -35,9 +35,10 @@
 
 /**
    \class LEEMain
-   User defined class LEEMain ... these comments are used to generate
-   doxygen documentation!
- */
+   Main class that performs event loop, owns DataManager and 
+   ConfigManager instances, configures all of the subprocesses, and
+   saves final histograms to output file
+*/
 namespace ubsens{
   
   class LEEMain : public LEEBase{

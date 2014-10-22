@@ -18,8 +18,7 @@
 
 /**
    \class ECCQECalculator
-   User defined class ECCQECalculator ... these comments are used to generate
-   doxygen documentation!
+   A static function to calculate CCQE energy.
  */
 namespace ubsens{
   namespace util{

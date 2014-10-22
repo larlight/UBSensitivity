@@ -3,8 +3,7 @@
  *
  * \ingroup LEE
  * 
- * \brief This opens up TFiles and reads in TGraphs, TH1D, TH2Fs etc, 
- * and returns them
+ * \brief This opens up TFiles and reads in anything that inherits from TObject, including TGraphs, TH1D, TH2F, TLegend, etc. and returns them
  *
  * @author davidkaleko
  */
@@ -22,8 +21,8 @@
 
 /**
    \class PlotReader
-   User defined class PlotReader ... these comments are used to generate
-   doxygen documentation!
+   This opens up TFiles and reads in anything that inherits from TObject, including TGraphs, TH1D, TH2F, TLegend, etc. and returns them
+
  */
 
 namespace ubsens{

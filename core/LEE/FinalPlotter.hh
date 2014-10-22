@@ -29,8 +29,9 @@
 
 /**
    \class FinalPlotter
-   User defined class FinalPlotter ... these comments are used to generate
-   doxygen documentation!
+   This is the function that takes in the end LEE histogram from
+   LEEMain and makes it pretty. It also grabs background stacks and plots
+   the LEE signal on top, and saves a legend.
  */
 namespace ubsens{
 

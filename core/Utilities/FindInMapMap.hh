@@ -23,9 +23,11 @@
 
 /**
    \class FindInMapMap
-   User defined class FindInMapMap ... these comments are used to generate
-   doxygen documentation!
- */
+   Class takes in const pointer to map<string,map<string,string>>
+   (the map is modulename --> map<parametername --> paramvalue> )
+   and a module name, and a parameter name.
+   it greps the map for the module and parameter, and returns the value
+*/
 namespace ubsens{
 
   namespace util{

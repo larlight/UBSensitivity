@@ -3,7 +3,7 @@
  *
  * \ingroup LEE
  * 
- * \brief Class def header for a class LEEBase
+ * \brief Base class for LEE modules. Holds a Configure function that all modules will inherit to grab their specific configuration parameters from the ConfigManager (configuration files). Also has WritePlots function that will be inherited by modules, telling them to hand off their relevant plots to PlotWriter for writing to the output file.
  *
  * @author davidkaleko
  */
@@ -21,8 +21,7 @@
 
 /**
    \class LEEBase
-   User defined class LEEBase ... these comments are used to generate
-   doxygen documentation!
+   Base class for LEE modules. Holds a Configure function that all modules will inherit to grab their specific configuration parameters from the ConfigManager (configuration files). Also has WritePlots function that will be inherited by modules, telling them to hand off their relevant plots to PlotWriter for writing to the output file.
  */
 namespace ubsens{
 

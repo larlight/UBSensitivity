@@ -3,7 +3,7 @@
  *
  * \ingroup FMWKBase
  * 
- * \brief Class def header for a class FMWKException
+ * \brief Custom (albeit simple) exception class for the framework.
  *
  * @author davidkaleko
  */
@@ -20,8 +20,7 @@
 
 /**
    \class FMWKException
-   User defined class FMWKException ... these comments are used to generate
-   doxygen documentation!
+   Custom (albeit simple) exception class for the framework.
  */
 namespace ubsens{
 

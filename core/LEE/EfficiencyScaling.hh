@@ -3,7 +3,7 @@
  *
  * \ingroup LEE
  * 
- * \brief Class def header for a class EfficiencyScaling
+ * \brief Class to scale the efficiency. For now it just makes a flat graph at 0.8 and calls that the efficiency. Can be improved once our actual event selection efficiency is studied in depth (after automated reconstruction is developed more, etc).
  *
  * @author davidkaleko
  */
@@ -20,8 +20,7 @@
 
 /**
    \class EfficiencyScaling
-   User defined class EfficiencyScaling ... these comments are used to generate
-   doxygen documentation!
+   Class to scale the efficiency. For now it just makes a flat graph at 0.8 and calls that the efficiency. Can be improved once our actual event selection efficiency is studied in depth (after automated reconstruction is developed more, etc).
  */
 namespace ubsens{
 

@@ -3,7 +3,7 @@
  *
  * \ingroup LEE
  * 
- * \brief Class def header for a class FluxScaling
+ * \brief Class that reads in flux graphs, computes a ratio of them, then passes that ratio on to LEEMain for scaling purposes.
  *
  * @author davidkaleko
  */
@@ -22,8 +22,7 @@
 
 /**
    \class FluxScaling
-   User defined class FluxScaling ... these comments are used to generate
-   doxygen documentation!
+   Class that reads in flux graphs, computes a ratio of them, then passes that ratio on to LEEMain for scaling purposes.
  */
 namespace ubsens {
 

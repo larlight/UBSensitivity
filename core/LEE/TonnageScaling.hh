@@ -3,7 +3,7 @@
  *
  * \ingroup LEE
  * 
- * \brief Class def header for a class TonnageScaling
+ * \brief Simple class to handle tonnage scaling.
  *
  * @author davidkaleko
  */
@@ -20,8 +20,7 @@
 
 /**
    \class TonnageScaling
-   User defined class TonnageScaling ... these comments are used to generate
-   doxygen documentation!
+   Simple class to handle tonnage scaling.
  */
 
 namespace ubsens{

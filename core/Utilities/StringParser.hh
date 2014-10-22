@@ -23,8 +23,9 @@
 
 /**
    \class StringParser
-   User defined class StringParser ... these comments are used to generate
-   doxygen documentation!
+   Class that takes in strings and has different functions
+   to parse/return different things out of those strings.
+   I.E. take in "[3,4,5]" and return std::vector<double>{3,4,5}
 */
 namespace ubsens{
   namespace util{
