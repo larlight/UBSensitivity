@@ -47,8 +47,8 @@ namespace ubsens{
       _MB_xsec_TGraph_name = "";
       _my_ntargetspergram = geo::UB_TARGETS_PER_GRAM;
       _MB_ntargetspergram = geo::MINIBOONE_TARGETS_PER_GRAM;
-      _xsec_ratio_maximum="";
-      _xsec_ratio_minimum="";
+      _xsec_ratio_maximum="99999.";
+      _xsec_ratio_minimum="0.";
       _name = "XSecScaling";
     };
     
@@ -84,6 +84,10 @@ namespace ubsens{
     
     TGraph* GetXSecRatio(){ return _xsec_ratio; }
     
+    TGraph* GetMyGraph(){ return _my_xsec; }
+
+    TGraph* GetMBGraph(){ return _MB_xsec; }
+
   private:
     
     //cross section graph for your detector
