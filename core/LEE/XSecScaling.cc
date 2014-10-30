@@ -159,6 +159,22 @@ namespace ubsens{
     
   }
 
+  void XSecScaling::Reset(){
+
+      _my_xsec = 0;
+      _MB_xsec = 0;
+      _xsec_ratio = 0;
+      _my_xsec_input_filename = "";
+      _my_xsec_TGraph_name = "";
+      _MB_xsec_input_filename = "";
+      _MB_xsec_TGraph_name = "";
+      _my_ntargetspergram = geo::UB_TARGETS_PER_GRAM;
+      _MB_ntargetspergram = geo::MINIBOONE_TARGETS_PER_GRAM;
+      _xsec_ratio_maximum="99999.";
+      _xsec_ratio_minimum="0.";
+      _name = "XSecScaling";
+  }
+
 }//end namespace ubsens
 
 #endif

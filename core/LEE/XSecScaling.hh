@@ -88,6 +88,8 @@ namespace ubsens{
 
     TGraph* GetMBGraph(){ return _MB_xsec; }
 
+    void Reset();
+
   private:
     
     //cross section graph for your detector
