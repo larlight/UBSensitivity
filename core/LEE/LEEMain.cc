@@ -196,11 +196,15 @@ namespace ubsens{
       e_ccqe /= 1000.;
       _LEE_hist->Fill(e_ccqe,weight);
       */
-      
+
+      //Smear the final lepton energy by 15%/sqrt(E)
+      double smeared_lept_E_GEV = _energysmear.SmearEnergy(true_lept_E_GEV);
+
       // Fill histo here
-      _LEE_hist->Fill(true_lept_E_GEV,weight);
+      _LEE_hist->Fill(smeared_lept_E_GEV,weight);
 
     }
+
 
     
     return true;
@@ -221,6 +225,9 @@ namespace ubsens{
     fp.WritePlots();
 
     delete _LEE_hist;
+
+    //Write the plots from EnergySmear module
+    _energysmear.WritePlots();
 
     return true;
   }
@@ -287,6 +294,11 @@ namespace ubsens{
     //_effscaling.Confignre(_cfgmgr.GetConfigMap());
     _effscaling.MakeGraph();
     _effscaling.WritePlots();
+
+    //Energy smearing stuff here:
+    _energysmear.Initialize();
+    //Do the WritePlots in finalize, one plot depends on the
+    //events fed into energysmear
 
   }
 }//end namespace ubsens

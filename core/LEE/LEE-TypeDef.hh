@@ -16,7 +16,9 @@ namespace ubsens {
   class LEEMain;
   class FinalPlotter;
   class EfficiencyScaling;
+  class EnergySmear;
 }
+
 
 
 
@@ -24,6 +26,7 @@ namespace ubsens {
 //ADD_EMPTY_CLASS ... do not change this comment line
 
 #endif
+
 
 
 

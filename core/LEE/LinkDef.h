@@ -18,9 +18,11 @@
 #pragma link C++ class ubsens::LEEMain+;
 #pragma link C++ class ubsens::FinalPlotter+;
 #pragma link C++ class ubsens::EfficiencyScaling+;
+#pragma link C++ class ubsens::EnergySmear+;
 
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
 
 
 

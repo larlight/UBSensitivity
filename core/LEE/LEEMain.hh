@@ -27,6 +27,7 @@
 #include "NuLeptECorrelation.hh"
 #include "EfficiencyScaling.hh"
 #include "FinalPlotter.hh"
+#include "EnergySmear.hh"
 #include "Utilities/FindInMapMap.hh"
 #include "Utilities/StringParser.hh"
 #include "Utilities/HistManip.hh"
@@ -104,6 +105,7 @@ namespace ubsens{
     POTScaling _potscaling;
     TonnageScaling _tonnagescaling;
     EfficiencyScaling _effscaling;
+    EnergySmear _energysmear;
 
     std::string _cfg_file;
     std::string _data_file;
