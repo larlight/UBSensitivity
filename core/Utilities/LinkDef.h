@@ -16,9 +16,11 @@
 #pragma link C++ class ubsens::util::StringParser+;
 #pragma link C++ class ubsens::util::HistManip+;
 #pragma link C++ class ubsens::util::ECCQECalculator+;
+#pragma link C++ class ubsens::util::TGraphManip+;
 
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
 
 
 

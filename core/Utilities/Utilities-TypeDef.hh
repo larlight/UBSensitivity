@@ -14,8 +14,10 @@ namespace ubsens{
     class StringParser;
     class HistManip;
     class ECCQECalculator;    
+    class TGraphManip;
   }
 }
+
 
 
 
@@ -23,6 +25,7 @@ namespace ubsens{
 //ADD_EMPTY_CLASS ... do not change this comment line
 
 #endif
+
 
 
 
