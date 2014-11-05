@@ -17,6 +17,7 @@ namespace ubsens{
       _data_file = util::FindInMapMap().GetParamValue(class_name(),std::string("DataFile"),_configMap);
       _n_evts_generated = util::FindInMapMap().GetParamValue(class_name(),std::string("NEventsGenerated"),_configMap);
       _true_MB_excess_evts = util::FindInMapMap().GetParamValue(class_name(),std::string("NTrueMBExcessEvts"),_configMap);
+      _useSmearingString = util::FindInMapMap().GetParamValue(class_name(),std::string("UseSmearing"),_configMap);
     }
     catch (fmwk::FMWKException &e) {
       fMsg.send(::ubsens::fmwk::msg::kEXCEPTION, __FUNCTION__, e.what());
@@ -65,7 +66,28 @@ namespace ubsens{
       fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
       return false;
     }
+
+
+    if(_useSmearingString.empty()){
+      std::string msg = "";
+      msg += class_name() + " is using default value (False) for _useSmearingString.";
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
+      _useSmearingString = "False";
+    }
     
+    //Convert _useSmearingString to bool
+    if(strcmp(_useSmearingString.c_str(),"True")==0)
+      _useSmearing=true;
+    else if (strcmp(_useSmearingString.c_str(),"False")==0)
+      _useSmearing=false;
+    else{
+      std::string msg = "";
+      msg += "ERROR: use \"True\" or \"False\" as UseSmearing parameter in your config file.";
+      fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
+      return false;
+    }
+
+
     if(_EnergyDefinition.empty()){
       std::string msg = "";
       msg += class_name() + " is using default value for _EnergyDefinition.";
@@ -183,34 +205,36 @@ namespace ubsens{
       // Overall normalization to true MB excess events
       weight *= atof(_true_MB_excess_evts.c_str()) / atof(_n_evts_generated.c_str());
 
-      /* //tmp stuff showing how to calculate CCQE energy
-      double u_z = TMath::ACos(myTruthShowers.at(0).MotherMomentum().at(2)/
-	(pow(
-	  pow(myTruthShowers.at(0).MotherMomentum().at(0),2)+
-	  pow(myTruthShowers.at(0).MotherMomentum().at(1),2)+
-	  pow(myTruthShowers.at(0).MotherMomentum().at(2),2), 0.5)
-	)
-      );
-	
-      double e_ccqe = util::ECCQECalculator::ComputeECCQE(true_lept_E_MEV,u_z);
-      e_ccqe /= 1000.;
-      _LEE_hist->Fill(e_ccqe,weight);
-      */
-
       //Smear the final lepton energy by 15%/sqrt(E)
-      double smeared_lept_E_GEV = _energysmear.SmearEnergy(true_lept_E_GEV);
-
-      // Fill histo here
-      _LEE_hist->Fill(smeared_lept_E_GEV,weight);
-
+      if(_useSmearing)
+	true_lept_E_GEV = _energysmear.SmearEnergy(true_lept_E_GEV);
+      
+      if(_EnergyDefinition == "ECCQE"){
+	double u_z = TMath::ACos(myTruthShowers.at(0).MotherMomentum().at(2)/
+				 (pow(
+				   pow(myTruthShowers.at(0).MotherMomentum().at(0),2)+
+				   pow(myTruthShowers.at(0).MotherMomentum().at(1),2)+
+				   pow(myTruthShowers.at(0).MotherMomentum().at(2),2), 0.5)
+				 )
+	);
+	double e_ccqe = util::ECCQECalculator::ComputeECCQE(true_lept_E_GEV*1000.,u_z)/1000.;
+	_LEE_hist->Fill(e_ccqe,weight);
+      }
+      else if (_EnergyDefinition == "TrueLepE")
+	{
+	_LEE_hist->Fill(true_lept_E_GEV,weight);
+	}
+      else{
+	std::string msg = "";
+	msg += "ERROR: Your energy definition is not one of the allowed values in the configuration file, and apparently wasn't set to a default.";
+	fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
+	return false;
+      }
     }
-
-
     
     return true;
-
   }
-
+    
   bool LEEMain::Finalize(){
 
     _datamgr.Close();

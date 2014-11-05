@@ -33,6 +33,7 @@
 #include "Utilities/HistManip.hh"
 #include "Utilities/ECCQECalculator.hh"
 #include "TH1.h"
+#include "TMath.h"
 
 /**
    \class LEEMain
@@ -57,9 +58,11 @@ namespace ubsens{
       _LEE_hist=0;
       _ElectronOrGamma="";
       _EnergyDefinition="";
+      _useSmearing=false;;
       _n_evts_generated="";
       _true_MB_excess_evts="";
       _isElectronSample=true;
+      _useSmearingString="";
      
     };
     
@@ -116,9 +119,11 @@ namespace ubsens{
     std::string _EnergyDefinition;
     std::string _n_evts_generated;
     std::string _true_MB_excess_evts;
-    
+    std::string _useSmearingString;
+
     bool _isElectronSample;
-    
+    bool _useSmearing;
+
     TH1F* _LEE_hist;
 
   };
