@@ -21,6 +21,7 @@
 #include "Utilities/PlotWriter.hh"
 #include "Utilities/FindInMapMap.hh"
 #include "Constants/GeometryConstants.hh"
+#include "Utilities/TGraphManip.hh"
 #include "TGraph.h"
 
 /**
@@ -109,6 +110,8 @@ namespace ubsens{
 
     std::string _xsec_ratio_maximum;
     std::string _xsec_ratio_minimum;
+
+    util::TGraphManip *_tgm;
   };
   
 }//end namespace ubsens

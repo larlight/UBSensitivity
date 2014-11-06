@@ -39,6 +39,10 @@ namespace ubsens{
 
       TGraph* MultiplyTwoGraphs(TGraph* const g1, TGraph* const g2);
       
+      TGraph* DivideTwoGraphs(TGraph* const numerator, TGraph* const denominator);
+
+      void ScaleGraph(TGraph & g1, double scaling_factor);
+
     };
 
     }//end namespace util

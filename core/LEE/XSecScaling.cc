@@ -100,32 +100,23 @@ namespace ubsens{
     _xsec_ratio = new TGraph();
     _xsec_ratio->SetName("xsec_ratio");
     
-    //ratio graph should have same # of points as input graph with most points
-    //for now hard-coding as using the points from the miniboone graph
-    int point_counter = 0;
-    
-    for(size_t i = 0; i < _MB_xsec->GetN(); ++i){
-      
-      double myx = _MB_xsec->GetX()[i];
-      
-      //avoid divide-by-zero errors
-      if( !_MB_xsec->GetY()[i] ) continue;
-      
-      double myy = _my_xsec->Eval(myx)/_MB_xsec->GetY()[i];
-      
-      //multiply by n targets per gram... that's included in xsecscaling!
-      myy *= ( _my_ntargetspergram / _MB_ntargetspergram );
-      
-      //Some times the ratio BLOWS UP at low energy, so have cut
-      //on ratio not being huge (or too tiny, I guess).
-      //These cutoff values are included in the .config file used
-      if(myy > atof(_xsec_ratio_maximum.c_str())) myy = atof(_xsec_ratio_maximum.c_str());
-      if(myy < atof(_xsec_ratio_minimum.c_str())) myy = atof(_xsec_ratio_minimum.c_str());
-      
-      _xsec_ratio->SetPoint(point_counter,myx,myy);
-      point_counter++;
-      
+    _xsec_ratio = _tgm->DivideTwoGraphs(_my_xsec,_MB_xsec);
+
+    //Some times the ratio BLOWS UP at low energy, so have cut
+    //on ratio not being huge (or too tiny, I guess).
+    //These cutoff values are included in the .config file used
+    //Enforce xsec ratio minimum and maximum here:
+    for(size_t i = 0; i < _xsec_ratio->GetN(); ++i){
+      if(_xsec_ratio->GetY()[i] > atof(_xsec_ratio_maximum.c_str()))
+	_xsec_ratio->SetPoint(i,_xsec_ratio->GetX()[i],atof(_xsec_ratio_maximum.c_str()));
+      else if(_xsec_ratio->GetY()[i] < atof(_xsec_ratio_minimum.c_str()))
+	_xsec_ratio->SetPoint(i,_xsec_ratio->GetX()[i],atof(_xsec_ratio_minimum.c_str()));
     }
+    
+    //Scale ratio by targets-per-gram ratio... that's included in xsecscaling!
+    double scaling_factor = ( _my_ntargetspergram / _MB_ntargetspergram );
+    _tgm->ScaleGraph(*(_xsec_ratio),scaling_factor);
+               
   }
   
   void XSecScaling::WritePlots(){
