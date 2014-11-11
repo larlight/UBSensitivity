@@ -49,6 +49,11 @@ namespace ubsens{
 
     /// Inherited configure function from LEEBase
     virtual bool Configure(const std::map<std::string,std::map<std::string,std::string>> &_configMap);
+
+    /// Functions to optionally manually set file name and TH2F name
+    void SetFilename(std::string filename){ _my_fosc_filename = filename; }
+    void SetTH2Fname(std::string th2fname){ _my_th2f_name = th2fname; }
+
     
     /// Inherited writeplots function from LEEBase
     void WritePlots();
@@ -65,8 +70,10 @@ namespace ubsens{
     /// Function that uses the input TH2F to return a true neutrino energy
     /// from an input lepton energy. It takes a slice of the TH2F corresponding
     /// to that lepton energy, then draws a random number from that distribution.
-    double NuEFromLeptE(double lept_e);
+    /// Option to draw multiple times and take the average
+    double NuEFromLeptE(double lept_e, size_t n_draws_to_avg=1);
 
+    
   private:
     
     std::string _my_fosc_filename;

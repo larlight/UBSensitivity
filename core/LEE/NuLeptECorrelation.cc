@@ -45,8 +45,8 @@ namespace ubsens{
   }
 
 
-  double NuLeptECorrelation::NuEFromLeptE(double lept_e){
-    
+  double NuLeptECorrelation::NuEFromLeptE(double lept_e,size_t n_draws_to_avg){
+
     //For good measure, reset slice before starting
     if( _my_tmp_slice )
       _my_tmp_slice->Reset();
@@ -69,7 +69,10 @@ namespace ubsens{
     _my_tmp_slice = _my_th2f->ProjectionY("_my_tmp_slice",bin,bin);
     
     //Pull random from this 1D distribution
-    double generated_nu_E = _my_tmp_slice->GetRandom();
+    double generated_nu_E = 0;
+    for (size_t i = 0; i < n_draws_to_avg; ++i)
+      generated_nu_E += _my_tmp_slice->GetRandom();
+    generated_nu_E /= n_draws_to_avg;
 
     //Return that random value
     return generated_nu_E;
