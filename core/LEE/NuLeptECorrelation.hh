@@ -45,15 +45,17 @@ namespace ubsens{
       _my_th2f = 0;
       _my_tmp_slice = 0;
       _name = "NuLeptECorrelation";
+      _n_draws_to_avg = "";
+      n_draws_to_avg = 1;
     };
 
     /// Inherited configure function from LEEBase
     virtual bool Configure(const std::map<std::string,std::map<std::string,std::string>> &_configMap);
 
-    /// Functions to optionally manually set file name and TH2F name
+    /// Functions to optionally manually set stuff
     void SetFilename(std::string filename){ _my_fosc_filename = filename; }
     void SetTH2Fname(std::string th2fname){ _my_th2f_name = th2fname; }
-
+    void SetNDrawsToAvg(size_t n){ n_draws_to_avg = n; }
     
     /// Inherited writeplots function from LEEBase
     void WritePlots();
@@ -71,16 +73,18 @@ namespace ubsens{
     /// from an input lepton energy. It takes a slice of the TH2F corresponding
     /// to that lepton energy, then draws a random number from that distribution.
     /// Option to draw multiple times and take the average
-    double NuEFromLeptE(double lept_e, size_t n_draws_to_avg=1);
+    double NuEFromLeptE(double lept_e);
 
     
   private:
     
     std::string _my_fosc_filename;
     std::string _my_th2f_name;
+    std::string _n_draws_to_avg;
     TH2F *_my_th2f;
     TH1D *_my_tmp_slice;
     
+    size_t n_draws_to_avg;
   };
   
 }//end namespace ubsens

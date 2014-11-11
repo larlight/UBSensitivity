@@ -10,6 +10,8 @@ namespace ubsens{
     try{
       _my_fosc_filename = util::FindInMapMap().GetParamValue(class_name(),std::string("FullOscFileName"),_configMap);
       _my_th2f_name = util::FindInMapMap().GetParamValue(class_name(),std::string("TH2FName"),_configMap);
+      _n_draws_to_avg = util::FindInMapMap().GetParamValue(class_name(),std::string("NDrawsToAvg"),_configMap);
+      
     }
     catch (fmwk::FMWKException &e) {
       fMsg.send(::ubsens::fmwk::msg::kEXCEPTION, __FUNCTION__, e.what());
@@ -28,7 +30,15 @@ namespace ubsens{
       fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _my_th2f_name = "fosc_isCC_enugen_vs_Elep";
     }
-    
+    if(_n_draws_to_avg.empty()){
+      std::string msg = "";
+      msg += class_name() + " is using default value for _n_draws_to_avg.";
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
+      _n_draws_to_avg = "1";
+    }
+    //convert string to size_t (int)
+    n_draws_to_avg = stoi(_n_draws_to_avg);
+
     return true;
   }
   
@@ -45,7 +55,7 @@ namespace ubsens{
   }
 
 
-  double NuLeptECorrelation::NuEFromLeptE(double lept_e,size_t n_draws_to_avg){
+  double NuLeptECorrelation::NuEFromLeptE(double lept_e){
 
     //For good measure, reset slice before starting
     if( _my_tmp_slice )
