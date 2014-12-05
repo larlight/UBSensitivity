@@ -120,6 +120,7 @@ namespace ubsens{
     std::string _n_evts_generated;
     std::string _true_MB_excess_evts;
     std::string _useSmearingString;
+    std::string _OptionalWeight;
 
     bool _isElectronSample;
     bool _useSmearing;

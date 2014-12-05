@@ -18,6 +18,7 @@ namespace ubsens{
       _n_evts_generated = util::FindInMapMap().GetParamValue(class_name(),std::string("NEventsGenerated"),_configMap);
       _true_MB_excess_evts = util::FindInMapMap().GetParamValue(class_name(),std::string("NTrueMBExcessEvts"),_configMap);
       _useSmearingString = util::FindInMapMap().GetParamValue(class_name(),std::string("UseSmearing"),_configMap);
+      _OptionalWeight = util::FindInMapMap().GetParamValue(class_name(),std::string("OptionalWeight"),_configMap);
     }
     catch (fmwk::FMWKException &e) {
       fMsg.send(::ubsens::fmwk::msg::kEXCEPTION, __FUNCTION__, e.what());
@@ -106,6 +107,14 @@ namespace ubsens{
       fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _true_MB_excess_evts = "1212.114";
     }
+
+    if(_OptionalWeight.empty()){
+      std::string msg = "";
+      msg += class_name() + " is using default value (False) for _OptionalWeight.";
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
+      _OptionalWeight = "1.";
+    }
+
     
     return true;
   }
@@ -204,6 +213,9 @@ namespace ubsens{
       
       // Overall normalization to true MB excess events
       weight *= atof(_true_MB_excess_evts.c_str()) / atof(_n_evts_generated.c_str());
+
+      // Optional additional weighting factor:
+      weight *= atof(_OptionalWeight.c_str());
 
       //Smear the final lepton energy by 15%/sqrt(E)
       if(_useSmearing)
