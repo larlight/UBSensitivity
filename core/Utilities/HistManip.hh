@@ -54,7 +54,20 @@ namespace ubsens{
       /// Function to loop through histos in a stack, rebin each, then return 
       /// a new stack
       THStack* RebinStack(const THStack *stack, const std::vector<double> *newbins);
-					       
+		
+      /// Function to convert a histogram in terms of raw events to one
+      /// in terms of events/GeV (for example) by including bin width
+      /// note: modifies the actual histogram, doesn't make a new one
+      void ConvertToEventsPerBinWidth( TH1F & hist );
+
+      /// Function to convert a histogram in terms of events/GeV (for example)
+      /// to one of raw events.
+      /// note: modifies the actual histogram, doesn't make a new one
+      void ConvertToEvents( TH1F & hist );
+
+      /// Function to do this for each histo in a stack
+      THStack* ConvertToEvents( THStack & stack );
+
     private:
 
       /// Messenger instance

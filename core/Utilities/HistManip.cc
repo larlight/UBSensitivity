@@ -129,6 +129,55 @@ namespace ubsens{
       
       return result;
     }
+
+
+    void HistManip::ConvertToEventsPerBinWidth(  TH1F & hist ){
+
+      /// Input histogram is in terms of raw events
+
+      /// Loop over bins and divide by bin width
+      for (size_t i = 0; i < hist.GetNbinsX(); ++i){
+	double new_contents = hist.GetBinContent(i) /
+	  hist.GetBinWidth(i);
+	hist.SetBinContent(i,new_contents);
+      }
+
+      /// Rename y-axis
+      hist.GetYaxis()->SetTitle("Events per Bin Width");
+     
+    }
+
+    void HistManip::ConvertToEvents( TH1F & hist ){
+
+      /// Loop over bins and multiply by bin width
+      for (size_t i = 0; i < hist.GetNbinsX(); ++i){
+	double new_contents = hist.GetBinContent(i) *
+	  hist.GetBinWidth(i);
+	hist.SetBinContent(i,new_contents);
+      }
+      
+      /// Rename y-axis
+      hist.GetYaxis()->SetTitle("Events");
+
+    }
+
+    THStack* HistManip::ConvertToEvents( THStack & stack ){
+
+      THStack* result = new THStack();
+
+      /// Loop over the histograms in the stack, check each has compatible bins
+      for(size_t i = 0; i < stack.GetHists()->GetSize(); i++){
+	
+	/// Convert each histogram in stack
+	ConvertToEvents( *(TH1F*)(stack.GetHists()->At(i)) );
+	
+	/// Add to new stack
+	result->Add( (TH1F*)(stack.GetHists()->At(i)) );
+
+      }
+
+      return result;
+    }
     
   } //end namespace util
   
