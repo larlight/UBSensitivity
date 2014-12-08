@@ -50,6 +50,7 @@ namespace ubsens{
       _final_stack=0;
       _final_LEE_histo=0;
       _final_legend=0;
+      _use_evts_per_binwidth_string="";
     };
     
     /// Default destructor
@@ -75,6 +76,9 @@ namespace ubsens{
     std::string _background_legendname;
     std::string _final_hist_bins_string;
     std::string _final_stack_title;
+    std::string _use_evts_per_binwidth_string;
+    
+    bool _use_evts_per_binwidth;
 
     THStack* _final_stack;
     TH1F* _final_LEE_histo;

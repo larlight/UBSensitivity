@@ -12,6 +12,7 @@ namespace ubsens{
       _background_legendname = util::FindInMapMap().GetParamValue(class_name(),std::string("BackgroundStackLegendName"),_configMap);
       _final_hist_bins_string =  util::FindInMapMap().GetParamValue(class_name(),std::string("FinalStackBins"),_configMap);
       _final_stack_title = util::FindInMapMap().GetParamValue(class_name(),std::string("FinalStackTitle"),_configMap);
+      _use_evts_per_binwidth_string = util::FindInMapMap().GetParamValue(class_name(),std::string("UseEvtsPerBinWidth"),_configMap);
     }
     catch (fmwk::FMWKException &e) {
       fMsg.send(::ubsens::fmwk::msg::kEXCEPTION, __FUNCTION__, e.what());
@@ -53,6 +54,25 @@ namespace ubsens{
       _final_stack_title = "DEFAULT STACK TITLE;DEFAULT AXIS;DEFAULT BLAH";
     }
     
+    if(_use_evts_per_binwidth_string.empty()){
+      std::string msg = "";
+      msg += class_name() + " is using default value (False) for _use_evts_per_binwidth_string.";
+      fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
+      _use_evts_per_binwidth_string = "False";
+    }
+    /// convert _use_evts_per_binwidth_string to bool
+
+    if(strcmp(_use_evts_per_binwidth_string.c_str(),"True")==0)
+      _use_evts_per_binwidth=true;
+    else if (strcmp(_use_evts_per_binwidth_string.c_str(),"False")==0)
+      _use_evts_per_binwidth=false;
+    else{
+      std::string msg = "";    
+      msg += "ERROR: use \"True\" or \"False\" as UseEvtsPerBinwidth parameter in your config file.";
+      fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
+      return false;
+    }
+
     return true;
   }
 
@@ -100,14 +120,22 @@ namespace ubsens{
     const std::vector<double> *xbins_vec = util::StringParser().ParseBinsString(_final_hist_bins_string);
 
     _final_LEE_histo=hm.RebinTH1F(_final_LEE_histo,xbins_vec);
+    /// LEE hist is always in raw events
+    if(_use_evts_per_binwidth) hm.ConvertToEventsPerBinWidth(*_final_LEE_histo);
     _final_LEE_histo->SetFillStyle(3002);
     _final_LEE_histo->SetFillColor(kBlack);
     _final_LEE_histo->SetLineColor(kBlack);
+
+    /// final stack is always in events per bin width
+    if(!_use_evts_per_binwidth) hm.ConvertToEvents(*_final_stack);
+
+
     _final_stack=hm.RebinStack(_final_stack,xbins_vec);
     _final_stack=hm.AddTH1FToStack(_final_LEE_histo,_final_stack);
     _final_stack->SetName("LEE_final_stack");
     _final_stack->SetTitle(_final_stack_title.c_str());
-   
+    //    if(_use_evts_per_binwidth) _final_stack->GetYaxis()->SetTitle("Events per Bin Width");
+
     //Add the LEE signal to the legend, too
     util::PlotReader::GetME()->Reset();
     util::PlotReader::GetME()->SetFileName(_background_stackfile);
