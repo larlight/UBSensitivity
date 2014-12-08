@@ -68,6 +68,9 @@ namespace ubsens{
       /// Function to do this for each histo in a stack
       THStack* ConvertToEvents( THStack & stack );
 
+      /// Function to set all errors in a histogram to zero
+      void SetZeroErrors( TH1F & hist );
+
     private:
 
       /// Messenger instance

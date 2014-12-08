@@ -178,7 +178,13 @@ namespace ubsens{
 
       return result;
     }
-    
+
+    void HistManip::SetZeroErrors( TH1F & hist ){
+
+      for (size_t i = 0; i < hist.GetNbinsX(); ++i)
+	hist.SetBinError(i,0.);
+
+    }   
   } //end namespace util
   
 }//end namespace ubsens
