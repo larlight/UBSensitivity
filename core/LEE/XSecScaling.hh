@@ -91,6 +91,8 @@ namespace ubsens{
 
     void Reset();
 
+    void PrintConfig();
+
   private:
     
     //cross section graph for your detector

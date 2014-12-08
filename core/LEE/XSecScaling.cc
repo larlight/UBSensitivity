@@ -98,25 +98,40 @@ namespace ubsens{
     }
     
     _xsec_ratio = new TGraph();
-    _xsec_ratio->SetName("xsec_ratio");
-    
+
     _xsec_ratio = _tgm->DivideTwoGraphs(_my_xsec,_MB_xsec);
+    _xsec_ratio->SetName("xsec_ratio");
+
+
+    //Scale ratio by targets-per-gram ratio... that's included in xsecscaling!
+    double scaling_factor = ( _my_ntargetspergram / _MB_ntargetspergram );
+    _tgm->ScaleGraph(*(_xsec_ratio),scaling_factor);
+
 
     //Some times the ratio BLOWS UP at low energy, so have cut
     //on ratio not being huge (or too tiny, I guess).
     //These cutoff values are included in the .config file used
     //Enforce xsec ratio minimum and maximum here:
+    //Note: enforce max/min of ratio AFTER scaling by ntargets-per-gram, by convention
+    //(otherwise the max/min should be defined w.r.t. before ntargets-per-gram scaling)
     for(size_t i = 0; i < _xsec_ratio->GetN(); ++i){
-      if(_xsec_ratio->GetY()[i] > atof(_xsec_ratio_maximum.c_str()))
+      if(_xsec_ratio->GetY()[i] > atof(_xsec_ratio_maximum.c_str())){
+	//	std::cout<<"Point ("<<_xsec_ratio->GetX()[i]<<","<<_xsec_ratio->GetY()[i]<<") "
+	//		 <<"is GREATER than the maximum of "<<atof(_xsec_ratio_maximum.c_str())
+	//		 <<" so I'm setting the point to : ("
+	//		 << _xsec_ratio->GetX()[i]<<","<<atof(_xsec_ratio_maximum.c_str())<<")"<<std::endl;
 	_xsec_ratio->SetPoint(i,_xsec_ratio->GetX()[i],atof(_xsec_ratio_maximum.c_str()));
-      else if(_xsec_ratio->GetY()[i] < atof(_xsec_ratio_minimum.c_str()))
+      }
+      else if(_xsec_ratio->GetY()[i] < atof(_xsec_ratio_minimum.c_str())){
+	//	std::cout<<"Point ("<<_xsec_ratio->GetX()[i]<<","<<_xsec_ratio->GetY()[i]<<") "
+	//		 <<"is LESS than the minimum of "<<atof(_xsec_ratio_minimum.c_str())
+	//		 <<" so I'm setting the point to : ("
+	//		 <<_xsec_ratio->GetX()[i]<<","<<atof(_xsec_ratio_minimum.c_str())<<")"<<std::endl;
 	_xsec_ratio->SetPoint(i,_xsec_ratio->GetX()[i],atof(_xsec_ratio_minimum.c_str()));
+      }
     }
     
-    //Scale ratio by targets-per-gram ratio... that's included in xsecscaling!
-    double scaling_factor = ( _my_ntargetspergram / _MB_ntargetspergram );
-    _tgm->ScaleGraph(*(_xsec_ratio),scaling_factor);
-               
+        
   }
   
   void XSecScaling::WritePlots(){
@@ -166,6 +181,22 @@ namespace ubsens{
       _name = "XSecScaling";
   }
 
+  void XSecScaling::PrintConfig(){
+
+    std::cout<<" ---- PRINTING XSECSCALING CONFIGURATION ---- "<<std::endl;
+    std::cout<<"my filename: "<<_my_xsec_input_filename.c_str()<<std::endl;
+    std::cout<<"my graphname:"<<_my_xsec_TGraph_name.c_str()<<std::endl;
+    std::cout<<"MB filename: "<<_MB_xsec_input_filename.c_str()<<std::endl;
+    std::cout<<"MB graphname:"<<_MB_xsec_TGraph_name.c_str()<<std::endl;
+    
+    std::cout<<"My tgt_per_g:"<< _my_ntargetspergram<<std::endl;
+    std::cout<<"MB tgt_per_g:"<<_MB_ntargetspergram<<std::endl;
+
+    std::cout<<"ratio max   :"<<_xsec_ratio_maximum.c_str()<<std::endl;
+    std::cout<<"ratio min   :"<<_xsec_ratio_minimum.c_str()<<std::endl;
+    std::cout<<" ---- PRINTED XSECSCALING CONFIGURATION  ---- "<<std::endl;
+
+  }
 }//end namespace ubsens
 
 #endif
