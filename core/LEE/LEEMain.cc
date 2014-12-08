@@ -110,7 +110,7 @@ namespace ubsens{
 
     if(_OptionalWeight.empty()){
       std::string msg = "";
-      msg += class_name() + " is using default value (False) for _OptionalWeight.";
+      msg += class_name() + " is using default value (1.) for _OptionalWeight.";
       fMsg.send(::ubsens::fmwk::msg::kWARNING, __FUNCTION__, msg);
       _OptionalWeight = "1.";
     }
@@ -160,6 +160,8 @@ namespace ubsens{
 
     InitializeHistos();
 
+    InitializeTTree();
+
     return true;
   }
 
@@ -195,53 +197,53 @@ namespace ubsens{
 
       // Weight event by all scaling factors
       double weight = 1.;
-      
+
       // POT weight (implement this w/ Configure() function, using default now)
       weight *= _potscaling.GetPOTScaling();
-      
+
       // Tonnage weight (implement this w/ Configure() function, default now):
       weight *= _tonnagescaling.GetTonnageScaling();
-      
+
       // X-Sec weight:
       weight *= _xsecscaling.GetXSecRatio()->Eval(correlated_nu_energy_GEV);
-      
+
       // Flux weight:
       weight *= _fluxscaling.GetFluxRatio()->Eval(correlated_nu_energy_GEV);
-      
+
       // Efficiency weight:
       weight *= _effscaling.GetEfficiencyGraph()->Eval(true_lept_E_GEV);
-      
+
       // Overall normalization to true MB excess events
       weight *= atof(_true_MB_excess_evts.c_str()) / atof(_n_evts_generated.c_str());
 
       // Optional additional weighting factor:
       weight *= atof(_OptionalWeight.c_str());
 
+
       //Smear the final lepton energy by 15%/sqrt(E)
       if(_useSmearing)
 	true_lept_E_GEV = _energysmear.SmearEnergy(true_lept_E_GEV);
-      
-      if(_EnergyDefinition == "ECCQE"){
-	double u_z = TMath::ACos(myTruthShowers.at(0).MotherMomentum().at(2)/
-				 (pow(
-				   pow(myTruthShowers.at(0).MotherMomentum().at(0),2)+
-				   pow(myTruthShowers.at(0).MotherMomentum().at(1),2)+
-				   pow(myTruthShowers.at(0).MotherMomentum().at(2),2), 0.5)
-				 )
-	);
-	double e_ccqe = util::ECCQECalculator::ComputeECCQE(true_lept_E_GEV*1000.,u_z)/1000.;
+
+      ///to do: smear energy first, then use it in ccqe formula
+      double e_ccqe_MEV = util::ECCQECalculator::ComputeECCQE(myTruthShowers.at(0).MotherMomentum());
+      double e_ccqe = e_ccqe_MEV/1000.;
+
+      if(_EnergyDefinition == "ECCQE")
 	_LEE_hist->Fill(e_ccqe,weight);
-      }
       else if (_EnergyDefinition == "TrueLepE")
-	{
 	_LEE_hist->Fill(true_lept_E_GEV,weight);
-	}
       else{
 	std::string msg = "";
 	msg += "ERROR: Your energy definition is not one of the allowed values in the configuration file, and apparently wasn't set to a default.";
 	fMsg.send(::ubsens::fmwk::msg::kERROR, __FUNCTION__, msg);
 	return false;
       }
+
+      //Fill ttree stuff
+      _tree_lept_E = true_lept_E_GEV;
+      _tree_ccqe_E = e_ccqe;
+      _tree_weight= weight;
+      _LEE_event_tree->Fill();
     }
     
     return true;
@@ -251,6 +253,12 @@ namespace ubsens{
 
     _datamgr.Close();
 
+    // Set errors on all LEE hist bins to zero for now
+    // Until I figure out how to actually compute them
+    util::HistManip hm;
+    hm.SetZeroErrors(*_LEE_hist);
+
+    // Save LEE Hist to output file
     util::PlotWriter::GetME()->Write(_LEE_hist,class_name());
 
     //Make a FinalPlotter instance and have it do its magic
@@ -260,8 +268,16 @@ namespace ubsens{
     fp.MakeStackedHisto();
     fp.WritePlots();
 
-    delete _LEE_hist;
+    // Save ttree to output file
+    TObjString *_README = new TObjString("Note: For this event TTree, it includes only events that passed event selection cuts in MicroBooNE. That means, if you loop through and fill a histogram with energy, weighted by UB weight, then you will reproduce the LEE histogram for that data sample's fiducial volume definition in MicroBooNE. If you want to make this histogram for LAr1ND, you will need to get the TTree with a weight calculated using the LAr1ND flux (and if available, the LAr1ND fiducial volume... if the LAr1ND weight is not including the LAr1ND fiducial volume, THEN ADDITIONALLY SCALE THIS TO THE LAr1ND FIDUCIAL VOLUME.) If you do not know what fiducial volume was used in MicroBooNE to fill this tree, then the LAr1ND weight is useless.");
+    if(_LEE_event_tree){
+      util::PlotWriter::GetME()->Write(_LEE_event_tree,class_name());
+      util::PlotWriter::GetME()->Write(_README,class_name());
+    }
 
+    delete _LEE_hist;
+    delete _LEE_event_tree;
+    delete _README;
     //Write the plots from EnergySmear module
     _energysmear.WritePlots();
 
@@ -300,6 +316,17 @@ namespace ubsens{
     
   }
 
+  void LEEMain::InitializeTTree(){
+
+    if(!_LEE_event_tree){
+      _LEE_event_tree = new TTree("LEE_event_tree","");
+      _LEE_event_tree->Branch("E_lept",&_tree_lept_E,"E_lept/D");
+      _LEE_event_tree->Branch("E_ccqe",&_tree_ccqe_E,"E_ccqe/D");
+      _LEE_event_tree->Branch("weight_UBFidVol",&_tree_weight,"weight_UBFidVol/D");
+    }
+
+
+  }
   void LEEMain::InitializeScalings(){
 
     //NuLeptECorrelation stuff here
@@ -309,6 +336,7 @@ namespace ubsens{
     
     //XSecScaling stuff here
     _xsecscaling.Configure(_cfgmgr.GetConfigMap());
+    //    _xsecscaling.PrintConfig();
     _xsecscaling.LoadInputGraphs();
     _xsecscaling.ComputeXSecRatio();
     _xsecscaling.WritePlots();
@@ -320,22 +348,23 @@ namespace ubsens{
     _fluxscaling.WritePlots();
 
     //POT scaling stuff here (implement this)
-    //    _potscaling.Configure(_cfgmgr.GetConfigMap());
+    _potscaling.Configure(_cfgmgr.GetConfigMap());
 
     //Tonnage scaling stuff here (implement this)
     _tonnagescaling.Configure(_cfgmgr.GetConfigMap());
 
     //Efficiency scaling stuff here:
-    //todo: uncomment this
-    //_effscaling.Confignre(_cfgmgr.GetConfigMap());
+    //todo: uncomment this when efficiency is more complex than just flat 80%
+    //_effscaling.Configure(_cfgmgr.GetConfigMap());
     _effscaling.MakeGraph();
     _effscaling.WritePlots();
 
     //Energy smearing stuff here:
     _energysmear.Initialize();
-    //Do the WritePlots in finalize, one plot depends on the
+    //Do the WritePlots for energysmear in finalize, one plot depends on the
     //events fed into energysmear
 
   }
+
 }//end namespace ubsens
 #endif

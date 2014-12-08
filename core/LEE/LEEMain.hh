@@ -63,7 +63,9 @@ namespace ubsens{
       _true_MB_excess_evts="";
       _isElectronSample=true;
       _useSmearingString="";
-     
+
+
+      _LEE_event_tree=0;
     };
     
     /// Default destructor
@@ -93,6 +95,8 @@ namespace ubsens{
 
     void InitializeHistos();
 
+    void InitializeTTree();
+
     void InitializeScalings();
 
     //get th1f function here?
@@ -109,7 +113,7 @@ namespace ubsens{
     TonnageScaling _tonnagescaling;
     EfficiencyScaling _effscaling;
     EnergySmear _energysmear;
-
+    
     std::string _cfg_file;
     std::string _data_file;
     std::string _LEE_hist_name;
@@ -126,6 +130,18 @@ namespace ubsens{
     bool _useSmearing;
 
     TH1F* _LEE_hist;
+
+    //Custom TTree and variables
+    /// This tree includes only events from within in the fiducial volume
+    TTree* _LEE_event_tree;
+    double _tree_lept_E;
+    double _tree_ccqe_E;
+    /// This weight includes everything 
+    /// (POT, tonnage, xsec, flux, eff, optional weight)
+    /// and is defined w/r/t the fiducial volume used to make event selections
+    /// That means, filling a histogram from this tree w/ the UB_weight
+    /// will exactly reproduce the output histogram from LEEMain
+    double _tree_weight;
 
   };
 
