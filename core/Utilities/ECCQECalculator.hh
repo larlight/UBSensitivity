@@ -14,7 +14,10 @@
 #ifndef ECCQECALCULATOR_HH
 #define ECCQECALCULATOR_HH
 
+#include <vector>
+#include <iostream>
 #include <math.h> //pow
+#include "TMath.h"
 
 /**
    \class ECCQECalculator
@@ -34,6 +37,14 @@ namespace ubsens{
       virtual ~ECCQECalculator(){};
       
       static double ComputeECCQE(double E_lept, double U_z);
+
+      /// Method using only truth momentum 4-vector (wrapper)
+      static double ComputeECCQE(const std::vector<double> &lepton_momentum);
+      
+
+      /// Method using manually-input energy (IE if you smear energy first)
+      static double ComputeECCQE(double energy, const std::vector<double> &lepton_momentum);
+
     };
   }// end namespace util
 }// end namespace ubsens
