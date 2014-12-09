@@ -219,14 +219,12 @@ namespace ubsens{
       // Optional additional weighting factor:
       weight *= atof(_OptionalWeight.c_str());
 
-
       //Smear the final lepton energy by 15%/sqrt(E)
       if(_useSmearing)
 	true_lept_E_GEV = _energysmear.SmearEnergy(true_lept_E_GEV);
 
-      ///to do: smear energy first, then use it in ccqe formula
-      double e_ccqe_MEV = util::ECCQECalculator::ComputeECCQE(myTruthShowers.at(0).MotherMomentum());
-      double e_ccqe = e_ccqe_MEV/1000.;
+      /// Formula takes in MeV energy and momentum, returns GeV energy
+      double e_ccqe = util::ECCQECalculator::ComputeECCQE(true_lept_E_GEV*1000.,myTruthShowers.at(0).MotherMomentum());
 
       if(_EnergyDefinition == "ECCQE")
 	_LEE_hist->Fill(e_ccqe,weight);
