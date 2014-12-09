@@ -36,13 +36,12 @@ namespace ubsens{
       /// Default destructor
       virtual ~ECCQECalculator(){};
       
-      static double ComputeECCQE(double E_lept, double U_z);
-
       /// Method using only truth momentum 4-vector (wrapper)
+      /// Momentum vector should be in MeV
       static double ComputeECCQE(const std::vector<double> &lepton_momentum);
       
-
       /// Method using manually-input energy (IE if you smear energy first)
+      /// Energy should be in MeV, momentum in MeV
       static double ComputeECCQE(double energy, const std::vector<double> &lepton_momentum);
 
     };
