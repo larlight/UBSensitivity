@@ -142,7 +142,7 @@ namespace ubsens{
     util::PlotReader::GetME()->SetObjectName(_background_legendname);
     _final_legend = (TLegend*)util::PlotReader::GetME()->GetObject();
     //_final_legend->AddEntry(_final_LEE_histo,_final_LEE_histo->GetTitle(),"lf");
-    _final_legend->AddEntry(_final_LEE_histo,"Low Energy Excess in #muB","lf");
+    _final_legend->AddEntry(_final_LEE_histo,"Low Energy Excess","lf");
     _final_legend->SetName("LEE_final_legend");
     //Add "INTERNAL" or "PRELIMINARY" tag to final plot?
 
