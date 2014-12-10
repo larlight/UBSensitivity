@@ -131,6 +131,11 @@ namespace ubsens{
 
     TH1F* _LEE_hist;
 
+    //Debug: save coordinates of selected events to cross-check fid. vol
+    //    TH1F* _x;
+    //    TH1F* _y;
+    //    TH1F* _z;
+
     //Custom TTree and variables
     /// This tree includes only events from within in the fiducial volume
     TTree* _LEE_event_tree;

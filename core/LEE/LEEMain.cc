@@ -191,6 +191,13 @@ namespace ubsens{
 	continue;
       }
       
+
+      //Debug: save coordinates of selected events to cross-check fid. vol
+      //      _x->Fill(myTruthShowers.at(0).MotherVtx().at(0));
+      //      _y->Fill(myTruthShowers.at(0).MotherVtx().at(1));
+      //      _z->Fill(myTruthShowers.at(0).MotherVtx().at(2));
+
+
       double true_lept_E_MEV = myTruthShowers.at(0).MotherMomentum().at(3);
       double true_lept_E_GEV = true_lept_E_MEV/1000.; 
       double correlated_nu_energy_GEV = _nulec.NuEFromLeptE(true_lept_E_GEV);
@@ -259,6 +266,11 @@ namespace ubsens{
     // Save LEE Hist to output file
     util::PlotWriter::GetME()->Write(_LEE_hist,class_name());
 
+    //Debug: save coordinates of selected events to cross-check fid. vol
+    //    util::PlotWriter::GetME()->Write(_x,class_name());
+    //    util::PlotWriter::GetME()->Write(_y,class_name());
+    //    util::PlotWriter::GetME()->Write(_z,class_name());
+
     //Make a FinalPlotter instance and have it do its magic
     FinalPlotter fp;
     fp.Configure(_cfgmgr.GetConfigMap());
@@ -274,6 +286,7 @@ namespace ubsens{
     }
 
     delete _LEE_hist;
+
     delete _LEE_event_tree;
     delete _README;
     //Write the plots from EnergySmear module
@@ -311,6 +324,11 @@ namespace ubsens{
     }
 
     _LEE_hist = new TH1F(_LEE_hist_name.c_str(),_LEE_hist_title.c_str(),nbins-1,xbins);
+    
+    //Debug: save coordinates of selected events to cross-check fid. vol
+    //    _x = new TH1F("x","selected x coords",100,0,500);
+    //    _y = new TH1F("y","selected y coords",100,-200,200);
+    //    _z = new TH1F("z","selected z coords",100,0,1500);
     
   }
 
