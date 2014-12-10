@@ -279,7 +279,7 @@ namespace ubsens{
     fp.WritePlots();
 
     // Save ttree to output file
-    TObjString *_README = new TObjString("Note: For this event TTree, it includes only events that passed event selection cuts in MicroBooNE. That means, if you loop through and fill a histogram with energy, weighted by UB weight, then you will reproduce the LEE histogram for that data sample's fiducial volume definition in MicroBooNE. If you want to make this histogram for LAr1ND, you will need to get the TTree with a weight calculated using the LAr1ND flux (and if available, the LAr1ND fiducial volume... if the LAr1ND weight is not including the LAr1ND fiducial volume, THEN ADDITIONALLY SCALE THIS TO THE LAr1ND FIDUCIAL VOLUME.) If you do not know what fiducial volume was used in MicroBooNE to fill this tree, then the LAr1ND weight is useless.");
+    TObjString *_README = new TObjString("Note: For this event TTree, it includes only events that passed event selection cuts in MicroBooNE. That means, if you loop through and fill a histogram with energy, weighted by UB weight, then you will reproduce the LEE histogram for that data sample's fiducial volume definition in MicroBooNE.");
     if(_LEE_event_tree){
       util::PlotWriter::GetME()->Write(_LEE_event_tree,class_name());
       util::PlotWriter::GetME()->Write(_README,class_name());
