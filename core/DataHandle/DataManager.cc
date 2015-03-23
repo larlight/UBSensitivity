@@ -97,7 +97,7 @@ namespace ubsens {
 
 	fMsg.send(::ubsens::fmwk::msg::kDEBUG, __FUNCTION__, " called...");
 
-      if(index >= GetEntries()) {
+      if(index > GetEntries()) {
 
 	fMsg.send(::ubsens::fmwk::msg::kINFO, __FUNCTION__, 
 		  Form(" Index %zu is beyond event counts in the TTree (%zu)... ",index,GetEntries())
