@@ -6,6 +6,12 @@ if( len(sys.argv) != 2 ):
     quit()
 
 gSystem.Load("libLEE.so")
+#gSystem.Load("libAnaConfig.so")
+gSystem.Load("libUtilities.so")
+#gSystem.Load("libFMWKBase.so")
+#gSystem.Load("libDataHandle.so")
+#gSystem.Load("libConstants.so")
+
 
 lm = ubsens.LEEMain()
 

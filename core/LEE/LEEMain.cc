@@ -5,7 +5,9 @@
 
 namespace ubsens{
   
-
+  size_t total_evt_counter = 0;
+  size_t under_200mev_counter = 0;
+    
   bool LEEMain::Configure(const std::map<std::string,std::map<std::string,std::string>> &_configMap){
 
     try{
@@ -232,9 +234,19 @@ namespace ubsens{
 
       /// Formula takes in MeV energy and momentum, returns GeV energy
       double e_ccqe = util::ECCQECalculator::ComputeECCQE(true_lept_E_GEV*1000.,myTruthShowers.at(0).MotherMomentum());
+      
+      total_evt_counter++;
 
-      if(_EnergyDefinition == "ECCQE")
+      if(_EnergyDefinition == "ECCQE"){
+
+	//if using CCQE energy definition, need a 200 MeV cut on true lepton energy to match background predictions (kaleko: 121714)
+	if(true_lept_E_GEV < 0.2){
+	  under_200mev_counter++;
+	  continue;
+	}
 	_LEE_hist->Fill(e_ccqe,weight);
+
+      }
       else if (_EnergyDefinition == "TrueLepE")
 	_LEE_hist->Fill(true_lept_E_GEV,weight);
       else{
@@ -256,6 +268,8 @@ namespace ubsens{
     
   bool LEEMain::Finalize(){
 
+    std::cout<<"Total number of events counted = "<<total_evt_counter<<std::endl;
+    std::cout<<"Number of events under 200 MEV = "<<under_200mev_counter<<std::endl;
     _datamgr.Close();
 
     // Set errors on all LEE hist bins to zero for now
